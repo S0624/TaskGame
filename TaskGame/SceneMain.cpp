@@ -16,6 +16,7 @@ void SceneMain::Init()
 void SceneMain::Update()
 {
 	m_player.Update();
+	m_field.Update();
 }
 
 void SceneMain::Draw()
