@@ -12,7 +12,7 @@ public:
 	//•`‰æˆ—
 	void Draw();
 private:
-	int m_wide;		//‰¼’Ç‰Á
-	int m_hight;	//‰¼’Ç‰Á
+	int m_height;		//‚‚³
+	int m_width;		//‰¡•
 };
 

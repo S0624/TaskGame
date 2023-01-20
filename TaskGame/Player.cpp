@@ -2,6 +2,10 @@
 #include "Player.h"
 #include"Pad.h"
 
+namespace
+{
+	int kLRReoeatFrame = 8;
+}
 Player::Player() :
 	m_pos(),
 	m_handle(0),
@@ -15,8 +19,8 @@ Player::~Player()
 }
 void Player::Init()
 {
-	m_pos.x = 150;				//プレイヤーの初期位置
-	m_pos.y = 100;				//プレイヤーの初期位置
+	m_pos.x = 125;				//プレイヤーの初期位置
+	m_pos.y = 125;				//プレイヤーの初期位置
 
 	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
 }
@@ -34,24 +38,35 @@ void Player::MovePlayer()
 
 	Pad::update();
 
-	if (Pad::isPress(PAD_INPUT_DOWN))		//下を押された時の処理
+	//bool isTriggerDown = Pad::isPress(PAD_INPUT_DOWN);		//下を押された時の処理
+
+	//bool isRepeatDown = false;
+	//if (m_repeatDown >= kLRReoeatFrame)		isRepeatDown = true;
+
+	//if (isTriggerDown || isRepeatDown)
+	//{
+	//	m_repeatDown = 0;
+	//}
+	
+	//かくかくにしたい移動
+	if (Pad::isTrigger(PAD_INPUT_DOWN))		//下を押された時の処理
 	{
-		vec.y = +2.0f;
+		vec.y = +25.0f;
 		m_imgidx = 0;						//画像の場所の指定
 	}
-	else if (Pad::isPress(PAD_INPUT_UP))	//上を押された時の処理
+	else if (Pad::isTrigger(PAD_INPUT_UP))	//上を押された時の処理
 	{
-		vec.y = -2.0f;
+		vec.y = -25.0f;
 		m_imgidx = 1;						//画像の場所の指定
 	}
-	if (Pad::isPress(PAD_INPUT_LEFT))		//左を押された時の処理
+	if (Pad::isTrigger(PAD_INPUT_LEFT))		//左を押された時の処理
 	{
-		vec.x = -2.0f;
+		vec.x = -25.0f;
 		m_imgidx = 2;						//画像の場所の指定
 	}
-	else if (Pad::isPress(PAD_INPUT_RIGHT))	//右を押された時の処理
+	else if (Pad::isTrigger(PAD_INPUT_RIGHT))	//右を押された時の処理
 	{
-		vec.x = +2.0f;
+		vec.x = +25.0f;
 		m_imgidx = 3;						//画像の場所の指定
 	}
 

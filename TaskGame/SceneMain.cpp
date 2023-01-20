@@ -34,6 +34,6 @@ void SceneMain::Update()
 
 void SceneMain::Draw()
 {
-	m_pPlayer->Draw();		//プレイヤークラスの描画処理
 	m_pField->Draw();		//フィールドクラスの描画処理
+	m_pPlayer->Draw();		//プレイヤークラスの描画処理
 }

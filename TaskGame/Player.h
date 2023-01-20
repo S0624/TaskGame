@@ -23,5 +23,7 @@ private:
 	//プレイヤーの画像の表示を変更する変数
 	int m_imgidx;
 
+	int m_repeatDown;
+
 };
 
