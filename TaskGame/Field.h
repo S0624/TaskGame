@@ -19,8 +19,13 @@ public:
 	//描画処理
 	void Draw();
 
-	//配列のデータを見る関数
-	bool IsBlockDate(int x, int y);
+	//動かせるか配列のデータを見る関数
+	bool IsMovable(int x, int y);
+
+	//置かれたか配列のデータを見る関数
+	bool IsPlaced(int x, int y);
+
+
 private:
 	// 現在の盤面データ
 	int m_field[kFieldY][kFieldX];

@@ -29,6 +29,9 @@ public:
 	//‰E‚É“®‚¯‚é‚©‚Ç‚¤‚©‚Ì”»’èˆ—
 	bool IsMoveRight();
 
+	//w’è‚ÌêŠ‚É’u‚¢‚Ä‚¢‚é‚©‚Ì”»’èˆ—
+	bool IsPut();
+
 	//•`‰æˆ—
 	void Draw();
 private:

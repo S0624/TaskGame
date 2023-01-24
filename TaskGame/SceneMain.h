@@ -21,5 +21,6 @@ public:
 private:
 	Player* m_pPlayer;		//Playerクラスをポインタで宣言
 	Field* m_pField;		//Fieldクラスをポインタで宣言
+	Box* m_pBox;		//Fieldクラスをポインタで宣言
 };
 

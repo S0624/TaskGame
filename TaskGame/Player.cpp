@@ -10,13 +10,12 @@ namespace
 }
 Player::Player() :
 	m_pField(nullptr),
-	m_pBox(nullptr),
-	m_pos(),
+	m_pos(2,2),
 	m_handlePos(25),
 	m_handle(0),
 	m_imgidx(0)
 {
-
+	m_pBox = new Box;
 }
 Player::~Player()
 {
@@ -24,23 +23,17 @@ Player::~Player()
 }
 void Player::Init()
 {
-	m_pos.x = 2;				//プレイヤーの初期位置
-	m_pos.y = 2;				//プレイヤーの初期位置
-	//m_pos.x = 175;				//プレイヤーの初期位置
-	//m_pos.y = 125;				//プレイヤーの初期位置
-
 	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
 }
 
 void Player::Update()
 {
 	MovePlayer();				//プレイヤーの移動処理を呼び出す
-	m_pBox->Update();		//Boxクラスの描画処理
 }
 
 void Player::MovePlayer()
 {
-	constexpr float speed = 2.0f;		//プレイヤーの移動速度
+	//constexpr float speed = 2.0f;		//プレイヤーの移動速度
 
 	Vec2 vec = { 0.0f,0.0f };	//速度ベクトル
 
@@ -96,7 +89,7 @@ bool Player::IsMoveUp()
 	if (indexY >= (Field::kFieldY + 1)) return false;
 
 	// 一つ下にブロックが置かれている場合
-	if (m_pField->IsBlockDate(indexX, indexY - 1)) return false;
+	if (m_pField->IsMovable(indexX, indexY - 1)) return false;
 
 	return true;
 }
@@ -109,7 +102,7 @@ bool Player::IsMoveDown()
 	if (indexY >= (Field::kFieldY - 1)) return false;
 
 	// 一つ下にブロックが置かれている場合
-	if (m_pField->IsBlockDate(indexX, indexY + 1)) return false;
+	if (m_pField->IsMovable(indexX, indexY + 1)) return false;
 
 	return true;
 }
@@ -122,7 +115,7 @@ bool Player::IsMoveLeft()
 	if (indexX >= (Field::kFieldX + 1)) return false;
 
 	// 一つ左にブロックが置かれている場合
-	if (m_pField->IsBlockDate(indexX - 1, indexY)) return false;
+	if (m_pField->IsMovable(indexX - 1, indexY)) return false;
 
 	return true;
 }
@@ -135,15 +128,14 @@ bool Player::IsMoveRight()
 	if (indexX >= (Field::kFieldX - 1)) return false;
 
 	// 一つ右にブロックが置かれている場合
-	if (m_pField->IsBlockDate(indexX + 1, indexY)) return false;
+	if (m_pField->IsMovable(indexX + 1, indexY)) return false;
 
 	return true;
 }
 
+
 void Player::Draw()
 {
-	m_pBox->Draw();		//Boxクラスの描画処理
-
 	int posX = Field::kSize * m_pos.x;
 	int posY = Field::kSize * m_pos.y;
 
