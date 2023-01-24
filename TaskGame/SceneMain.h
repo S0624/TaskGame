@@ -3,6 +3,7 @@
 //クラスの宣言
 class Player;
 class Field;
+class Box;
 
 class SceneMain
 {
@@ -18,6 +19,7 @@ public:
 	void Draw();
 
 private:
-
+	Player* m_pPlayer;		//Playerクラスをポインタで宣言
+	Field* m_pField;		//Fieldクラスをポインタで宣言
 };
 

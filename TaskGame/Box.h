@@ -2,12 +2,13 @@
 #include"Vec2.h"
 
 class Field;
-class Box;
-class Player
+class Player;
+
+class Box
 {
 public:
-	Player();
-	~Player();
+	Box();
+	~Box();
 
 	//初期化
 	void Init();
@@ -17,7 +18,7 @@ public:
 	void setField(Field* pField) { m_pField = pField; }
 
 	//プレイヤーの移動処理
-	void MovePlayer();
+	void MoveBox();
 
 	//上に動けるかどうかの判定処理
 	bool IsMoveUp();
@@ -33,16 +34,6 @@ public:
 private:
 	//fieldクラス
 	Field* m_pField;
-	//Boxクラスをポインタで宣言
-	Box* m_pBox;		
-
 	//プレイヤーの位置
 	Vec2 m_pos;
-	//プレイヤーの画像をずらす
-	int m_handlePos;
-	//プレイヤーの画像
-	int m_handle;
-	//プレイヤーの画像の表示を変更する変数
-	int m_imgidx;
 };
-

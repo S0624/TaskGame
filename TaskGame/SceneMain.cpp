@@ -1,11 +1,12 @@
 #include "SceneMain.h"
 #include"Player.h"
 #include"Field.h"
+//#include"Box.h"
 //#include"DxLib.h"
 
 namespace {
-	Player* m_pPlayer;		//Playerクラスをポインタで宣言
-	Field* m_pField;		//Fieldクラスをポインタで宣言
+	//Player* m_pPlayer;		//Playerクラスをポインタで宣言
+	//Field* m_pField;		//Fieldクラスをポインタで宣言
 }
 
 SceneMain::SceneMain()
@@ -16,14 +17,15 @@ SceneMain::SceneMain()
 
 SceneMain::~SceneMain()
 {
-	delete(m_pPlayer);		//メモリの削除
-	delete(m_pField);		//メモリの削除
+	delete m_pPlayer;		//メモリの削除
+	delete m_pField;		//メモリの削除
 }
 
 void SceneMain::Init()
 {
 	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pField->Init();		//フィールドクラスの初期化
+	m_pPlayer->setField(m_pField);
 }
 
 void SceneMain::Update()
