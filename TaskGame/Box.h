@@ -15,9 +15,12 @@ public:
 	//更新処理
 	void Update();
 	// 使用するフィールドのデータを設定する
-	void setField(Field* pField) { m_pField = pField; }
-
-	//プレイヤーの移動処理
+	void SetField(Field* pField) { m_pField = pField; }
+	
+	// 現在地の取得
+	Vec2 GetPos() const { return m_pos; }
+	
+	//箱の移動処理
 	void MoveBox();
 
 	//上に動けるかどうかの判定処理
@@ -37,6 +40,8 @@ public:
 private:
 	//fieldクラス
 	Field* m_pField;
+	//Playerクラス
+	Player* m_pPlayer;
 	//プレイヤーの位置
 	Vec2 m_pos;
 };

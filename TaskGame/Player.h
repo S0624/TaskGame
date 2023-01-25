@@ -3,6 +3,7 @@
 
 class Field;
 class Box;
+
 class Player
 {
 public:
@@ -14,7 +15,8 @@ public:
 	//更新処理
 	void Update();
 	// 使用するフィールドのデータを設定する
-	void setField(Field* pField) { m_pField = pField; }
+	void SetField(Field* pField) { m_pField = pField; }
+
 
 	//プレイヤーの移動処理
 	void MovePlayer();

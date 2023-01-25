@@ -28,8 +28,8 @@ void SceneMain::Init()
 	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pField->Init();		//フィールドクラスの初期化
 	m_pBox->Init();
-	m_pPlayer->setField(m_pField);
-	m_pBox->setField(m_pField);
+	m_pPlayer->SetField(m_pField);
+	m_pBox->SetField(m_pField);
 }
 
 void SceneMain::Update()

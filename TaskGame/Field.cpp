@@ -8,7 +8,7 @@ namespace
 	{
 		empty,		//何も置かれていない
 		wall,		//壁
-		storage		//置き場所（箱を置く場所）
+		storage,	//置き場所（箱を置く場所）
 	};
 }
 Field::Field()

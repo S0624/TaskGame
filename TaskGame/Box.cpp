@@ -7,10 +7,12 @@
 namespace
 {
 	bool kIsflag = false;
+	int kIscolor = 0;
 }
 
 Box::Box() :
 	m_pField(nullptr),
+	m_pPlayer(nullptr),
 	m_pos(3,3)
 {
 
@@ -21,8 +23,6 @@ Box::~Box()
 }
 void Box::Init()
 {
-	//m_pos.x = 3;				//プレイヤーの初期位置
-	//m_pos.y = 3;				//プレイヤーの初期位置
 
 }
 
@@ -34,6 +34,18 @@ void Box::Update()
 void Box::MoveBox()
 {
 	Vec2 vec = { 0.0f,0.0f };	//速度ベクトル
+	
+
+	//if (m_pos.x == m_pPlayer->GetPos().x)
+	//if (IsTouchBox())
+	if (m_pos.x == 3)
+	{
+		kIscolor = 255;
+	}
+	else
+	{
+		kIscolor = 0;
+	}
 	if (!IsPut())
 	{
 		kIsflag = true;
@@ -82,6 +94,7 @@ bool Box::IsMoveUp()
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
+	
 	// すでに一番下にある場合
 	if (indexY >= (Field::kFieldY + 1)) return false;
 
@@ -146,10 +159,7 @@ void Box::Draw()
 	int posX = Field::kSize * m_pos.x;
 	int posY = Field::kSize * m_pos.y;
 
-	DrawBox(posX + Field::kWidth, posY + Field::kHeight,			//表示座標
-		(posX + Field::kSize) + Field::kWidth, (posY + Field::kSize) + Field::kHeight,
-		GetColor(0, 0, 255), kIsflag);
-
-	//DrawFormatString(0, 40, GetColor(255, 0, 0), "%d", posX);
-	//DrawFormatString(0, 60, GetColor(255, 0, 0), "%d", posY);
+	DrawBox(posX + Field::kWidth + 5, posY + Field::kHeight + 5,			//表示座標
+		(posX + Field::kSize) + Field::kWidth - 5, (posY + Field::kSize) + Field::kHeight - 5,
+		GetColor(kIscolor, 255, 0), kIsflag);
 }

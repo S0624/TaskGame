@@ -10,6 +10,7 @@ namespace
 }
 Player::Player() :
 	m_pField(nullptr),
+	m_pBox(nullptr),
 	m_pos(2,2),
 	m_handlePos(25),
 	m_handle(0),
@@ -90,7 +91,7 @@ bool Player::IsMoveUp()
 
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY - 1)) return false;
-
+	
 	return true;
 }
 
@@ -133,7 +134,6 @@ bool Player::IsMoveRight()
 	return true;
 }
 
-
 void Player::Draw()
 {
 	int posX = Field::kSize * m_pos.x;
@@ -143,14 +143,18 @@ void Player::Draw()
 		(posX + Field::kSize) + Field::kWidth, (posY + Field::kSize) + Field::kHeight,
 		GetColor(255,0,255),true);
 
+
 	//DrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
 	//	posY + Field::kHeight + m_handlePos,			//表示座標
 	//	48 * 0, 48 * m_imgidx,							//切り取り左上
 	//	48, 48,							//幅、高さ
 	//	2.5f, 0.0f,						//拡大率、回転角度
 	//	m_handle, true);
+	//m_pBox->Draw();
 	
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
+	DrawFormatString(0, 40, GetColor(255, 0, 0), "%f", m_pBox-> GetPos().x);
+	DrawFormatString(0, 60, GetColor(255, 0, 0), "%f", m_pBox->GetPos().y);
 }
