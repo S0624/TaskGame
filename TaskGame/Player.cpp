@@ -24,9 +24,7 @@ Player::~Player()
 }
 void Player::Init()
 {
-	m_pBox->Init();
-
-	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
+	m_handle = LoadGraph("../Date/frame.png");		//画像の読み込み
 }
 
 void Player::Update()
@@ -88,14 +86,16 @@ bool Player::IsMoveUp()
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
+	int x = 0;
+	int y = -1;
 	// すでに一番下にある場合
 	if (indexY >= (Field::kFieldY + 1)) return false;
 
 	// 一つ下にブロックが置かれている場合
-	if (m_pField->IsMovable(indexX, indexY - 1)) return false;
+	if (m_pField->IsMovable(indexX, indexY + y, x, y)) return false;
 
-	//触れている判定
-	if (m_pBox->IsTouch(indexX, indexY - 1));
+	////触れている判定
+	//if (m_pBox->IsTouch(indexX, indexY - 1));
 
 	return true;
 }
@@ -104,16 +104,16 @@ bool Player::IsMoveDown()
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
+	int x = 0;
+	int y = 1;
 	// すでに一番下にある場合
 	if (indexY >= (Field::kFieldY - 1)) return false;
 
 	// 一つ下にブロックが置かれている場合
-	if (m_pField->IsMovable(indexX, indexY + 1)) return false;
+	if (m_pField->IsMovable(indexX, indexY + y,x,y)) return false;
 
 	//触れている判定
-	if (m_pBox->IsTouch(indexX, indexY + 1));
-	
-	//if (m_pBox->GetPos().x == indexX && m_pBox->GetPos().y == indexY + 1) return false;
+	//if (m_pBox->IsTouch(indexX, indexY + 1));
 
 	return true;
 }
@@ -122,14 +122,17 @@ bool Player::IsMoveLeft()
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
+	int x = -1;
+	int y = 0;
+
 	// すでに一番左にある場合
 	if (indexX >= (Field::kFieldX + 1)) return false;
 
-	// 一つ左にブロックが置かれている場合
-	if (m_pField->IsMovable(indexX - 1, indexY)) return false;
+	// 一つ下にブロックが置かれている場合
+	if (m_pField->IsMovable(indexX + x, indexY, x, y)) return false;
 
-	//触れている判定
-	if (m_pBox->IsTouch(indexX - 1, indexY));
+	////触れている判定
+	//if (m_pBox->IsTouch(indexX - 1, indexY));
 
 	return true;
 }
@@ -138,14 +141,16 @@ bool Player::IsMoveRight()
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
+	int x = 1;
+	int y = 0;
 	// すでに一番右にある場合
 	if (indexX >= (Field::kFieldX - 1)) return false;
 
 	// 一つ右にブロックが置かれている場合
-	if (m_pField->IsMovable(indexX + 1, indexY)) return false;
+	if (m_pField->IsMovable(indexX + x, indexY, x, y)) return false;
 
-	//触れている判定
-	if (m_pBox->IsTouch(indexX + 1, indexY));
+	////触れている判定
+	//if (m_pBox->IsTouch(indexX + 1, indexY));
 
 	return true;
 }
@@ -167,12 +172,9 @@ void Player::Draw()
 	//	48, 48,							//幅、高さ
 	//	2.5f, 0.0f,						//拡大率、回転角度
 	//	m_handle, true);
-	//m_pBox->Draw();
-
-	//m_pBox->Draw();
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
-	DrawFormatString(0, 40, GetColor(255, 0, 0), "%f", m_pBox-> GetPos().x);
-	DrawFormatString(0, 60, GetColor(255, 0, 0), "%f", m_pBox->GetPos().y);
+	//DrawFormatString(0, 40, GetColor(255, 0, 0), "%f", m_pBox-> GetPos().x);
+	//DrawFormatString(0, 60, GetColor(255, 0, 0), "%f", m_pBox->GetPos().y);
 }

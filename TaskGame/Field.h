@@ -20,7 +20,7 @@ public:
 	void Draw();
 
 	//動かせるか配列のデータを見る関数
-	bool IsMovable(int x, int y);
+	bool IsMovable(int indexX, int indexY,int x, int y);
 
 	//置かれたか配列のデータを見る関数
 	bool IsPlaced(int x, int y);

@@ -13,7 +13,6 @@ SceneMain::SceneMain()
 {
 	m_pPlayer = new Player;
 	m_pField = new Field;
-	m_pBox = new Box;
 }
 
 SceneMain::~SceneMain()
@@ -27,23 +26,17 @@ void SceneMain::Init()
 {
 	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pField->Init();		//フィールドクラスの初期化
-	m_pBox->Init();
 	m_pPlayer->SetField(m_pField);
-	m_pPlayer->SetBox(m_pBox);
-	m_pBox->SetField(m_pField);
-	m_pBox->SetPlayer(m_pPlayer);
 }
 
 void SceneMain::Update()
 {
 	m_pPlayer->Update();	//プレイヤークラスの更新処理
 	m_pField->Update();		//フィールドクラスの更新処理
-	m_pBox->Update();
 }
 
 void SceneMain::Draw()
 {
 	m_pField->Draw();		//フィールドクラスの描画処理
 	m_pPlayer->Draw();		//プレイヤークラスの描画処理
-	m_pBox->Draw();
 }
