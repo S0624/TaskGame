@@ -7,6 +7,7 @@
 namespace
 {
 	bool kIsflag = false;
+	bool kTouchflag = false;
 	int kIscolor = 0;
 }
 
@@ -35,17 +36,6 @@ void Box::MoveBox()
 {
 	Vec2 vec = { 0.0f,0.0f };	//速度ベクトル
 	
-
-	//if (m_pos.x == m_pPlayer->GetPos().x)
-	//if (IsTouchBox())
-	if (m_pos.x == 3)
-	{
-		kIscolor = 255;
-	}
-	else
-	{
-		kIscolor = 0;
-	}
 	if (!IsPut())
 	{
 		kIsflag = true;
@@ -54,40 +44,53 @@ void Box::MoveBox()
 	{
 		kIsflag = false;
 	}
-	if (Pad::isTrigger(PAD_INPUT_DOWN))		//下を押された時の処理
+
+	if (kTouchflag)
 	{
-		if (IsMoveDown())
+		if (Pad::isTrigger(PAD_INPUT_DOWN))		//下を押された時の処理
 		{
-			vec.y = +1.0f;
+			if (IsMoveDown())
+			{
+				vec.y = +1.0f;
+			}
 		}
-		//m_imgidx = 0;						//画像の場所の指定
-	}
-	else if (Pad::isTrigger(PAD_INPUT_UP))	//上を押された時の処理
-	{
-		if (IsMoveUp())
+		else if (Pad::isTrigger(PAD_INPUT_UP))	//上を押された時の処理
 		{
-			vec.y = -1.0f;
+			if (IsMoveUp())
+			{
+				vec.y = -1.0f;
+			}
 		}
-		//m_imgidx = 1;						//画像の場所の指定
-	}
-	if (Pad::isTrigger(PAD_INPUT_LEFT))		//左を押された時の処理
-	{
-		if (IsMoveLeft())
+		if (Pad::isTrigger(PAD_INPUT_LEFT))		//左を押された時の処理
 		{
-			vec.x = -1.0f;
+			if (IsMoveLeft())
+			{
+				vec.x = -1.0f;
+			}
 		}
-		//m_imgidx = 2;						//画像の場所の指定
-	}
-	else if (Pad::isTrigger(PAD_INPUT_RIGHT))	//右を押された時の処理
-	{
-		if (IsMoveRight())
+		else if (Pad::isTrigger(PAD_INPUT_RIGHT))	//右を押された時の処理
 		{
-			vec.x = +1.0f;
+			if (IsMoveRight())
+			{
+				vec.x = +1.0f;
+			}
 		}
-		//m_imgidx = 3;						//画像の場所の指定
 	}
 
 	m_pos += vec;
+}
+
+bool Box::IsTouch(int x,int y)
+{
+	int indexX = m_pos.x;
+	int indexY = m_pos.y;
+	if (indexX == x && indexY == y)
+	{
+		kTouchflag = true;
+		return true;
+	}
+	kTouchflag = false;
+	return false;
 }
 
 bool Box::IsMoveUp()
@@ -162,4 +165,7 @@ void Box::Draw()
 	DrawBox(posX + Field::kWidth + 5, posY + Field::kHeight + 5,			//表示座標
 		(posX + Field::kSize) + Field::kWidth - 5, (posY + Field::kSize) + Field::kHeight - 5,
 		GetColor(kIscolor, 255, 0), kIsflag);
+
+	DrawFormatString(0, 100, GetColor(255, 0, 0), "%f", m_pPlayer->GetPos().x);
+	DrawFormatString(0, 120, GetColor(255, 0, 0), "%f", m_pPlayer->GetPos().y);
 }

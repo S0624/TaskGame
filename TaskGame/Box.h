@@ -16,12 +16,15 @@ public:
 	void Update();
 	// 使用するフィールドのデータを設定する
 	void SetField(Field* pField) { m_pField = pField; }
+	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
 	
 	// 現在地の取得
 	Vec2 GetPos() const { return m_pos; }
 	
 	//箱の移動処理
 	void MoveBox();
+
+	bool IsTouch(int x, int y);
 
 	//上に動けるかどうかの判定処理
 	bool IsMoveUp();

@@ -16,29 +16,21 @@ Player::Player() :
 	m_handle(0),
 	m_imgidx(0)
 {
-	m_pField = new Field;
-	m_pBox = new Box;
+
 }
 Player::~Player()
 {
-	delete m_pField;		//メモリの削除
-	delete m_pBox;		//メモリの削除
 	DeleteGraph(m_handle);		//画像のデリート
 }
 void Player::Init()
 {
 	m_pBox->Init();
-	m_pField->Init();		//フィールドクラスの初期化
-	SetField(m_pField);
-	m_pBox->SetField(m_pField);
 
 	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
 }
 
 void Player::Update()
 {
-	m_pField->Update();		//フィールドクラスの更新処理
-	m_pBox->Update();
 	MovePlayer();				//プレイヤーの移動処理を呼び出す
 }
 
@@ -67,7 +59,7 @@ void Player::MovePlayer()
 		}
 		//m_imgidx = 1;						//画像の場所の指定
 	}
-	if (Pad::isTrigger(PAD_INPUT_LEFT))		//左を押された時の処理
+	else if (Pad::isTrigger(PAD_INPUT_LEFT))		//左を押された時の処理
 	{
 		if (IsMoveLeft())
 		{
@@ -102,6 +94,9 @@ bool Player::IsMoveUp()
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY - 1)) return false;
 
+	//触れている判定
+	if (m_pBox->IsTouch(indexX, indexY - 1));
+
 	return true;
 }
 
@@ -114,6 +109,11 @@ bool Player::IsMoveDown()
 
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY + 1)) return false;
+
+	//触れている判定
+	if (m_pBox->IsTouch(indexX, indexY + 1));
+	
+	//if (m_pBox->GetPos().x == indexX && m_pBox->GetPos().y == indexY + 1) return false;
 
 	return true;
 }
@@ -128,6 +128,9 @@ bool Player::IsMoveLeft()
 	// 一つ左にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX - 1, indexY)) return false;
 
+	//触れている判定
+	if (m_pBox->IsTouch(indexX - 1, indexY));
+
 	return true;
 }
 
@@ -141,12 +144,15 @@ bool Player::IsMoveRight()
 	// 一つ右にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX + 1, indexY)) return false;
 
+	//触れている判定
+	if (m_pBox->IsTouch(indexX + 1, indexY));
+
 	return true;
 }
 
 void Player::Draw()
 {
-	m_pField->Draw();		//フィールドクラスの描画処理
+	//m_pField->Draw();		//フィールドクラスの描画処理
 	int posX = Field::kSize * m_pos.x;
 	int posY = Field::kSize * m_pos.y;
 
@@ -163,7 +169,7 @@ void Player::Draw()
 	//	m_handle, true);
 	//m_pBox->Draw();
 
-	m_pBox->Draw();
+	//m_pBox->Draw();
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
