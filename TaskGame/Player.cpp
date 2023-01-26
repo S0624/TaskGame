@@ -16,19 +16,29 @@ Player::Player() :
 	m_handle(0),
 	m_imgidx(0)
 {
+	m_pField = new Field;
 	m_pBox = new Box;
 }
 Player::~Player()
 {
+	delete m_pField;		//メモリの削除
+	delete m_pBox;		//メモリの削除
 	DeleteGraph(m_handle);		//画像のデリート
 }
 void Player::Init()
 {
+	m_pBox->Init();
+	m_pField->Init();		//フィールドクラスの初期化
+	SetField(m_pField);
+	m_pBox->SetField(m_pField);
+
 	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
 }
 
 void Player::Update()
 {
+	m_pField->Update();		//フィールドクラスの更新処理
+	m_pBox->Update();
 	MovePlayer();				//プレイヤーの移動処理を呼び出す
 }
 
@@ -91,7 +101,7 @@ bool Player::IsMoveUp()
 
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY - 1)) return false;
-	
+
 	return true;
 }
 
@@ -136,6 +146,7 @@ bool Player::IsMoveRight()
 
 void Player::Draw()
 {
+	m_pField->Draw();		//フィールドクラスの描画処理
 	int posX = Field::kSize * m_pos.x;
 	int posY = Field::kSize * m_pos.y;
 
@@ -151,7 +162,8 @@ void Player::Draw()
 	//	2.5f, 0.0f,						//拡大率、回転角度
 	//	m_handle, true);
 	//m_pBox->Draw();
-	
+
+	m_pBox->Draw();
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
