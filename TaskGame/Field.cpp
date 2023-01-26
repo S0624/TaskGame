@@ -67,6 +67,10 @@ void Field::Update()
 			}
 		}
 	}
+	if (kRemaining == 0)
+	{
+
+	}
 }
 
 void Field::Draw()
@@ -150,14 +154,5 @@ bool Field::IsMovable(int x, int y, int posX, int posY)
 		}
 		return true;
 	}
-	return false;
-}
-
-bool Field::IsPlaced(int x, int y)
-{
-	assert((x >= 0) && (x <= kFieldX - 1));
-	assert((y >= 0) && (y <= kFieldY - 1));
-
-	if (m_field[y][x] == 2)	return true;
 	return false;
 }

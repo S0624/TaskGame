@@ -22,10 +22,6 @@ public:
 	//動かせるか配列のデータを見る関数
 	bool IsMovable(int indexX, int indexY,int x, int y);
 
-	//置かれたか配列のデータを見る関数
-	bool IsPlaced(int x, int y);
-
-
 private:
 	// 現在の盤面データ
 	int m_field[kFieldY][kFieldX];
