@@ -1,8 +1,9 @@
 #pragma once
-#include"Vec2.h"
+#include"../UI/Vec2.h"
 
+//　プロトタイプ宣言
 class Field;
-class Box;
+//class Box;
 
 class Player
 {
@@ -16,7 +17,7 @@ public:
 	void Update();
 	// 使用するフィールドのデータを設定する
 	void SetField(Field* pField) { m_pField = pField; }
-	void SetBox(Box* pBox) { m_pBox = pBox; }
+	//void SetBox(Box* pBox) { m_pBox = pBox; }
 
 	// 現在地の取得
 	Vec2 GetPos() const { return m_pos; }
@@ -25,21 +26,21 @@ public:
 	void MovePlayer();
 
 	//上に動けるかどうかの判定処理
-	bool IsMoveUp();
+	bool IsMoveUp()const;
 	//下に動けるかどうかの判定処理
-	bool IsMoveDown();
+	bool IsMoveDown()const;
 	//左に動けるかどうかの判定処理
-	bool IsMoveLeft();
+	bool IsMoveLeft()const;
 	//右に動けるかどうかの判定処理
-	bool IsMoveRight();
+	bool IsMoveRight()const;
 
 	//描画処理
-	void Draw();
+	void Draw()const;
 private:
 	//fieldクラス
 	Field* m_pField;
 	//Boxクラスをポインタで宣言
-	Box* m_pBox;		
+	//Box* m_pBox;		
 
 	//プレイヤーの位置
 	Vec2 m_pos;

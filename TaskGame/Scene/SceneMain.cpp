@@ -1,7 +1,7 @@
 #include "SceneMain.h"
-#include"Player.h"
-#include"Field.h"
-#include"Box.h"
+#include"../Object/Player.h"
+#include"../Object/Field.h"
+//#include"Box.h"
 //#include"DxLib.h"
 
 namespace {
@@ -19,23 +19,23 @@ SceneMain::~SceneMain()
 {
 	delete m_pPlayer;		//メモリの削除
 	delete m_pField;		//メモリの削除
-	delete m_pBox;		//メモリの削除
+	//delete m_pBox;		//メモリの削除
 }
 
-void SceneMain::Init()
+void SceneMain::Init()const
 {
 	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pField->Init();		//フィールドクラスの初期化
 	m_pPlayer->SetField(m_pField);
 }
 
-void SceneMain::Update()
+void SceneMain::Update()const
 {
 	m_pPlayer->Update();	//プレイヤークラスの更新処理
 	m_pField->Update();		//フィールドクラスの更新処理
 }
 
-void SceneMain::Draw()
+void SceneMain::Draw()const
 {
 	m_pField->Draw();		//フィールドクラスの描画処理
 	m_pPlayer->Draw();		//プレイヤークラスの描画処理

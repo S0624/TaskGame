@@ -1,7 +1,7 @@
 #include "DxLib.h"
 
-#include"SceneMain.h"
-#include "game.h"
+#include"Scene/SceneMain.h"
+#include "UI/game.h"
 
 // ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)

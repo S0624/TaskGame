@@ -140,21 +140,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Pad.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SceneMain.cpp" />
-    <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="UI\Pad.cpp" />
+    <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Scene\SceneBase.cpp" />
+    <ClCompile Include="Scene\SceneMain.cpp" />
+    <ClCompile Include="UI\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
-    <ClInclude Include="Field.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="Pad.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="SceneMain.h" />
-    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Object\Field.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="UI\game.h" />
+    <ClInclude Include="UI\Pad.h" />
+    <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Scene\SceneMain.h" />
+    <ClInclude Include="UI\Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

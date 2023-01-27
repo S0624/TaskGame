@@ -1,4 +1,5 @@
 #pragma once
+
 class Field
 {
 public:
@@ -21,6 +22,10 @@ public:
 
 	//動かせるか配列のデータを見る関数
 	bool IsMovable(int indexX, int indexY,int x, int y);
+
+	//ゲームクリアか判定
+	bool GameClear()const;
+
 
 private:
 	// 現在の盤面データ

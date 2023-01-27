@@ -1,16 +1,18 @@
 #include"DxLib.h"
 #include "Player.h"
 #include"Field.h"
-#include"Box.h"
-#include"Pad.h"
+//#include"Box.h"
+#include"../UI/Pad.h"
 
 namespace
 {
 	//int kLRReoeatFrame = 8;
 }
+
+//プレイヤークラスのコンストラクタ
 Player::Player() :
 	m_pField(nullptr),
-	m_pBox(nullptr),
+	//m_pBox(nullptr),
 	m_pos(2,2),
 	m_handlePos(25),
 	m_handle(0),
@@ -18,20 +20,29 @@ Player::Player() :
 {
 
 }
+
+//プレイヤークラスのデストラクタ
 Player::~Player()
 {
 	DeleteGraph(m_handle);		//画像のデリート
 }
+
+//プレイヤークラスの初期化
 void Player::Init()
 {
-	m_handle = LoadGraph("../Date/frame.png");		//画像の読み込み
+	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
 }
 
+//プレイヤークラスの更新処理
 void Player::Update()
 {
-	MovePlayer();				//プレイヤーの移動処理を呼び出す
+	if (!m_pField->GameClear())
+	{
+		MovePlayer();				//プレイヤーの移動処理を呼び出す
+	}
 }
 
+//プレイヤーの動きの処理
 void Player::MovePlayer()
 {
 	//constexpr float speed = 2.0f;		//プレイヤーの移動速度
@@ -82,7 +93,8 @@ void Player::MovePlayer()
 	m_pos += vec;
 }
 
-bool Player::IsMoveUp()
+//プレイヤーの上に行けるかの判定
+bool Player::IsMoveUp()const
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
@@ -100,7 +112,8 @@ bool Player::IsMoveUp()
 	return true;
 }
 
-bool Player::IsMoveDown()
+//プレイヤーの下に行けるかの判定
+bool Player::IsMoveDown()const
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
@@ -118,7 +131,8 @@ bool Player::IsMoveDown()
 	return true;
 }
 
-bool Player::IsMoveLeft()
+//プレイヤーの左に行けるかの判定
+bool Player::IsMoveLeft()const
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
@@ -137,7 +151,8 @@ bool Player::IsMoveLeft()
 	return true;
 }
 
-bool Player::IsMoveRight()
+//プレイヤーの右に行けるかの判定
+bool Player::IsMoveRight()const
 {
 	int indexX = m_pos.x;
 	int indexY = m_pos.y;
@@ -155,7 +170,8 @@ bool Player::IsMoveRight()
 	return true;
 }
 
-void Player::Draw()
+//プレイヤークラスの描画処理
+void Player::Draw()const
 {
 	//m_pField->Draw();		//フィールドクラスの描画処理
 	int posX = Field::kSize * m_pos.x;
@@ -175,6 +191,10 @@ void Player::Draw()
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
+	if (m_pField->GameClear())
+	{
+		DrawFormatString(400, 100, GetColor(0, 125, 255), "ゲームクリア");
+	}
 	//DrawFormatString(0, 40, GetColor(255, 0, 0), "%f", m_pBox-> GetPos().x);
 	//DrawFormatString(0, 60, GetColor(255, 0, 0), "%f", m_pBox->GetPos().y);
 }
