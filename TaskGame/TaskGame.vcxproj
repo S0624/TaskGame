@@ -143,6 +143,9 @@
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Scene\ScenePause.cpp" />
+    <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="UI\InputState.cpp" />
     <ClCompile Include="UI\Pad.cpp" />
     <ClCompile Include="Object\Player.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
@@ -153,7 +156,10 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="Object\Field.h" />
     <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Scene\ScenePause.h" />
+    <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="UI\game.h" />
+    <ClInclude Include="UI\InputState.h" />
     <ClInclude Include="UI\Pad.h" />
     <ClInclude Include="Object\Player.h" />
     <ClInclude Include="Scene\SceneBase.h" />

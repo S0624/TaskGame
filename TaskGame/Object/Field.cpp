@@ -121,7 +121,7 @@ void Field::Draw()
 	DrawFormatString(300, 0, GetColor(255, 255, 255), "残り:%d", kRemaining);
 
 	//DrawBox(m_width, m_height,
-	//	m_width * kFieldX,  m_height * kFieldY, GetColor(255, 255, 255), false);
+		//m_width * kFieldX,  m_height * kFieldY, GetColor(255, 255, 255), false);
 }
 
 //フィールドの中身を見て動けるかを返す処理

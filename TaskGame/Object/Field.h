@@ -9,6 +9,11 @@ public:
 	static constexpr int kFieldY = 10;		//縦
 	static constexpr int kWidth = 100;		//横幅
 	static constexpr int kHeight = 50;		//高さ
+
+private:
+	// 現在の盤面データ
+	int m_field[kFieldY][kFieldX];
+
 public:
 	Field();
 	~Field() {};
@@ -27,8 +32,5 @@ public:
 	bool GameClear()const;
 
 
-private:
-	// 現在の盤面データ
-	int m_field[kFieldY][kFieldX];
 
 };

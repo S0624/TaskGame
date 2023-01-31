@@ -3,6 +3,7 @@
 #include"Field.h"
 //#include"Box.h"
 #include"../UI/Pad.h"
+#include"../UI/InputState.h"
 
 namespace
 {
@@ -12,7 +13,6 @@ namespace
 //プレイヤークラスのコンストラクタ
 Player::Player() :
 	m_pField(nullptr),
-	//m_pBox(nullptr),
 	m_pos(2,2),
 	m_handlePos(25),
 	m_handle(0),
@@ -34,16 +34,16 @@ void Player::Init()
 }
 
 //プレイヤークラスの更新処理
-void Player::Update()
+void Player::Update(const InputState& input)
 {
 	if (!m_pField->GameClear())
 	{
-		MovePlayer();				//プレイヤーの移動処理を呼び出す
+		MovePlayer(input);				//プレイヤーの移動処理を呼び出す
 	}
 }
 
 //プレイヤーの動きの処理
-void Player::MovePlayer()
+void Player::MovePlayer(const InputState& input)
 {
 	//constexpr float speed = 2.0f;		//プレイヤーの移動速度
 
@@ -52,37 +52,38 @@ void Player::MovePlayer()
 	Pad::update();
 
 	//かくかくにしたい移動
-	if (Pad::isTrigger(PAD_INPUT_DOWN))		//下を押された時の処理
+	if(input.IsTrigger(InputType::down))
+	//if (Pad::isTrigger(PAD_INPUT_DOWN))		//下を押された時の処理
 	{
 		if (IsMoveDown())
 		{
 			vec.y = +1.0f;
 		}
-		//m_imgidx = 0;						//画像の場所の指定
+		m_imgidx = 0;						//画像の場所の指定
 	}
-	else if (Pad::isTrigger(PAD_INPUT_UP))	//上を押された時の処理
+	else if (input.IsTrigger(InputType::up))	//上を押された時の処理
 	{
 		if (IsMoveUp())
 		{
 			vec.y = -1.0f;
 		}
-		//m_imgidx = 1;						//画像の場所の指定
+		m_imgidx = 1;						//画像の場所の指定
 	}
-	else if (Pad::isTrigger(PAD_INPUT_LEFT))		//左を押された時の処理
+	else if (input.IsTrigger(InputType::left))		//左を押された時の処理
 	{
 		if (IsMoveLeft())
 		{
 			vec.x = -1.0f;
 		}
-		//m_imgidx = 2;						//画像の場所の指定
+		m_imgidx = 2;						//画像の場所の指定
 	}
-	else if (Pad::isTrigger(PAD_INPUT_RIGHT))	//右を押された時の処理
+	else if (input.IsTrigger(InputType::right))	//右を押された時の処理
 	{
 		if (IsMoveRight())
 		{
 			vec.x = +1.0f;
 		}
-		//m_imgidx = 3;						//画像の場所の指定
+		m_imgidx = 3;						//画像の場所の指定
 	}
 
 	//if (vec.length() > 0.0f)
@@ -106,8 +107,6 @@ bool Player::IsMoveUp()const
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY + y, x, y)) return false;
 
-	////触れている判定
-	//if (m_pBox->IsTouch(indexX, indexY - 1));
 
 	return true;
 }
@@ -124,9 +123,6 @@ bool Player::IsMoveDown()const
 
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY + y,x,y)) return false;
-
-	//触れている判定
-	//if (m_pBox->IsTouch(indexX, indexY + 1));
 
 	return true;
 }
@@ -145,9 +141,6 @@ bool Player::IsMoveLeft()const
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX + x, indexY, x, y)) return false;
 
-	////触れている判定
-	//if (m_pBox->IsTouch(indexX - 1, indexY));
-
 	return true;
 }
 
@@ -164,9 +157,6 @@ bool Player::IsMoveRight()const
 	// 一つ右にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX + x, indexY, x, y)) return false;
 
-	////触れている判定
-	//if (m_pBox->IsTouch(indexX + 1, indexY));
-
 	return true;
 }
 
@@ -177,17 +167,17 @@ void Player::Draw()const
 	int posX = Field::kSize * m_pos.x;
 	int posY = Field::kSize * m_pos.y;
 
-	DrawBox(posX + Field::kWidth, posY + Field::kHeight,			//表示座標
-		(posX + Field::kSize) + Field::kWidth, (posY + Field::kSize) + Field::kHeight,
-		GetColor(255,0,255),true);
+	//DrawBox(posX + Field::kWidth, posY + Field::kHeight,			//表示座標
+	//	(posX + Field::kSize) + Field::kWidth, (posY + Field::kSize) + Field::kHeight,
+	//	GetColor(255,0,255),true);
 
 
-	//DrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
-	//	posY + Field::kHeight + m_handlePos,			//表示座標
-	//	48 * 0, 48 * m_imgidx,							//切り取り左上
-	//	48, 48,							//幅、高さ
-	//	2.5f, 0.0f,						//拡大率、回転角度
-	//	m_handle, true);
+	DrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
+		posY + Field::kHeight + m_handlePos,			//表示座標
+		48 * 0, 48 * m_imgidx,							//切り取り左上
+		48, 48,							//幅、高さ
+		2.5f, 0.0f,						//拡大率、回転角度
+		m_handle, true);
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
 	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
@@ -195,6 +185,4 @@ void Player::Draw()const
 	{
 		DrawFormatString(400, 100, GetColor(0, 125, 255), "ゲームクリア");
 	}
-	//DrawFormatString(0, 40, GetColor(255, 0, 0), "%f", m_pBox-> GetPos().x);
-	//DrawFormatString(0, 60, GetColor(255, 0, 0), "%f", m_pBox->GetPos().y);
 }
