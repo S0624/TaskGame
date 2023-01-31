@@ -53,7 +53,6 @@ void Player::MovePlayer(const InputState& input)
 
 	//かくかくにしたい移動
 	if(input.IsTrigger(InputType::down))
-	//if (Pad::isTrigger(PAD_INPUT_DOWN))		//下を押された時の処理
 	{
 		if (IsMoveDown())
 		{
@@ -179,10 +178,4 @@ void Player::Draw()const
 		2.5f, 0.0f,						//拡大率、回転角度
 		m_handle, true);
 
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "%d", posX);
-	DrawFormatString(0, 20, GetColor(255, 255, 255), "%d", posY);
-	if (m_pField->GameClear())
-	{
-		DrawFormatString(400, 100, GetColor(0, 125, 255), "ゲームクリア");
-	}
 }

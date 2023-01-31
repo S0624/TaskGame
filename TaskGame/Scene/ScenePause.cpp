@@ -1,5 +1,7 @@
-#include "ScenePause.h"
+ï»¿#include "ScenePause.h"
 #include"SceneManager.h"
+#include"SceneMain.h"
+#include"SceneTitle.h"
 #include"../UI/InputState.h"
 #include"../UI/game.h"
 #include"DxLib.h"
@@ -14,42 +16,75 @@ ScenePause::~ScenePause()
 
 void ScenePause::Update(const InputState& input)
 {
-	if (input.IsTrigger(InputType::pause))
+	if (input.IsTrigger(InputType::pause) || (m_numCount == 1 &&input.IsTrigger(InputType::next)))
 	{
 		m_manager.PopScene();
 		return;
+	}
+	else if(m_numCount == 2 && input.IsTrigger(InputType::next))
+	{
+		m_manager.ChangeScene(new SceneMain(m_manager));
+		return;
+	}
+	else if(m_numCount == 3 && input.IsTrigger(InputType::next))
+	{
+		m_manager.ChangeScene(new SceneTitle(m_manager));
+		return;
+	}
+	
+	if (input.IsTrigger(InputType::down))
+	{
+		++m_numCount;
+	}
+	else if (input.IsTrigger(InputType::up))
+	{
+		--m_numCount;
+	}
+
+
+	if (m_numCount < 1)
+	{
+		m_numCount = 3;
+	}
+	if (m_numCount > 3)
+	{
+		m_numCount = 1;
 	}
 }
 
 void ScenePause::Draw()
 {
-	//constexpr int pw_width = 400;		//ƒ|[ƒY˜g‚Ì•
-	//constexpr int pw_height = 300;		//ƒ|[ƒY˜g‚Ì‚‚³
+	//constexpr int pw_width = 400;		//ãƒãƒ¼ã‚ºæ ã®å¹…
+	//constexpr int pw_height = 300;		//ãƒãƒ¼ã‚ºæ ã®é«˜ã•
 	//constexpr int pw_start_x = (Game::kScreenWindth - pw_width) / 2;
 	//constexpr int pw_start_y = (Game::kScreenHeight - pw_height) / 2;
 
-	constexpr int width = 400;		//ƒ|[ƒY˜g‚Ì•
-	constexpr int height = 300;		//ƒ|[ƒY˜g‚Ì‚‚³
+	constexpr int width = 400;		//ãƒãƒ¼ã‚ºæ ã®å¹…
+	constexpr int height = 300;		//ãƒãƒ¼ã‚ºæ ã®é«˜ã•
 	constexpr int widthPos = (640 - width) / 2;
 	constexpr int heightPos = (480 - height) / 2;
 
 
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 225);		//•‚­‚µ‚½‚¢‚Æ‚«MALA
-	//ƒ|[ƒYƒEƒBƒ“ƒhƒEƒZƒƒtƒ@ƒ“			//ƒ|[ƒY’†ƒƒbƒZ[ƒW
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 225);		//é»’ãã—ãŸã„ã¨ãMALA
+	//ãƒãƒ¼ã‚ºã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚»ãƒ­ãƒ•ã‚¡ãƒ³			//ãƒãƒ¼ã‚ºä¸­ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	DrawBox(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		0x00000, true);
 
-	//Œ³‚É–ß‚·
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//’Êí•`‰æ‚É–ß‚·
+	//å…ƒã«æˆ»ã™
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//é€šå¸¸æç”»ã«æˆ»ã™
 
-	//ƒ|[ƒY’†ƒƒbƒZ[ƒW
-	DrawString(widthPos + 10, heightPos + 10, "ƒ|[ƒY‰æ–Êi‰¼À‘•j", 0xffffff);
-	DrawString(widthPos + 50, heightPos + 50 * 1, "ƒQ[ƒ€‚É–ß‚éi‰¼À‘•j", 0xffffff);
-	DrawString(widthPos + 50, heightPos + 50 * 2, "ƒŠƒgƒ‰ƒCi‰¼À‘•j", 0xffffff);
-	DrawString(widthPos + 50, heightPos + 50 * 3, "ƒ^ƒCƒgƒ‹i‰¼À‘•j", 0xffffff);
+	//ãƒãƒ¼ã‚ºä¸­ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+	DrawString(widthPos + 10, heightPos + 10, "ãƒãƒ¼ã‚ºç”»é¢ï¼ˆä»®å®Ÿè£…ï¼‰", 0xffffff);
+	DrawString(widthPos + 50, heightPos + 50 * 1, "ã‚²ãƒ¼ãƒ ã«æˆ»ã‚‹ï¼ˆä»®å®Ÿè£…ï¼‰", 0xffffff);
+	DrawString(widthPos + 50, heightPos + 50 * 2, "ãƒªãƒˆãƒ©ã‚¤ï¼ˆä»®å®Ÿè£…ï¼‰", 0xffffff);
+	DrawString(widthPos + 50, heightPos + 50 * 3, "ã‚¿ã‚¤ãƒˆãƒ«ï¼ˆä»®å®Ÿè£…ï¼‰", 0xffffff);
+	
+	DrawString(widthPos + 25, heightPos + 50 * m_numCount, "â†’", 0x00ffff);
+	//DrawString(pw_start_x + 90, y + yoffset, L"â–¶", 0xff0000);
 
-	//ƒ|[ƒYƒEƒCƒ“ƒhƒE˜gü
+	DrawFormatString(500, 0, 0x0ffffff, "%d", m_numCount);
+	//ãƒãƒ¼ã‚ºã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦æ ç·š
 	DrawBox(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		0xffffff, false);

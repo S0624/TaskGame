@@ -36,9 +36,7 @@ void SceneMain::NormalUpdate(const InputState& input)
 	//ゲームクリアしていたら押せなくする
 	else if (input.IsTrigger(InputType::pause))
 	{
-		DrawString(500, 100, "ポーズ", 0xff0000);
 		m_manager.PushScene(new ScenePause(m_manager));
-		
 	}
 
 }
@@ -86,6 +84,11 @@ void SceneMain::Draw()
 {
 	m_pField->Draw();		//フィールドクラスの描画処理
 	m_pPlayer->Draw();		//プレイヤークラスの描画処理
+
+	if (m_pField->GameClear())
+	{
+		DrawFormatString(400, 100, GetColor(0, 125, 255), "ゲームクリア");
+	}
 
 	//普通の描画
 	DrawString(400, 200, "メイン画面", 0x00ffff, true);

@@ -14,8 +14,8 @@ private:
 
 
 private:
-	static constexpr int m_fadeInterval = 10;
-	//static constexpr int m_fadeInterval = 30;
+	//static constexpr int m_fadeInterval = 10;
+	 static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	int m_fadeValue = 255; //黒矩形とのブレンド具合
 

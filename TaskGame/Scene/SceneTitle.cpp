@@ -44,6 +44,7 @@ void SceneTitle::Update(const InputState& input)
 
 void SceneTitle::Draw()
 {
+	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	//•’Ê‚Ì•`‰æ
 	DrawBox(200, 200, 300, 300, 0xffffff, true);
 	DrawString(400, 200,"ƒ^ƒCƒgƒ‹", 0x00ffff, true);
