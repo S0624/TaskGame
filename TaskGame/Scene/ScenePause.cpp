@@ -35,7 +35,6 @@ void ScenePause::Draw()
 
 
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 225);		//黒くしたいときMALA
-	//SetDrawBlendMode(DX_BLENDMODE_ADD, 128);		//白くしたいときはADD
 	//ポーズウィンドウセロファン			//ポーズ中メッセージ
 	DrawBox(widthPos, heightPos,
 		widthPos + width, heightPos + height,
