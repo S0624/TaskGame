@@ -19,6 +19,7 @@ void ScenePause::Update(const InputState& input)
 		m_manager.PopScene();
 		return;
 	}
+
 }
 
 void ScenePause::Draw()
