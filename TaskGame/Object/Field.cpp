@@ -122,7 +122,7 @@ void Field::Draw()
 			{
 				DrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
-					16 * 0, 0,							//切り取り左上
+					16 * 0, 0,						//切り取り左上
 					16, 16,							//幅、高さ
 					2.5f, 0.0f,						//拡大率、回転角度
 					m_pinHandle, true);

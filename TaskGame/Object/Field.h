@@ -8,12 +8,13 @@ public:
 	static constexpr int kSize = 48;		//横
 	static constexpr int kFieldX = 6;		//横
 	static constexpr int kFieldY = 10;		//縦
-	static constexpr int kWidth = 48 * 2;		//横幅
-	static constexpr int kHeight = 6 * 10;		//高さ
+	static constexpr int kWidth = kSize * 10;		//横幅
+	static constexpr int kHeight = kSize * 2;		//高さ
 
 private:
 	//m_field[kFieldY][kFieldX]
 	// 現在の盤面データ
+	std::vector<int> m_mapData;
 	int m_field[kFieldY][kFieldX];
 	int m_emptyHandle;
 	int m_boxHandle;
@@ -36,4 +37,5 @@ public:
 
 	//ゲームクリアか判定
 	bool GameClear()const;
+
 };

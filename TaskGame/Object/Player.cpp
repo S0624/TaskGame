@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include "Player.h"
 #include"Field.h"
+#include"../Scene/SceneMain.h"
 //#include"Box.h"
 #include"../UI/Pad.h"
 #include"../UI/InputState.h"

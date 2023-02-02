@@ -47,7 +47,12 @@ void SceneTitle::Draw()
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	//普通の描画
 	DrawBox(200, 200, 300, 300, 0xffffff, true);
-	DrawString(400, 200,"タイトル", 0x00ffff, true);
+
+	DrawString((Game::kScreenWindth - GetDrawStringWidth("タイトル", -1)) / 2,
+		Game::kScreenHeight / 2,"タイトル", 0x00ffff, true);
+	
+	DrawString((Game::kScreenWindth - GetDrawStringWidth("ボタンを押してください", -1)) / 2,
+		Game::kScreenHeight - 200,"ボタンを押してください", 0x00ffff, true);
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
 	SetDrawBlendMode(DX_BLENDMODE_MULA, m_fadeValue);
