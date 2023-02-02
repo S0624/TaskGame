@@ -91,7 +91,6 @@ void SceneMain::Draw()
 	}
 
 	//普通の描画
-	DrawString(400, 200, "メイン画面", 0x00ffff, true);
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
 	SetDrawBlendMode(DX_BLENDMODE_MULA, m_fadeValue);

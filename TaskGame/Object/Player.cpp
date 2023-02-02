@@ -8,6 +8,8 @@
 namespace
 {
 	//int kLRReoeatFrame = 8;
+	// 左右キーのリピートフレーム
+	constexpr int kMovementFrame = 10;
 }
 
 //プレイヤークラスのコンストラクタ
@@ -16,7 +18,16 @@ Player::Player() :
 	m_pos(2,2),
 	m_handlePos(25),
 	m_handle(0),
-	m_imgidx(0)
+	m_imgidx(0),
+	m_moveDown(0),
+	m_moveUp(0),
+	m_moveLeft(0),
+	m_moveRight(0),
+	m_lastMove(0),
+	m_animationNumber(0),
+	m_animetionFraem(0),
+	m_stepCount(0)
+
 {
 
 }
@@ -45,45 +56,141 @@ void Player::Update(const InputState& input)
 //プレイヤーの動きの処理
 void Player::MovePlayer(const InputState& input)
 {
-	//constexpr float speed = 2.0f;		//プレイヤーの移動速度
+	bool animeflag = false;
+	constexpr float speed = 2.0f;		//プレイヤーの移動速度
 
 	Vec2 vec = { 0.0f,0.0f };	//速度ベクトル
 
-	Pad::update();
-
+	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	//かくかくにしたい移動
-	if(input.IsTrigger(InputType::down))
+	//if (pad & PAD_INPUT_DOWN)
+	//if(input.IsTrigger(InputType::down))
+	if(input.IsPressed(InputType::down))
 	{
+		animeflag = true;
+		m_imgidx = 0;						//画像の場所の指定
+		++m_moveDown;
+	}
+	else
+	{
+		m_moveDown = 0;
+	}
+	
+	bool isTriggerDown = (pad & PAD_INPUT_DOWN) && !(m_lastMove & PAD_INPUT_DOWN);
+	bool isRepeatDown = false;
+	if (m_moveDown >= kMovementFrame)		isRepeatDown = true;
+	
+	if (isTriggerDown || isRepeatDown)
+	{
+		m_moveDown = 0;
 		if (IsMoveDown())
 		{
-			vec.y = +1.0f;
+			m_pos.y++;
+			m_stepCount++;
 		}
-		m_imgidx = 0;						//画像の場所の指定
 	}
-	else if (input.IsTrigger(InputType::up))	//上を押された時の処理
+
+	if(input.IsPressed(InputType::up))
 	{
+		animeflag = true;
+		m_imgidx = 1;						//画像の場所の指定
+		++m_moveUp;
+	}
+	else
+	{
+		m_moveUp = 0;
+	}
+	
+	bool isTriggerUp = (pad & PAD_INPUT_UP) && !(m_lastMove & PAD_INPUT_UP);
+	bool isRepeatUp = false;
+	if (m_moveUp >= kMovementFrame)		isRepeatUp = true;
+	
+	if (isTriggerUp || isRepeatUp)
+	{
+		m_moveUp = 0;
 		if (IsMoveUp())
 		{
-			vec.y = -1.0f;
+			m_pos.y--;
+			m_stepCount++;
 		}
-		m_imgidx = 1;						//画像の場所の指定
 	}
-	else if (input.IsTrigger(InputType::left))		//左を押された時の処理
+
+	if(input.IsPressed(InputType::left))
 	{
+		animeflag = true;
+		m_imgidx = 2;						//画像の場所の指定
+		++m_moveLeft;
+	}
+	else
+	{
+		m_moveLeft = 0;
+	}
+	
+	bool isTriggerLeft = (pad & PAD_INPUT_LEFT) && !(m_lastMove & PAD_INPUT_LEFT);
+	bool isRepeatLeft = false;
+	if (m_moveLeft >= kMovementFrame)		isRepeatLeft = true;
+	
+	if (isTriggerLeft || isRepeatLeft)
+	{
+		m_moveLeft = 0;
 		if (IsMoveLeft())
 		{
-			vec.x = -1.0f;
+			m_pos.x--;
+			m_stepCount++;
 		}
-		m_imgidx = 2;						//画像の場所の指定
 	}
-	else if (input.IsTrigger(InputType::right))	//右を押された時の処理
+	if(input.IsPressed(InputType::right))
 	{
+		animeflag = true;
+		m_imgidx = 3;						//画像の場所の指定
+		++m_moveRight;
+	}
+	else
+	{
+		m_moveRight = 0;
+	}
+	
+	bool isTriggerRight = (pad & PAD_INPUT_RIGHT) && !(m_lastMove & PAD_INPUT_RIGHT);
+	bool isRepeatRight = false;
+	if (m_moveRight >= kMovementFrame)		isRepeatRight = true;
+	
+	if (isTriggerRight || isRepeatRight)
+	{
+		m_moveRight = 0;
 		if (IsMoveRight())
 		{
-			vec.x = +1.0f;
+			m_pos.x++;
+			m_stepCount++;
 		}
-		m_imgidx = 3;						//画像の場所の指定
 	}
+	m_lastMove = pad;
+	
+
+	//if (input.IsTrigger(InputType::up))	//上を押された時の処理
+	//{
+	//	if (IsMoveUp())
+	//	{
+	//		vec.y = -1.0f;
+	//	}
+	//	m_imgidx = 1;						//画像の場所の指定
+	//}
+	//
+	//else if (input.IsTrigger(InputType::left))		//左を押された時の処理
+	//{
+	//	if (IsMoveLeft())
+	//	{
+	//		vec.x = -1.0f;
+	//	}
+	//	m_imgidx = 2;						//画像の場所の指定
+	//}
+	//else if (input.IsTrigger(InputType::right))	//右を押された時の処理
+	//{
+	//	if (IsMoveRight())
+	//	{
+	//		vec.x = +1.0f;
+	//	}
+	//	m_imgidx = 3;						//画像の場所の指定
+	//}
 
 	//if (vec.length() > 0.0f)
 	//{
@@ -91,13 +198,30 @@ void Player::MovePlayer(const InputState& input)
 	//	vec *= speed;			//1の方向にスピードを乗算する
 	//}
 	m_pos += vec;
+	if (animeflag == true)
+	{
+		m_animetionFraem++;
+		if (m_animetionFraem > 7)
+		{
+			m_animationNumber++;
+			if (m_animationNumber > 3)
+			{
+				m_animationNumber = 0;
+			}
+			if (m_animationNumber == 1)
+			{
+				m_animationNumber = 2;
+			}
+			m_animetionFraem = 0;
+		}
+	}
 }
 
 //プレイヤーの上に行けるかの判定
 bool Player::IsMoveUp()const
 {
-	int indexX = m_pos.x;
-	int indexY = m_pos.y;
+	int indexX = static_cast<int>(m_pos.x);
+	int indexY = static_cast<int>(m_pos.y);
 	int x = 0;
 	int y = -1;
 	// すでに一番下にある場合
@@ -113,8 +237,8 @@ bool Player::IsMoveUp()const
 //プレイヤーの下に行けるかの判定
 bool Player::IsMoveDown()const
 {
-	int indexX = m_pos.x;
-	int indexY = m_pos.y;
+	int indexX = static_cast<int>(m_pos.x);
+	int indexY = static_cast<int>(m_pos.y);
 	int x = 0;
 	int y = 1;
 	// すでに一番下にある場合
@@ -129,8 +253,8 @@ bool Player::IsMoveDown()const
 //プレイヤーの左に行けるかの判定
 bool Player::IsMoveLeft()const
 {
-	int indexX = m_pos.x;
-	int indexY = m_pos.y;
+	int indexX = static_cast<int>(m_pos.x);
+	int indexY = static_cast<int>(m_pos.y);
 	int x = -1;
 	int y = 0;
 
@@ -146,8 +270,8 @@ bool Player::IsMoveLeft()const
 //プレイヤーの右に行けるかの判定
 bool Player::IsMoveRight()const
 {
-	int indexX = m_pos.x;
-	int indexY = m_pos.y;
+	int indexX = static_cast<int>(m_pos.x);
+	int indexY = static_cast<int>(m_pos.y);
 	int x = 1;
 	int y = 0;
 	// すでに一番右にある場合
@@ -163,8 +287,8 @@ bool Player::IsMoveRight()const
 void Player::Draw()const
 {
 	//m_pField->Draw();		//フィールドクラスの描画処理
-	int posX = Field::kSize * m_pos.x;
-	int posY = Field::kSize * m_pos.y;
+	int posX = Field::kSize * static_cast<int>(m_pos.x);
+	int posY = Field::kSize * static_cast<int>(m_pos.y);
 
 	//DrawBox(posX + Field::kWidth, posY + Field::kHeight,			//表示座標
 	//	(posX + Field::kSize) + Field::kWidth, (posY + Field::kSize) + Field::kHeight,
@@ -173,9 +297,12 @@ void Player::Draw()const
 
 	DrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
 		posY + Field::kHeight + m_handlePos,			//表示座標
-		48 * 0, 48 * m_imgidx,							//切り取り左上
+		48 * m_animationNumber, 48 * m_imgidx,			//切り取り左上
 		48, 48,							//幅、高さ
 		2.5f, 0.0f,						//拡大率、回転角度
 		m_handle, true);
 
+	DrawFormatString(200, 0, 0xffff00, "%d", m_animationNumber);
+	DrawFormatString(200, 20, 0xffff00, "%d", m_animetionFraem);
+	DrawFormatString(200, 40, 0x00ff0f, "%d", m_stepCount);
 }

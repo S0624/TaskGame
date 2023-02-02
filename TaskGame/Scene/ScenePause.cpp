@@ -80,6 +80,31 @@ void ScenePause::Draw()
 	DrawString(widthPos + 50, heightPos + 50 * 2, "リトライ（仮実装）", 0xffffff);
 	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
 	
+	//if (m_numCount == 1)
+	//{
+	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0xffffff);
+	//}
+	//else
+	//{
+	//	DrawString(widthPos + 50, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0xffffff);
+	//}
+	//if (m_numCount == 2)
+	//{
+	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 2, "リトライ（仮実装）", 0xffffff);
+	//}
+	//else
+	//{
+	//	DrawString(widthPos + 50, heightPos + 50 * 2, "リトライ（仮実装）", 0xffffff);
+	//}
+	//if (m_numCount == 3)
+	//{
+	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
+	//}
+	//else
+	//{
+	//	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
+	//}
+
 	DrawString(widthPos + 25, heightPos + 50 * m_numCount, "→", 0x00ffff);
 	//DrawString(pw_start_x + 90, y + yoffset, L"▶", 0xff0000);
 

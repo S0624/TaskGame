@@ -23,6 +23,17 @@ private:
 	//プレイヤーの画像の表示を変更する変数
 	int m_imgidx;
 
+	//お試しども
+	int m_moveDown;
+	int m_moveUp;
+	int m_moveLeft;
+	int m_moveRight;
+	int m_lastMove;
+
+	int m_animationNumber;
+	int m_animetionFraem;
+
+	int m_stepCount;
 public:
 	Player();
 	~Player();

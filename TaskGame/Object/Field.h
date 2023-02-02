@@ -33,7 +33,4 @@ public:
 
 	//ƒQ[ƒ€ƒNƒŠƒA‚©”»’è
 	bool GameClear()const;
-
-
-
 };
