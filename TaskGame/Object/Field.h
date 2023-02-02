@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 
 class Field
 {
@@ -7,15 +8,17 @@ public:
 	static constexpr int kSize = 48;		//â°
 	static constexpr int kFieldX = 6;		//â°
 	static constexpr int kFieldY = 10;		//èc
-	static constexpr int kWidth = 100;		//â°ïù
-	static constexpr int kHeight = 50;		//çÇÇ≥
+	static constexpr int kWidth = 48 * 2;		//â°ïù
+	static constexpr int kHeight = 6 * 10;		//çÇÇ≥
 
 private:
+	//m_field[kFieldY][kFieldX]
 	// åªç›ÇÃî’ñ ÉfÅ[É^
 	int m_field[kFieldY][kFieldX];
-	int m_handle;
-	int m_handle2;
-	int m_handle3;
+	int m_emptyHandle;
+	int m_boxHandle;
+	int m_wallHandle;
+	int m_pinHandle;
 
 public:
 	Field();

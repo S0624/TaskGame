@@ -19,9 +19,10 @@ namespace
 
 //フィールドクラスのコンストラクタ
 Field::Field() :
-	m_handle(),
-	m_handle2(),
-	m_handle3()
+	m_emptyHandle(0),
+	m_boxHandle(0),
+	m_wallHandle(0),
+	m_pinHandle(0)
 {
 	for (int y = 0; y < kFieldY; y++)		//fieldの初期化
 	{
@@ -35,9 +36,10 @@ Field::Field() :
 
 Field::~Field()
 {
-	DeleteGraph(m_handle);
-	DeleteGraph(m_handle2);
-	DeleteGraph(m_handle3);
+	DeleteGraph(m_emptyHandle);
+	DeleteGraph(m_wallHandle);
+	DeleteGraph(m_pinHandle);
+	DeleteGraph(m_boxHandle);
 }
 
 //フィールドクラスの初期化
@@ -50,9 +52,10 @@ void Field::Init()
 			m_field[y][x] = 0;
 		}
 	}
-	m_handle = LoadGraph("../Date/floor.png");		//画像の読み込み
-	m_handle2 = LoadGraph("../Date/box.png");		//画像の読み込み
-	m_handle3 = LoadGraph("../Date/wall.png");		//画像の読み込み
+	m_emptyHandle = LoadGraph("../Date/floor.png");		//画像の読み込み
+	m_wallHandle = LoadGraph("../Date/wall.png");		//画像の読み込み
+	m_pinHandle = LoadGraph("../Date/pin.png");		//画像の読み込み
+	m_boxHandle = LoadGraph("../Date/box.png");		//画像の読み込み
 	for (int x = 0; x < kFieldX; x++)		//仮で壁の追加
 	{
 		m_field[0][x] = 1;
@@ -97,21 +100,14 @@ void Field::Draw()
 			int posX = kSize * x;
 			int posY = kSize * y;
 
-			//仮実装
 			DrawRectRotaGraph(posX + kWidth + (25),
 				posY + kHeight + (25),			//表示座標
 				0, 0,							//切り取り左上
 				16, 16,							//幅、高さ
 				3.0f, 0.0f,						//拡大率、回転角度
-				m_handle, true);
+				m_emptyHandle, true);
 
-			//if (m_field[y][x] == 0)
-			//{
-			//	//DrawBox(posX + m_width, posY + m_height,
-			//		//posX + kSize + m_width, posY + kSize + m_height, GetColor(255, 255, 255), false);
-			//}
 
-			//仮実装
 			if (m_field[y][x] == wall)
 			{
 
@@ -120,60 +116,38 @@ void Field::Draw()
 				0, 0,							//切り取り左上
 				16, 16,							//幅、高さ
 				3.0f, 0.0f,						//拡大率、回転角度
-				m_handle3, true);
-				//DrawBox(posX + kWidth, posY + kHeight,
-				//	posX + kSize + kWidth, posY + kSize + kHeight, GetColor(255, 0, 0), true);
+				m_wallHandle, true);
 			}
 			if (m_field[y][x] == storage)
 			{
-				//DrawRectRotaGraph(posX + kWidth + (25),
-				//	posY + kHeight + (25),			//表示座標
-				//	16 * 0, 0,							//切り取り左上
-				//	16, 16,							//幅、高さ
-				//	2.5f, 0.0f,						//拡大率、回転角度
-				//	m_handle, true);
-
-				DrawCircle(posX + kWidth + kSize / 2,
-					posY + kHeight + kSize / 2,
-					kSize / 4,
-					0xfff000, false);
+				DrawRectRotaGraph(posX + kWidth + (25),
+					posY + kHeight + (25),			//表示座標
+					16 * 0, 0,							//切り取り左上
+					16, 16,							//幅、高さ
+					2.5f, 0.0f,						//拡大率、回転角度
+					m_pinHandle, true);
 			}
 			if (m_field[y][x] == box)
 			{
-				//仮実装
 				DrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					0, 0,							//切り取り左上
 					16, 21,							//幅、高さ
 					2.5f, 0.0f,						//拡大率、回転角度
-					m_handle2, true);
-
-				//DrawBox(posX + kWidth + 5, posY + kHeight + 5,			//表示座標
-				//	(posX + kSize) + kWidth - 5, (posY +kSize) + kHeight - 5,
-				//	GetColor(100, 255, 0), false);
+					m_boxHandle, true);
 			}
 			if (m_field[y][x] == input)
 			{
-				//仮実装
 				DrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					16, 0,							//切り取り左上
 					16, 21,							//幅、高さ
 					2.5f, 0.0f,						//拡大率、回転角度
-					m_handle2, true);
-				
-				//DrawBox(posX + kWidth + 5, posY + kHeight + 5,			//表示座標
-				//	(posX + kSize) + kWidth - 5, (posY +kSize) + kHeight - 5,
-				//	GetColor(100, 255, 0), true );
+					m_boxHandle, true);
 			}
-			//DrawBox(posX + kWidth, posY + kHeight,
-				//posX + kSize + kWidth, posY + kSize + kHeight, GetColor(255, 255, 255), false);
 		}
 	}
 	DrawFormatString(300, 0, GetColor(255, 255, 255), "残り:%d", kRemaining);
-
-	//DrawBox(m_width, m_height,
-		//m_width * kFieldX,  m_height * kFieldY, GetColor(255, 255, 255), false);
 }
 
 //フィールドの中身を見て動けるかを返す処理

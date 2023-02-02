@@ -56,10 +56,7 @@ void Player::Update(const InputState& input)
 //プレイヤーの動きの処理
 void Player::MovePlayer(const InputState& input)
 {
-	bool animeflag = false;
-	constexpr float speed = 2.0f;		//プレイヤーの移動速度
-
-	Vec2 vec = { 0.0f,0.0f };	//速度ベクトル
+	bool animetionFlag = false;
 
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	//かくかくにしたい移動
@@ -67,7 +64,7 @@ void Player::MovePlayer(const InputState& input)
 	//if(input.IsTrigger(InputType::down))
 	if(input.IsPressed(InputType::down))
 	{
-		animeflag = true;
+		animetionFlag = true;
 		m_imgidx = 0;						//画像の場所の指定
 		++m_moveDown;
 	}
@@ -92,7 +89,7 @@ void Player::MovePlayer(const InputState& input)
 
 	if(input.IsPressed(InputType::up))
 	{
-		animeflag = true;
+		animetionFlag = true;
 		m_imgidx = 1;						//画像の場所の指定
 		++m_moveUp;
 	}
@@ -117,7 +114,7 @@ void Player::MovePlayer(const InputState& input)
 
 	if(input.IsPressed(InputType::left))
 	{
-		animeflag = true;
+		animetionFlag = true;
 		m_imgidx = 2;						//画像の場所の指定
 		++m_moveLeft;
 	}
@@ -141,7 +138,7 @@ void Player::MovePlayer(const InputState& input)
 	}
 	if(input.IsPressed(InputType::right))
 	{
-		animeflag = true;
+		animetionFlag = true;
 		m_imgidx = 3;						//画像の場所の指定
 		++m_moveRight;
 	}
@@ -192,13 +189,7 @@ void Player::MovePlayer(const InputState& input)
 	//	m_imgidx = 3;						//画像の場所の指定
 	//}
 
-	//if (vec.length() > 0.0f)
-	//{
-	//	vec.normalize();		//方向にかかわらず大きさを一にする
-	//	vec *= speed;			//1の方向にスピードを乗算する
-	//}
-	m_pos += vec;
-	if (animeflag == true)
+	if (animetionFlag == true)
 	{
 		m_animetionFraem++;
 		if (m_animetionFraem > 7)
@@ -302,7 +293,7 @@ void Player::Draw()const
 		2.5f, 0.0f,						//拡大率、回転角度
 		m_handle, true);
 
-	DrawFormatString(200, 0, 0xffff00, "%d", m_animationNumber);
-	DrawFormatString(200, 20, 0xffff00, "%d", m_animetionFraem);
-	DrawFormatString(200, 40, 0x00ff0f, "%d", m_stepCount);
+	//DrawFormatString(200, 0, 0xffff00, "%d", m_animationNumber);
+	//DrawFormatString(200, 20, 0xffff00, "%d", m_animetionFraem);
+	//DrawFormatString(200, 40, 0x00ff0f, "%d", m_stepCount);
 }

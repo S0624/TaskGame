@@ -54,15 +54,15 @@ void ScenePause::Update(const InputState& input)
 
 void ScenePause::Draw()
 {
-	//constexpr int pw_width = 400;		//ポーズ枠の幅
-	//constexpr int pw_height = 300;		//ポーズ枠の高さ
-	//constexpr int pw_start_x = (Game::kScreenWindth - pw_width) / 2;
-	//constexpr int pw_start_y = (Game::kScreenHeight - pw_height) / 2;
-
 	constexpr int width = 400;		//ポーズ枠の幅
 	constexpr int height = 300;		//ポーズ枠の高さ
-	constexpr int widthPos = (640 - width) / 2;
-	constexpr int heightPos = (480 - height) / 2;
+	constexpr int widthPos = (Game::kScreenWindth - width) / 2;
+	constexpr int heightPos = (Game::kScreenHeight - height) / 2;
+
+	//constexpr int width = 400;		//ポーズ枠の幅
+	//constexpr int height = 300;		//ポーズ枠の高さ
+	//constexpr int widthPos = (640 - width) / 2;
+	//constexpr int heightPos = (480 - height) / 2;
 
 
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 225);		//黒くしたいときMALA
@@ -106,7 +106,7 @@ void ScenePause::Draw()
 	//}
 
 	DrawString(widthPos + 25, heightPos + 50 * m_numCount, "→", 0x00ffff);
-	//DrawString(pw_start_x + 90, y + yoffset, L"▶", 0xff0000);
+	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "▶", 0xff0000);
 
 	DrawFormatString(500, 0, 0x0ffffff, "%d", m_numCount);
 	//ポーズウインドウ枠線

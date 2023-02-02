@@ -87,7 +87,24 @@ void SceneMain::Draw()
 
 	if (m_pField->GameClear())
 	{
-		DrawFormatString(400, 100, GetColor(0, 125, 255), "ゲームクリア");
+		DrawFormatString(400, 0, GetColor(0, 125, 255), "ゲームクリア");
+
+		//constexpr int width = 400;		//ポーズ枠の幅
+		//constexpr int height = 300;		//ポーズ枠の高さ
+		//constexpr int widthPos = (Game::kScreenWindth - width) / 2;
+		//constexpr int heightPos = (Game::kScreenHeight - height) / 2;
+
+
+		////SetDrawBlendMode(DX_BLENDMODE_MULA, 225);		//黒くしたいときMALA
+		////ポーズウィンドウセロファン			//ポーズ中メッセージ
+		//DrawBox(widthPos, heightPos,
+		//	widthPos + width, heightPos + height,
+		//	0x00000, true);
+
+		//DrawString(widthPos + 10, heightPos + 20 * 1, "次のステージへ", 0xffffff);
+		//DrawString(widthPos + 10, heightPos + 20 * 2, "やりなおす", 0xffffff);
+		//DrawString(widthPos + 10, heightPos + 20 * 3, "タイトル画面に戻る", 0xffffff);
+
 	}
 
 	//普通の描画
