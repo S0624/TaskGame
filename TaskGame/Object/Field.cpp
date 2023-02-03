@@ -61,22 +61,22 @@ void Field::Init()
 	m_wallHandle = LoadGraph("../Date/wall.png");		//画像の読み込み
 	m_pinHandle = LoadGraph("../Date/pin.png");		//画像の読み込み
 	m_boxHandle = LoadGraph("../Date/box.png");		//画像の読み込み
-	//for (int x = 0; x < kFieldX; x++)		//仮で壁の追加
-	//{
-	//	m_field[0][x] = 1;
-	//	m_field[kFieldY - 1][x] = 1;
-	//}
-	//for (int y = 0; y < kFieldY; y++)		//仮で壁の追加
-	//{
-	//	m_field[y][0] = 1;
-	//	m_field[y][kFieldX - 1] = 1;
-	//}
-	//m_field[4][4] = 2;	//仮の置き場所
-	//m_field[1][3] = 2;	//仮の置き場所
-	//
+	for (int x = 0; x < kFieldX; x++)		//仮で壁の追加
+	{
+		m_field[0][x] = 1;
+		m_field[kFieldY - 1][x] = 1;
+	}
+	for (int y = 0; y < kFieldY; y++)		//仮で壁の追加
+	{
+		m_field[y][0] = 1;
+		m_field[y][kFieldX - 1] = 1;
+	}
+	m_field[4][4] = 2;	//仮の置き場所
+	m_field[1][3] = 2;	//仮の置き場所
+	
 
-	//m_field[3][3] = 3;	//仮の置き場所
-	//m_field[4][3] = 3;	//仮の置き場所
+	m_field[3][3] = 3;	//仮の置き場所
+	m_field[4][3] = 3;	//仮の置き場所
 }
 
 //フィールドクラスの更新処理
