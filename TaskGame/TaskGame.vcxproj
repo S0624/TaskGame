@@ -142,6 +142,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object\testField.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\ScenePause.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="Box.h" />
     <ClInclude Include="Object\Field.h" />
+    <ClInclude Include="Object\testField.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\ScenePause.h" />
     <ClInclude Include="Scene\SceneTitle.h" />

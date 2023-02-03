@@ -2,8 +2,8 @@
 #include "SceneBase.h"
 
 //　プロトタイプ宣言
-class Player;
 class Field;
+class Player;
 class InputState;
 
 class SceneMain : public SceneBase

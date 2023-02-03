@@ -1,20 +1,21 @@
 #pragma once
 #include<vector>
 
+#include"testField.h"
+
 class Field
 {
 public:
 	//盤面のサイズ
 	static constexpr int kSize = 48;		//横
-	static constexpr int kFieldX = 6;		//横
+	static constexpr int kFieldX = 20;		//横
 	static constexpr int kFieldY = 10;		//縦
-	static constexpr int kWidth = kSize * 10;		//横幅
-	static constexpr int kHeight = kSize * 2;		//高さ
+	static constexpr int kWidth = kSize * 3;		//横幅
+	static constexpr int kHeight = kSize * 1.5;		//高さ
 
 private:
-	//m_field[kFieldY][kFieldX]
+	testField m_test;
 	// 現在の盤面データ
-	std::vector<int> m_mapData;
 	int m_field[kFieldY][kFieldX];
 	int m_emptyHandle;
 	int m_boxHandle;

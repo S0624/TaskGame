@@ -1,6 +1,6 @@
 #include "SceneMain.h"
-#include"../Object/Player.h"
 #include"../Object/Field.h"
+#include"../Object/Player.h"
 #include"../UI/game.h"
 #include"../UI/InputState.h"
 #include "SceneTitle.h"
@@ -53,30 +53,30 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 SceneMain::SceneMain(SceneManager& manager) :
 	SceneBase(manager), m_updateFunc(&SceneMain::FadeInUpdate)
 {
-	m_pPlayer = new Player;
 	m_pField = new Field;
+	m_pPlayer = new Player;
 
 	Init();
 }
 
 SceneMain::~SceneMain()
 {
-	delete m_pPlayer;		//メモリの削除
 	delete m_pField;		//メモリの削除
+	delete m_pPlayer;		//メモリの削除
 	//delete m_pBox;		//メモリの削除
 }
 
 void SceneMain::Init()const
 {
-	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pField->Init();		//フィールドクラスの初期化
+	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pPlayer->SetField(m_pField);
 }
 
 void SceneMain::Update(const InputState& input)
 {
-	m_pPlayer->Update(input);	//プレイヤークラスの更新処理
 	m_pField->Update();		//フィールドクラスの更新処理
+	m_pPlayer->Update(input);	//プレイヤークラスの更新処理
 	(this->*m_updateFunc)(input);
 }
 
@@ -88,23 +88,6 @@ void SceneMain::Draw()
 	if (m_pField->GameClear())
 	{
 		DrawFormatString(400, 0, GetColor(0, 125, 255), "ゲームクリア");
-
-		//constexpr int width = 400;		//ポーズ枠の幅
-		//constexpr int height = 300;		//ポーズ枠の高さ
-		//constexpr int widthPos = (Game::kScreenWindth - width) / 2;
-		//constexpr int heightPos = (Game::kScreenHeight - height) / 2;
-
-
-		////SetDrawBlendMode(DX_BLENDMODE_MULA, 225);		//黒くしたいときMALA
-		////ポーズウィンドウセロファン			//ポーズ中メッセージ
-		//DrawBox(widthPos, heightPos,
-		//	widthPos + width, heightPos + height,
-		//	0x00000, true);
-
-		//DrawString(widthPos + 10, heightPos + 20 * 1, "次のステージへ", 0xffffff);
-		//DrawString(widthPos + 10, heightPos + 20 * 2, "やりなおす", 0xffffff);
-		//DrawString(widthPos + 10, heightPos + 20 * 3, "タイトル画面に戻る", 0xffffff);
-
 	}
 
 	//普通の描画
