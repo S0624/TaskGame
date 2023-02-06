@@ -1,7 +1,9 @@
 #pragma once
 #include<vector>
 
-#include"testField.h"
+//#include"testField.h"
+
+class testField;
 
 class Field
 {
@@ -13,8 +15,17 @@ public:
 	static constexpr int kWidth = kSize * 3;		//横幅
 	static constexpr int kHeight = kSize * 1.5;		//高さ
 
+	enum
+	{
+		empty,		//何も置かれていない
+		ground,		//床
+		wall,		//壁
+		storage,	//置き場所（箱を置く場所）
+		box,		//箱
+		input,		//置かれた
+	};
+
 private:
-	testField m_test;
 	// 現在の盤面データ
 	int m_field[kFieldY][kFieldX];
 	int m_emptyHandle;
@@ -38,5 +49,8 @@ public:
 
 	//ゲームクリアか判定
 	bool GameClear()const;
+
+	//お試し
+	int test(int test[kFieldY][kFieldX]);
 
 };

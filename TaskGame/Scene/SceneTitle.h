@@ -19,9 +19,12 @@ private:
 	void FadeOutUpdate(const InputState& input);
 	//Update用メンバ関数ポインタ
 	void (SceneTitle::* m_updateFunc)(const InputState& input);
+
+	int m_test;
+
 public:
 	SceneTitle(SceneManager& manager);
-	~SceneTitle(){};
+	~SceneTitle();
 
 	void Update(const InputState& input);
 	void Draw();

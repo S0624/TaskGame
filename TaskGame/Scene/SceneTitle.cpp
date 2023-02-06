@@ -34,7 +34,12 @@ void SceneTitle::FadeOutUpdate(const InputState& input)
 SceneTitle::SceneTitle(SceneManager& manager) :
 	SceneBase(manager), m_updateFunc(&SceneTitle::FadeInUpdate)
 {
+	m_test = MakeScreen(Game::kScreenWindth,Game::kScreenHeight,true);
+}
 
+SceneTitle::~SceneTitle()
+{
+	DeleteGraph(m_test);
 }
 
 void SceneTitle::Update(const InputState& input)
@@ -44,6 +49,9 @@ void SceneTitle::Update(const InputState& input)
 
 void SceneTitle::Draw()
 {
+	//揺れてる処理
+	SetDrawScreen(m_test);
+
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	//普通の描画
 	DrawBox(200, 200, 300, 300, 0xffffff, true);
@@ -53,14 +61,20 @@ void SceneTitle::Draw()
 	
 	DrawString((Game::kScreenWindth - GetDrawStringWidth("ボタンを押してください", -1)) / 2,
 		Game::kScreenHeight - 200,"ボタンを押してください", 0x00ffff, true);
+	//揺れてる処理
+	SetDrawScreen(DX_SCREEN_BACK);
+	int shakeX = GetRand(4) - 2;
+	int shakeY = GetRand(1) - 2;
+	DrawGraph(shakeX, shakeY, m_test, true);
+
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
 	SetDrawBlendMode(DX_BLENDMODE_MULA, m_fadeValue);
-	//DrawBox(0, 0, 540, 480, 0x00000, true);
 	//画面全体を真っ黒に塗りつぶす
 	//DrawGraph(0, 200, GradH_, true);
 	//変更したら元に戻す
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	//DrawString(300, 200, L"TitleScene", 0xfffff);
+
 }

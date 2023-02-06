@@ -6,6 +6,8 @@ class Field;
 class Player;
 class InputState;
 
+class testField;
+
 class SceneMain : public SceneBase
 {
 //public:
@@ -19,7 +21,7 @@ class SceneMain : public SceneBase
 private:
 	Player* m_pPlayer;		//Playerクラスをポインタで宣言
 	Field* m_pField;		//Fieldクラスをポインタで宣言
-
+	testField* m_test;
 
 private:
 	//static constexpr int m_fadeInterval = 10;

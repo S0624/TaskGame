@@ -1,23 +1,22 @@
 #include"DxLib.h"
 #include "Field.h"
-//#include"testField.h"
+#include"testField.h"
 #include<cassert>
 #include"../UI/game.h"
 
 namespace
 {
-	enum
-	{
-		ground,		//床
-		wall,		//壁
-		storage,	//置き場所（箱を置く場所）
-		box,		//箱
-		input,		//置かれた
-		empty,		//何も置かれていない
-	};
-
+	//enum
+	//{
+	//	ground,		//床
+	//	wall,		//壁
+	//	storage,	//置き場所（箱を置く場所）
+	//	box,		//箱
+	//	input,		//置かれた
+	//	empty,		//何も置かれていない
+	//};
 	int kRemaining = 0;
-
+	testField m_test;
 }
 
 //フィールドクラスのコンストラクタ
@@ -35,6 +34,13 @@ Field::Field() :
 		}
 	}
 
+	//m_field[4][4] = 2;	//仮の置き場所
+	//m_field[1][3] = 2;	//仮の置き場所
+	//m_field[1][4] = 2;	//仮の置き場所
+
+	//m_field[3][3] = 3;	//仮の置き場所
+	//m_field[4][3] = 3;	//仮の置き場所
+	//m_field[5][4] = 3;	//仮の置き場所
 }
 
 Field::~Field()
@@ -48,35 +54,10 @@ Field::~Field()
 //フィールドクラスの初期化
 void Field::Init()
 {	
-	for (int y = 0; y < kFieldY; y++)		//fieldの初期化
-	{
-		for (int x = 0; x < kFieldX; x++)
-		{
-			//m_field[y][x] = ground;
-			m_field[y][x] = m_test.m_stage[y][x];
-		}
-	}
-
 	m_emptyHandle = LoadGraph("../Date/floor.png");		//画像の読み込み
 	m_wallHandle = LoadGraph("../Date/wall.png");		//画像の読み込み
 	m_pinHandle = LoadGraph("../Date/pin.png");		//画像の読み込み
 	m_boxHandle = LoadGraph("../Date/box.png");		//画像の読み込み
-	for (int x = 0; x < kFieldX; x++)		//仮で壁の追加
-	{
-		m_field[0][x] = 1;
-		m_field[kFieldY - 1][x] = 1;
-	}
-	for (int y = 0; y < kFieldY; y++)		//仮で壁の追加
-	{
-		m_field[y][0] = 1;
-		m_field[y][kFieldX - 1] = 1;
-	}
-	m_field[4][4] = 2;	//仮の置き場所
-	m_field[1][3] = 2;	//仮の置き場所
-	
-
-	m_field[3][3] = 3;	//仮の置き場所
-	m_field[4][3] = 3;	//仮の置き場所
 }
 
 //フィールドクラスの更新処理
@@ -161,9 +142,10 @@ void Field::Draw()
 //フィールドの中身を見て動けるかを返す処理
 bool Field::IsMovable(int x, int y, int posX, int posY)
 {
-	assert((x >= ground) && (x <= kFieldX - wall));		//アサート
-	assert((y >= ground) && (y <= kFieldY - wall));		//範囲外だと処理を止める
+	assert((x >= 0) && (x <= kFieldX - 1));		//アサート
+	assert((y >= 0) && (y <= kFieldY - 1));		//範囲外だと処理を止める
 
+	if (m_field[y][x] == empty)	return true;		//何もないとその先に行けなくする
 	if (m_field[y][x] == wall)	return true;		//壁だとその先に行けなくする
 	
 	if (m_field[y][x] == box)						//箱を押したときの処理
@@ -201,3 +183,16 @@ bool Field::GameClear()const
 	if (kRemaining == 0) return true;
 	return false;
 }
+
+int Field::test(int test[kFieldY][kFieldX])
+{
+	for (int i = 0; i < kFieldX; i++)		//fieldの初期化
+	{
+		for (int j = 0; j < kFieldY; j++)
+		{
+			m_field[j][i] = test[j][i];
+		}
+	}
+	return 0;
+}
+

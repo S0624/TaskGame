@@ -16,7 +16,7 @@ namespace
 //プレイヤークラスのコンストラクタ
 Player::Player() :
 	m_pField(nullptr),
-	m_pos(2,2),
+	m_pos(4,3),
 	m_handlePos(25),
 	m_handle(0),
 	m_imgidx(0),
@@ -48,6 +48,7 @@ void Player::Init()
 //プレイヤークラスの更新処理
 void Player::Update(const InputState& input)
 {
+
 	if (!m_pField->GameClear())
 	{
 		MovePlayer(input);				//プレイヤーの移動処理を呼び出す

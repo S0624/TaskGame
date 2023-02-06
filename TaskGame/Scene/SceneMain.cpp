@@ -8,6 +8,8 @@
 #include"SceneManager.h"
 #include"DxLib.h"
 
+#include"../Object/testField.h"
+
 namespace {
 
 }
@@ -55,6 +57,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 {
 	m_pField = new Field;
 	m_pPlayer = new Player;
+	m_test = new testField;
 
 	Init();
 }
@@ -63,6 +66,7 @@ SceneMain::~SceneMain()
 {
 	delete m_pField;		//メモリの削除
 	delete m_pPlayer;		//メモリの削除
+	delete m_test;		//メモリの削除
 	//delete m_pBox;		//メモリの削除
 }
 
@@ -71,6 +75,9 @@ void SceneMain::Init()const
 	m_pField->Init();		//フィールドクラスの初期化
 	m_pPlayer->Init();		//プレイヤークラスの初期化
 	m_pPlayer->SetField(m_pField);
+	m_test->SetField(m_pField);
+	m_test->FieldInit();
+
 }
 
 void SceneMain::Update(const InputState& input)

@@ -1,30 +1,57 @@
 #include "testField.h"
+#include"Field.h"
+#include"test2.h"
 
-testField::testField()
+namespace
 {
-	for (int x = 0; x < 20; x++)		//仮で壁の追加
+	int kStage[Field::kFieldY][Field::kFieldX];
+}
+
+testField::testField() :
+	m_pField(nullptr)
+{
+	Init();
+	
+	int num = 0;
+	if (num == 0)
 	{
-		for (int y = 0; y < 10; y++)		//仮で壁の追加
+		ktest = new test2;
+	}
+}
+
+void testField::Init()
+{
+	for (int x = 0; x < Field::kFieldX; x++)		//仮で壁の追加
+	{
+		for (int y = 0; y < Field::kFieldY; y++)		//仮で壁の追加
 		{
-			m_stage[y][x] = 0;
+			kStage[y][x] = Field::empty;
 		}
 	}
-	//for (int x = 0; x < 20; x++)		//仮で壁の追加
-	//{
-	//	m_stage[0][x] = 1;
-	//	m_stage[10 - 1][x] = 1;
-	//}
-	//for (int y = 0; y < 10; y++)		//仮で壁の追加
-	//{
-	//	m_stage[y][0] = 1;
-	//	m_stage[y][6 - 1] = 1;
-	//}
-	//m_stage[4][4] = 2;	//仮の置き場所
-	//m_stage[1][3] = 2;	//仮の置き場所
-	//m_stage[1][4] = 2;	//仮の置き場所
+	for (int x = 4; x < Field::kFieldX - 10; x++)		//仮で壁の追加
+	{
+		for (int y = 2; y < Field::kFieldY - 2; y++)		//仮で壁の追加
+		{
+			kStage[y][x] = Field::ground;
+		}
+	}
+}
+
+int testField::test(int test[10][20])
+{
+	for (int i = 0; i < Field::kFieldX; i++)		//fieldの初期化
+	{
+		for (int j = 0; j < Field::kFieldY; j++)
+		{
+			kStage[j][i] = test[j][i];
+		}
+	}
+	return 0;
+}
 
 
-	//m_stage[3][3] = 3;	//仮の置き場所
-	//m_stage[4][3] = 3;	//仮の置き場所
-	//m_stage[5][4] = 3;	//仮の置き場所
+
+void testField::FieldInit()
+{
+	m_pField->test(kStage);
 }

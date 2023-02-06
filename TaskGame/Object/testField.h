@@ -1,15 +1,22 @@
 #pragma once
 #include<vector>
 
-class testField
-{
-public:
+class Field;
+class test2;
 
+class testField
+{	
 private:
+	Field* m_pField;
+	test2* ktest;
 
 public:
 	testField();
 	~testField(){};
 
-	int m_stage[20][10];
+	void SetField(Field* pField) { m_pField = pField; }
+	int test(int test[10][20]);
+
+	void Init();
+	void FieldInit();
 };
