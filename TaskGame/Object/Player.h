@@ -10,9 +10,7 @@ class Player
 {
 private:
 	//fieldクラス
-	Field* m_pField;
-	//Boxクラスをポインタで宣言
-	//Box* m_pBox;		
+	Field* m_pField;	
 
 	//プレイヤーの位置
 	Vec2 m_pos;
@@ -23,16 +21,17 @@ private:
 	//プレイヤーの画像の表示を変更する変数
 	int m_imgidx;
 
-	//お試しども
-	int m_moveDown;
-	int m_moveUp;
-	int m_moveLeft;
-	int m_moveRight;
-	int m_lastMove;
+	//キーボードを押された時に移動に制限をかける
+	int m_moveDown;			//下
+	int m_moveUp;			//上
+	int m_moveLeft;			//左
+	int m_moveRight;		//右
+	int m_lastMove;			//最後に押されたキーを覚えておく
 
-	int m_animationNumber;
-	int m_animetionFraem;
+	int m_animationNumber;		//アニメーションの番号
+	int m_animetionFraem;		//アニメーションを変えるインターバル
 
+	//歩いた歩数（お試し）
 	int m_stepCount;
 public:
 	Player();

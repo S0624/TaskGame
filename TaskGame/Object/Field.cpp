@@ -6,15 +6,15 @@
 
 namespace
 {
-	//enum
-	//{
-	//	ground,		//床
-	//	wall,		//壁
-	//	storage,	//置き場所（箱を置く場所）
-	//	box,		//箱
-	//	input,		//置かれた
-	//	empty,		//何も置かれていない
-	//};
+	enum
+	{
+		empty,		//何も置かれていない
+		ground,		//床
+		wall,		//壁
+		storage,	//置き場所（箱を置く場所）
+		box,		//箱
+		input,		//置かれた
+	};
 	int kRemaining = 0;
 	testField m_test;
 }
@@ -164,6 +164,7 @@ bool Field::IsMovable(int x, int y, int posX, int posY)
 		}
 		return true;							//それ以外はtrueを返す
 	}
+
 	if (m_field[y][x] == input)						//置かれている箱を動かすときの処理
 	{
 		if (m_field[y + posY][x + posX] == ground)
@@ -172,8 +173,15 @@ bool Field::IsMovable(int x, int y, int posX, int posY)
 			m_field[y + posY][x + posX] = box;
 			return false;
 		}
+		if (m_field[y + posY][x + posX] == storage)
+		{
+			m_field[y][x] = storage;
+			m_field[y + posY][x + posX] = input;
+			return false;
+		}
 		return true;
 	}
+
 	return false;
 }
 
@@ -186,7 +194,7 @@ bool Field::GameClear()const
 
 int Field::test(int test[kFieldY][kFieldX])
 {
-	for (int i = 0; i < kFieldX; i++)		//fieldの初期化
+	for (int i = 0; i < kFieldX; i++)		//fieldに数値を入れる
 	{
 		for (int j = 0; j < kFieldY; j++)
 		{

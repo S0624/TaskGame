@@ -58,110 +58,111 @@ void Player::Update(const InputState& input)
 //プレイヤーの動きの処理
 void Player::MovePlayer(const InputState& input)
 {
+	//アニメーションのフラグ
 	bool animetionFlag = false;
 
+	//かくかくする移動にするために使用
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	//かくかくにしたい移動
 	//if (pad & PAD_INPUT_DOWN)
 	//if(input.IsTrigger(InputType::down))
+	
+	//下を押された時の処理
 	if(input.IsPressed(InputType::down))
 	{
-		animetionFlag = true;
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
 		m_imgidx = 0;						//画像の場所の指定
 		++m_moveDown;
 	}
 	else
 	{
-		m_moveDown = 0;
+		m_moveDown = 0;						//押されなかったら０に戻す
 	}
-	
 	bool isTriggerDown = (pad & PAD_INPUT_DOWN) && !(m_lastMove & PAD_INPUT_DOWN);
 	bool isRepeatDown = false;
 	if (m_moveDown >= kMovementFrame)		isRepeatDown = true;
-	
 	if (isTriggerDown || isRepeatDown)
 	{
 		m_moveDown = 0;
 		if (IsMoveDown())
 		{
-			m_pos.y++;
+			m_pos.y++;						//下に動かす
 			m_stepCount++;
 		}
 	}
 
+	//上を押された時の処理
 	if(input.IsPressed(InputType::up))
 	{
-		animetionFlag = true;
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
 		m_imgidx = 1;						//画像の場所の指定
 		++m_moveUp;
 	}
 	else
 	{
-		m_moveUp = 0;
+		m_moveUp = 0;						//押されなかったら０に戻す
 	}
-	
 	bool isTriggerUp = (pad & PAD_INPUT_UP) && !(m_lastMove & PAD_INPUT_UP);
 	bool isRepeatUp = false;
 	if (m_moveUp >= kMovementFrame)		isRepeatUp = true;
-	
 	if (isTriggerUp || isRepeatUp)
 	{
 		m_moveUp = 0;
 		if (IsMoveUp())
 		{
-			m_pos.y--;
+			m_pos.y--;						//上に動かす
 			m_stepCount++;
 		}
 	}
 
+	//左を押された時の処理
 	if(input.IsPressed(InputType::left))
 	{
-		animetionFlag = true;
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
 		m_imgidx = 2;						//画像の場所の指定
 		++m_moveLeft;
 	}
 	else
 	{
-		m_moveLeft = 0;
+		m_moveLeft = 0;						//押されなかったら０に戻す
 	}
-	
 	bool isTriggerLeft = (pad & PAD_INPUT_LEFT) && !(m_lastMove & PAD_INPUT_LEFT);
 	bool isRepeatLeft = false;
 	if (m_moveLeft >= kMovementFrame)		isRepeatLeft = true;
-	
 	if (isTriggerLeft || isRepeatLeft)
 	{
 		m_moveLeft = 0;
 		if (IsMoveLeft())
 		{
-			m_pos.x--;
+			m_pos.x--;						//左に動かす
 			m_stepCount++;
 		}
 	}
+
+	//右を押された時の処理
 	if(input.IsPressed(InputType::right))
 	{
-		animetionFlag = true;
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
 		m_imgidx = 3;						//画像の場所の指定
 		++m_moveRight;
 	}
 	else
 	{
-		m_moveRight = 0;
+		m_moveRight = 0;					//押されなかったら０に戻す
 	}
-	
 	bool isTriggerRight = (pad & PAD_INPUT_RIGHT) && !(m_lastMove & PAD_INPUT_RIGHT);
 	bool isRepeatRight = false;
 	if (m_moveRight >= kMovementFrame)		isRepeatRight = true;
-	
 	if (isTriggerRight || isRepeatRight)
 	{
 		m_moveRight = 0;
 		if (IsMoveRight())
 		{
-			m_pos.x++;
+			m_pos.x++;						//右に動く
 			m_stepCount++;
 		}
 	}
+	
+	//最後に押されたキーを覚えておく
 	m_lastMove = pad;
 	
 
@@ -191,20 +192,26 @@ void Player::MovePlayer(const InputState& input)
 	//	m_imgidx = 3;						//画像の場所の指定
 	//}
 
+	//アニメーションのフラグが立っているときの処理
 	if (animetionFlag == true)
 	{
+		//アニメーションのインターバル
 		m_animetionFraem++;
 		if (m_animetionFraem > 7)
 		{
+			//アニメーションを変える
 			m_animationNumber++;
+			//設定値より大きくなったら一番最初のコマに戻す
 			if (m_animationNumber > 3)
 			{
 				m_animationNumber = 0;
 			}
+			//特定のコマを飛ばす
 			if (m_animationNumber == 1)
 			{
 				m_animationNumber = 2;
 			}
+			//インターバルを元に戻す
 			m_animetionFraem = 0;
 		}
 	}

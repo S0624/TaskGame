@@ -25,16 +25,10 @@ void testField::Init()
 	{
 		for (int y = 0; y < Field::kFieldY; y++)		//‰¼‚Å•Ç‚Ì’Ç‰Á
 		{
-			kStage[y][x] = Field::empty;
+			kStage[y][x] = 0;
 		}
 	}
-	for (int x = 4; x < Field::kFieldX - 10; x++)		//‰¼‚Å•Ç‚Ì’Ç‰Á
-	{
-		for (int y = 2; y < Field::kFieldY - 2; y++)		//‰¼‚Å•Ç‚Ì’Ç‰Á
-		{
-			kStage[y][x] = Field::ground;
-		}
-	}
+
 }
 
 int testField::test(int test[10][20])

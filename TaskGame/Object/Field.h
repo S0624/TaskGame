@@ -15,15 +15,15 @@ public:
 	static constexpr int kWidth = kSize * 3;		//横幅
 	static constexpr int kHeight = kSize * 1.5;		//高さ
 
-	enum
-	{
-		empty,		//何も置かれていない
-		ground,		//床
-		wall,		//壁
-		storage,	//置き場所（箱を置く場所）
-		box,		//箱
-		input,		//置かれた
-	};
+	//enum
+	//{
+	//	empty,		//何も置かれていない
+	//	ground,		//床
+	//	wall,		//壁
+	//	storage,	//置き場所（箱を置く場所）
+	//	box,		//箱
+	//	input,		//置かれた
+	//};
 
 private:
 	// 現在の盤面データ
