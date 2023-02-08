@@ -7,11 +7,11 @@
 #include"ScenePause.h"
 #include"SceneManager.h"
 #include"DxLib.h"
+#include"../Object/FieldInformation.h"
 
-#include"../Object/testField.h"
 
 namespace {
-
+	//SceneTitle title;
 }
 
 void SceneMain::FadeInUpdate(const InputState& input)
@@ -57,27 +57,25 @@ SceneMain::SceneMain(SceneManager& manager) :
 {
 	m_pField = new Field;
 	m_pPlayer = new Player;
-	m_test = new testField;
+	m_Information = new FieldInformation;
 
-	Init();
+	int num = 0;
+	num = title->SelectNum();
+
+	//初期化
+	m_pPlayer->SetField(m_pField);
+	m_Information->Num(num);
+	m_Information->Init();
+	m_Information->SetField(m_pField);
+	m_Information->SetPlayer(m_pPlayer);
+	m_Information->FieldInit();
 }
 
 SceneMain::~SceneMain()
 {
 	delete m_pField;		//メモリの削除
 	delete m_pPlayer;		//メモリの削除
-	delete m_test;		//メモリの削除
-	//delete m_pBox;		//メモリの削除
-}
-
-void SceneMain::Init()const
-{
-	m_pField->Init();		//フィールドクラスの初期化
-	m_pPlayer->Init();		//プレイヤークラスの初期化
-	m_pPlayer->SetField(m_pField);
-	m_test->SetField(m_pField);
-	m_test->FieldInit();
-
+	delete m_Information;		//メモリの削除
 }
 
 void SceneMain::Update(const InputState& input)
@@ -89,6 +87,9 @@ void SceneMain::Update(const InputState& input)
 
 void SceneMain::Draw()
 {
+	//背景の代わり
+	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
+
 	m_pField->Draw();		//フィールドクラスの描画処理
 	m_pPlayer->Draw();		//プレイヤークラスの描画処理
 

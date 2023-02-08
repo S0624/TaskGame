@@ -1,5 +1,5 @@
 #include "test2.h"
-#include"testField.h"
+#include"FieldInformation.h"
 #include"Field.h"
 
 namespace
@@ -77,5 +77,5 @@ test2::test2()
 
 void test2::FieldInit()
 {
-	m_test->test(kStage);
+	m_Information->FieldInfo(kStage);
 }

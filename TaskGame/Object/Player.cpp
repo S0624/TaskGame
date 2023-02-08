@@ -2,7 +2,6 @@
 #include "Player.h"
 #include"Field.h"
 #include"../Scene/SceneMain.h"
-//#include"Box.h"
 #include"../UI/Pad.h"
 #include"../UI/InputState.h"
 
@@ -16,7 +15,7 @@ namespace
 //プレイヤークラスのコンストラクタ
 Player::Player() :
 	m_pField(nullptr),
-	m_pos(4,3),
+	m_pos(0,0),
 	m_handlePos(25),
 	m_handle(0),
 	m_imgidx(0),
@@ -30,7 +29,8 @@ Player::Player() :
 	m_stepCount(0)
 
 {
-
+	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
+	
 }
 
 //プレイヤークラスのデストラクタ
@@ -39,11 +39,12 @@ Player::~Player()
 	DeleteGraph(m_handle);		//画像のデリート
 }
 
-//プレイヤークラスの初期化
-void Player::Init()
+void Player::PosInit(int x, int y)
 {
-	m_handle = LoadGraph("../Date/Player.png");		//画像の読み込み
+	m_pos.x = x;
+	m_pos.y = y;
 }
+
 
 //プレイヤークラスの更新処理
 void Player::Update(const InputState& input)
@@ -54,6 +55,7 @@ void Player::Update(const InputState& input)
 		MovePlayer(input);				//プレイヤーの移動処理を呼び出す
 	}
 }
+
 
 //プレイヤーの動きの処理
 void Player::MovePlayer(const InputState& input)

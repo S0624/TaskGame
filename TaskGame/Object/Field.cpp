@@ -1,22 +1,13 @@
 #include"DxLib.h"
 #include "Field.h"
-#include"testField.h"
+#include"FieldInformation.h"
 #include<cassert>
 #include"../UI/game.h"
 
 namespace
 {
-	enum
-	{
-		empty,		//何も置かれていない
-		ground,		//床
-		wall,		//壁
-		storage,	//置き場所（箱を置く場所）
-		box,		//箱
-		input,		//置かれた
-	};
 	int kRemaining = 0;
-	testField m_test;
+	FieldInformation m_Information;
 }
 
 //フィールドクラスのコンストラクタ
@@ -34,13 +25,11 @@ Field::Field() :
 		}
 	}
 
-	//m_field[4][4] = 2;	//仮の置き場所
-	//m_field[1][3] = 2;	//仮の置き場所
-	//m_field[1][4] = 2;	//仮の置き場所
+	m_emptyHandle = LoadGraph("../Date/floor.png");		//画像の読み込み
+	m_wallHandle = LoadGraph("../Date/wall.png");		//画像の読み込み
+	m_pinHandle = LoadGraph("../Date/pin.png");		//画像の読み込み
+	m_boxHandle = LoadGraph("../Date/box.png");		//画像の読み込み
 
-	//m_field[3][3] = 3;	//仮の置き場所
-	//m_field[4][3] = 3;	//仮の置き場所
-	//m_field[5][4] = 3;	//仮の置き場所
 }
 
 Field::~Field()
@@ -49,15 +38,6 @@ Field::~Field()
 	DeleteGraph(m_wallHandle);
 	DeleteGraph(m_pinHandle);
 	DeleteGraph(m_boxHandle);
-}
-
-//フィールドクラスの初期化
-void Field::Init()
-{	
-	m_emptyHandle = LoadGraph("../Date/floor.png");		//画像の読み込み
-	m_wallHandle = LoadGraph("../Date/wall.png");		//画像の読み込み
-	m_pinHandle = LoadGraph("../Date/pin.png");		//画像の読み込み
-	m_boxHandle = LoadGraph("../Date/box.png");		//画像の読み込み
 }
 
 //フィールドクラスの更新処理
@@ -86,6 +66,16 @@ void Field::Draw()
 		{
 			int posX = kSize * x;
 			int posY = kSize * y;
+
+			//if (m_field[y][x] == empty)
+			//{
+			//	DrawRectRotaGraph(posX + kWidth + (25),
+			//		posY + kHeight + (25),			//表示座標
+			//		0, 0,							//切り取り左上
+			//		16, 16,							//幅、高さ
+			//		3.0f, 0.0f,						//拡大率、回転角度
+			//		m_emptyHandle, true);
+			//}
 
 			if (m_field[y][x] != empty)
 			{
@@ -192,15 +182,14 @@ bool Field::GameClear()const
 	return false;
 }
 
-int Field::test(int test[kFieldY][kFieldX])
+int Field::FieldInfo(int field[kFieldY][kFieldX])
 {
 	for (int i = 0; i < kFieldX; i++)		//fieldに数値を入れる
 	{
 		for (int j = 0; j < kFieldY; j++)
 		{
-			m_field[j][i] = test[j][i];
+			m_field[j][i] = field[j][i];
 		}
 	}
 	return 0;
 }
-

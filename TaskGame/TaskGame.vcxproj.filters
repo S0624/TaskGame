@@ -31,12 +31,15 @@
     <Filter Include="ヘッダー ファイル\Object">
       <UniqueIdentifier>{d96b1556-1da6-42c7-b19c-ea572a049caa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{3450c02d-324f-4628-996e-03cd45b25af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{834d47dc-9daf-49ed-bf9d-d3544322f3aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Box.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Object\Field.cpp">
@@ -69,17 +72,29 @@
     <ClCompile Include="Scene\ScenePause.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Object\testField.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Object\FieldInformation.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Object\test2.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Stage\Stage1.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage2.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage3.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneSelect.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage4.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage5.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Box.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\SceneBase.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -113,11 +128,26 @@
     <ClInclude Include="Scene\ScenePause.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Object\testField.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Object\FieldInformation.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Object\test2.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Stage\Stage1.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage2.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage3.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneSelect.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage5.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage4.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

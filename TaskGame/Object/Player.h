@@ -37,17 +37,13 @@ public:
 	Player();
 	~Player();
 
-	//初期化
-	void Init();
+	void PosInit(int x,int y);
+
 	//更新処理
 	void Update(const InputState& input);
 	// 使用するフィールドのデータを設定する
 	void SetField(Field* pField) { m_pField = pField; }
-	//void SetBox(Box* pBox) { m_pBox = pBox; }
-
-	// 現在地の取得
-	Vec2 GetPos() const { return m_pos; }
-
+	
 	//プレイヤーの移動処理
 	void MovePlayer(const InputState& input);
 

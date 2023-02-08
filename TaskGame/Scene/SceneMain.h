@@ -6,22 +6,17 @@ class Field;
 class Player;
 class InputState;
 
-class testField;
+class SceneTitle;
+
+class FieldInformation;
 
 class SceneMain : public SceneBase
 {
-//public:
-//	//盤面のサイズ
-//	static constexpr int kSize = 48;		//横
-//	static constexpr int kFieldX = 6;		//横
-//	static constexpr int kFieldY = 10;		//縦
-//	static constexpr int kWidth = 48 * 10;		//横幅
-//	static constexpr int kHeight = 6 * 15;		//高さ
-
 private:
 	Player* m_pPlayer;		//Playerクラスをポインタで宣言
 	Field* m_pField;		//Fieldクラスをポインタで宣言
-	testField* m_test;
+	FieldInformation* m_Information;
+	SceneTitle* title;
 
 private:
 	//static constexpr int m_fadeInterval = 10;
@@ -42,8 +37,6 @@ public:
 	SceneMain(SceneManager& manager);
 	~SceneMain();
 
-	//初期化
-	void Init()const;
 	//更新処理
 	void Update(const InputState& input);
 	//描画処理

@@ -20,7 +20,12 @@ private:
 	//Update用メンバ関数ポインタ
 	void (SceneTitle::* m_updateFunc)(const InputState& input);
 
-	int m_test;
+	//int m_test;
+	int m_numCount = 1;
+	int m_font;
+	int m_strTitle;
+	int m_strEx;
+	int m_strNum;
 
 public:
 	SceneTitle(SceneManager& manager);
@@ -28,5 +33,7 @@ public:
 
 	void Update(const InputState& input);
 	void Draw();
+
+	int SelectNum();
 
 };

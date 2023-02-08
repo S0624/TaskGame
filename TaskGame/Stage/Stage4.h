@@ -2,13 +2,13 @@
 
 class FieldInformation;
 
-class test2
+class Stage4
 {
 private:
 	FieldInformation* m_Information;
 public:
-	test2();
-	~test2(){};
+	Stage4();
+	~Stage4() {};
 
 	void FieldInit();
 };
