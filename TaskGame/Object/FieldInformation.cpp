@@ -36,8 +36,8 @@ FieldInformation::FieldInformation() :
 
 FieldInformation::~FieldInformation()
 {
-	delete m_pField;
-	delete m_pPlayer;
+	/*delete m_pField;
+	delete m_pPlayer;*/
 	delete m_pStage1;
 	delete m_pStage2;
 	delete m_pStage3;
@@ -75,7 +75,7 @@ void FieldInformation::Init()
 	}
 }
 
-int FieldInformation::FieldInfo(int field[10][20])
+void FieldInformation::FieldInfo(int field[10][20])
 {
 	for (int i = 0; i < Field::kFieldX; i++)		//field‚Ì‰Šú‰»
 	{
@@ -84,14 +84,12 @@ int FieldInformation::FieldInfo(int field[10][20])
 			kStage[j][i] = field[j][i];
 		}
 	}
-	return 0;
 }
 
-int FieldInformation::PlayerInfo(int x, int y)
+void FieldInformation::PlayerInfo(int x, int y)
 {
 	kIndexX = x;
 	kIndexY = y;
-	return 0;
 }
 
 

@@ -4,12 +4,8 @@
 
 namespace
 {
-	int kStage[10][20];
+	int kStage[Field::kFieldY][Field::kFieldX];
 
-	constexpr int kStartingX = 4;
-	constexpr int kStartingY = 2;
-	constexpr int kEndX = 10;
-	constexpr int kEndY = 8;
 	constexpr int kIndexX = 9;
 	constexpr int kIndexY = 2;
 }
@@ -17,7 +13,7 @@ namespace
 
 Stage1::Stage1()
 {
-	int Stage[10][20] = {
+	int Stage[Field::kFieldY][Field::kFieldX] = {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,2,1,1,3,3,3,2,0,0,0,0,0,0},

@@ -31,9 +31,9 @@ public:
 
 	void SetField(Field* pField) { m_pField = pField; }
 	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }
-	int FieldInfo(int field[10][20]);
+	void FieldInfo(int field[10][20]);
 
-	int PlayerInfo(int x, int y);
+	void PlayerInfo(int x, int y);
 
 	void Init();
 	void FieldInit();
