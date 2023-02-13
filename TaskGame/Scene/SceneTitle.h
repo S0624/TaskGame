@@ -21,7 +21,6 @@ private:
 	void (SceneTitle::* m_updateFunc)(const InputState& input);
 
 	//int m_test;
-	int m_numCount = 1;
 	int m_font;
 	int m_strTitle;
 	int m_strEx;

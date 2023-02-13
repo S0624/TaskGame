@@ -10,6 +10,7 @@ class Stage2;
 class Stage3;
 class Stage4;
 class Stage5;
+class Stage6;
 
 class FieldInformation
 {
@@ -21,13 +22,14 @@ private:
 	Stage3* m_pStage3;
 	Stage4* m_pStage4;
 	Stage5* m_pStage5;
+	Stage6* m_pStage6;
 
 public:
 	FieldInformation();
 	~FieldInformation();
 
 	//int Num(int num);
-	void Num(int num);
+	void StageNum(int num);
 
 	void SetField(Field* pField) { m_pField = pField; }
 	void SetPlayer(Player* pPlayer) { m_pPlayer = pPlayer; }

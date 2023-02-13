@@ -84,13 +84,13 @@
     <ClCompile Include="Stage\Stage3.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\SceneSelect.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Stage\Stage4.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Stage\Stage5.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage6.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,13 +140,13 @@
     <ClInclude Include="Stage\Stage3.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\SceneSelect.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Stage\Stage5.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stage\Stage4.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage6.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>

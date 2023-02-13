@@ -23,6 +23,7 @@ private:
 	int m_wallHandle;				//壁の画像
 	int m_pinHandle;				//置き場所の画像
 
+	int m_storageNum;
 	bool m_drawFlag;	//移動中の箱を表示するかどうかのフラグ
 	float m_boxMoveSpeed;	//箱の移動スピード
 	Vec2 m_pos;			//現在の箱の位置

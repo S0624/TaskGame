@@ -6,8 +6,8 @@
 #include "SceneTitle.h"
 #include"ScenePause.h"
 #include"SceneManager.h"
-#include"DxLib.h"
 #include"../Object/FieldInformation.h"
+#include"DxLib.h"
 
 
 namespace {
@@ -64,7 +64,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 
 	//‰Šú‰»
 	m_pPlayer->SetField(m_pField);
-	m_Information->Num(num);
+	m_Information->StageNum(num);
 	m_Information->Init();
 	m_Information->SetField(m_pField);
 	m_Information->SetPlayer(m_pPlayer);

@@ -1,17 +1,16 @@
 #include "SceneTitle.h"
 #include"SceneMain.h"
 #include"SceneManager.h"
-#include"SceneSelect.h"
 #include"../UI/game.h"
 #include"../UI/InputState.h"
 #include<DxLib.h>
 
 namespace
 {
-	const char* const kTextTitle = "タイトル";
+	const char* const kTextTitle = "倉庫番（仮）";
 	const char* const kTextExplanation = "ボタンを押してください";
-	int kNum = 1;
-	constexpr int kMaxStage = 5;
+	int kSelectNum = 1;
+	constexpr int kMaxStage = 6;
 }
 
 void SceneTitle::FadeInUpdate(const InputState& input)
@@ -32,24 +31,23 @@ void SceneTitle::NormalUpdate(const InputState& input)
 		m_updateFunc = &SceneTitle::FadeOutUpdate;
 	}
 
-	if (input.IsTrigger(InputType::right))
+	if (input.IsTrigger(InputType::right) || input.IsTrigger(InputType::up))
 	{
-		++m_numCount;
-		++kNum;
+		++kSelectNum;
 	}
-	else if (input.IsTrigger(InputType::left))
+	else if (input.IsTrigger(InputType::left) || input.IsTrigger(InputType::down))
 	{
-		--kNum;
+		--kSelectNum;
 	}
 
 
-	if (kNum < 1)
+	if (kSelectNum < 1)
 	{
-		kNum = kMaxStage;
+		kSelectNum = kMaxStage;
 	}
-	if (kNum > kMaxStage)
+	if (kSelectNum > kMaxStage)
 	{
-		kNum = 1;
+		kSelectNum = 1;
 	}
 }
 
@@ -101,15 +99,15 @@ void SceneTitle::Draw()
 	
 	DrawStringToHandle((Game::kScreenWindth - 
 		GetDrawStringWidthToHandle(kTextTitle, m_strTitle,m_font)) / 2,
-		200, kTextTitle, 0xffffff, m_font);
+		200, kTextTitle, 0xffffff, m_font);								//タイトルの表示
 
 	DrawFormatStringToHandle((Game::kScreenWindth - 
 		GetDrawStringWidthToHandle("%d", m_strNum, m_font)) / 2,
-		Game::kScreenHeight / 2,  0xffffff,m_font,"%d", kNum);
+		Game::kScreenHeight / 2,  0xffffff,m_font,"%d", kSelectNum);	//選択中のステージの表示
 	
 	DrawStringToHandle((Game::kScreenWindth - 
 		GetDrawStringWidthToHandle(kTextExplanation, m_strEx,m_font)) / 2,
-		Game::kScreenHeight - 200, kTextExplanation, 0x00ffff, m_font);
+		Game::kScreenHeight - 200, kTextExplanation, 0x00ffff, m_font);	//ガイドの表示
 
 	//揺れてる処理
 	//SetDrawScreen(DX_SCREEN_BACK);
@@ -135,6 +133,6 @@ void SceneTitle::Draw()
 int SceneTitle::SelectNum()
 {
 	int selectNum = 0;
-	selectNum = kNum;
+	selectNum = kSelectNum;
 	return selectNum;
 }

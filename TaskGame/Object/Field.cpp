@@ -6,7 +6,6 @@
 
 namespace
 {
-	int kRemaining = 0;
 	FieldInformation m_Information;
 }
 
@@ -16,6 +15,7 @@ Field::Field() :
 	m_boxHandle(0),
 	m_wallHandle(0),
 	m_pinHandle(0),
+	m_storageNum(0),
 	m_drawFlag(false),
 	m_boxMoveSpeed(0),
 	m_pos(0, 0),
@@ -50,17 +50,18 @@ void Field::Update()
 	//箱の移動処理
 	MoveFrame();
 
-	kRemaining = 0;
+	int remaining = 0;
 	for (int y = 0; y < kFieldY; y++)		//fieldにある置き場所のカウント
 	{
 		for (int x = 0; x < kFieldX; x++)
 		{
 			if (m_field[y][x] == storage)
 			{
-				kRemaining++;
+				remaining++;
 			}
 		}
 	}
+	m_storageNum = remaining;
 }
 
 //フィールドクラスの描画処理
@@ -220,7 +221,7 @@ bool Field::IsMovablePos(int x, int y)
 bool Field::GameClear()const
 {
 	//置き場所がゼロになったら　trueを返す
-	if (kRemaining == 0) return true;
+	if (m_storageNum == 0) return true;
 	return false;
 }
 
