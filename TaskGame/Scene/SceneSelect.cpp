@@ -7,6 +7,7 @@
 #include"../UI/InputState.h"
 #include"../DrawFunc.h"
 #include<DxLib.h>
+
 namespace
 {
 	const char* const kTextTitle = "ステージセレクト";
@@ -76,7 +77,8 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	}
 
 
-	m_selectFont = CreateFontToHandle("851マカポップ", m_fontSize, -1, -1);
+	m_selectFont = CreateFontToHandle("木漏れ日ゴシック", m_fontSize, -1, -1);
+	//m_selectFont = CreateFontToHandle("851マカポップ", m_fontSize, -1, -1);
 	//m_selectFont = CreateFontToHandle("851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle("木漏れ日ゴシック", 42, -1, -1);
 
@@ -116,9 +118,9 @@ void SceneSelect::Draw()
 
 	DrawSelectNum();
 
-	DrawFormatStringToHandle((Game::kScreenWindth -
-		GetDrawStringWidthToHandle("%d", m_strNum, m_selectFont)) / 2,
-		(Game::kScreenHeight / 2) - 25, 0xffffff, m_selectFont, "%d", kSelectNum);	//選択中のステージの表示
+	//DrawFormatStringToHandle((Game::kScreenWindth -
+	//	GetDrawStringWidthToHandle("%d", m_strNum, m_selectFont)) / 2,
+	//	(Game::kScreenHeight / 2) - 25, 0xffffff, m_selectFont, "%d", kSelectNum);	//選択中のステージの表示
 
 
 
@@ -143,7 +145,7 @@ void SceneSelect::DrawSelectNum()
 {
 	int X = 0;		//何番目の数字か
 	int Y = 0;		//何番目の数字か
-	int index = m_fontSize;		//文字をずらす
+	int index = m_fontSize + 20;		//文字をずらす
 	int posX = ((Game::kScreenWindth -
 		GetDrawStringWidthToHandle("%d", m_strNum, m_selectFont)) / 2)
 		- (index * 2);
@@ -154,6 +156,8 @@ void SceneSelect::DrawSelectNum()
 	for (int i = 0; i < kMaxStage; i++)
 	{
 		int color = 0x0ffffff;
+		const char*  letter = "%d";
+		
 		X = i % 5;	//改行したときに文字がずれないように割った余りをXに代入する
 
 		//五個ずつで改行する
@@ -166,8 +170,14 @@ void SceneSelect::DrawSelectNum()
 		{
 			color = 0xff0000;
 		}
+
+		if (i < 9)
+		{
+			letter = "0%d";
+		}
+
 		DrawFormatStringToHandle(posX + index * X,
-			posY + index * Y, color, m_selectFont, "%d", i + 1);	//選択中のステージの表示
+			posY + index * Y, color, m_selectFont, letter, i + 1);	//選択中のステージの表示
 		
 	   DrawBox(posX + index * X - 5,
 		posY + index * Y - 5,
@@ -196,10 +206,27 @@ void SceneSelect::MoveCursor(const InputState& input)
 	else if (input.IsTrigger(InputType::up))
 	{
 		kSelectNum -= 5;
+		if (kSelectNum < 1)
+		{
+			kSelectNum += 10;
+		}
+		if (kSelectNum > kMaxStage)
+		{
+			kSelectNum *= -1;
+		}
 	}
 	else if (input.IsTrigger(InputType::down))
 	{
 		kSelectNum += 5;
+		if (kSelectNum < 1)
+		{
+			kSelectNum += 5;
+		}
+		if (kSelectNum > kMaxStage)
+		{
+			kSelectNum -= 10;
+			//kSelectNum *= -1;
+		}
 	}
 
 	if (kSelectNum < 1)
