@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DrawFunc.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\FieldInformation.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\ScenePause.cpp" />
+    <ClCompile Include="Scene\SceneSelect.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Stage\Stage1.cpp" />
     <ClCompile Include="Stage\Stage2.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="Stage\Stage4.cpp" />
     <ClCompile Include="Stage\Stage5.cpp" />
     <ClCompile Include="Stage\Stage6.cpp" />
+    <ClCompile Include="Stage\Stage7.cpp" />
     <ClCompile Include="UI\InputState.cpp" />
     <ClCompile Include="UI\Pad.cpp" />
     <ClCompile Include="Object\Player.cpp" />
@@ -159,10 +162,12 @@
     <ClCompile Include="UI\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawFunc.h" />
     <ClInclude Include="Object\Field.h" />
     <ClInclude Include="Object\FieldInformation.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\ScenePause.h" />
+    <ClInclude Include="Scene\SceneSelect.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Stage\Stage1.h" />
     <ClInclude Include="Stage\Stage2.h" />
@@ -170,6 +175,7 @@
     <ClInclude Include="Stage\Stage4.h" />
     <ClInclude Include="Stage\Stage5.h" />
     <ClInclude Include="Stage\Stage6.h" />
+    <ClInclude Include="Stage\Stage7.h" />
     <ClInclude Include="UI\game.h" />
     <ClInclude Include="UI\InputState.h" />
     <ClInclude Include="UI\Pad.h" />

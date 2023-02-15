@@ -4,6 +4,7 @@
 #include"../Scene/SceneMain.h"
 #include"../UI/Pad.h"
 #include"../UI/InputState.h"
+#include"../DrawFunc.h"
 
 namespace
 {
@@ -32,7 +33,7 @@ Player::Player() :
 	m_playerMoveNum(0)
 
 {
-	m_handle = LoadGraph("../Date/Player.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_handle = my::MyLoadGraph("../Date/Player.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
 
 }
 
@@ -384,7 +385,7 @@ void Player::Draw()const
 	int posX = static_cast<int>(m_pos.x);
 	int posY = static_cast<int>(m_pos.y);
 
-	DrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
+	my::MyDrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
 		posY + Field::kHeight + m_handlePos,			//•\¦À•W
 		48 * m_animationNumber, 48 * m_imgidx,			//Ø‚èæ‚è¶ã
 		48, 48,							//•A‚‚³

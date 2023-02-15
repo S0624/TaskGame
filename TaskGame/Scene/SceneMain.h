@@ -6,7 +6,7 @@ class Field;
 class Player;
 class InputState;
 
-class SceneTitle;
+class SceneSelect;
 
 class FieldInformation;
 
@@ -15,14 +15,14 @@ class SceneMain : public SceneBase
 private:
 	Player* m_pPlayer;		//Playerクラスをポインタで宣言
 	Field* m_pField;		//Fieldクラスをポインタで宣言
-	FieldInformation* m_Information;
-	SceneTitle* title;
+	FieldInformation* m_pInformation;
+	SceneSelect* m_pSelect;
 
 private:
 	//static constexpr int m_fadeInterval = 10;
 	 static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
-	int m_fadeValue = 255; //黒矩形とのブレンド具合
+	float m_fadeValue = 255; //黒矩形とのブレンド具合
 
 		//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);

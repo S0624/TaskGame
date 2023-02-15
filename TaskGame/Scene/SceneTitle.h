@@ -9,7 +9,7 @@ class SceneTitle : public SceneBase
 private:
 	static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
-	int m_fadeValue = 255; //黒矩形とのブレンド具合
+	float m_fadeValue = 255; //黒矩形とのブレンド具合
 
 	//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);
@@ -20,8 +20,9 @@ private:
 	//Update用メンバ関数ポインタ
 	void (SceneTitle::* m_updateFunc)(const InputState& input);
 
-	//int m_test;
-	int m_font;
+	int m_displayCount;
+	int m_TitleFont;
+	int m_guideFont;
 	int m_strTitle;
 	int m_strEx;
 	int m_strNum;
@@ -32,7 +33,5 @@ public:
 
 	void Update(const InputState& input);
 	void Draw();
-
-	int SelectNum();
 
 };

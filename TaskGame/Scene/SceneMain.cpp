@@ -3,6 +3,7 @@
 #include"../Object/Player.h"
 #include"../UI/game.h"
 #include"../UI/InputState.h"
+#include "SceneSelect.h"
 #include "SceneTitle.h"
 #include"ScenePause.h"
 #include"SceneManager.h"
@@ -40,7 +41,7 @@ void SceneMain::NormalUpdate(const InputState& input)
 	{
 		m_manager.PushScene(new ScenePause(m_manager));
 	}
-
+	
 }
 
 void SceneMain::FadeOutUpdate(const InputState& input)
@@ -57,25 +58,26 @@ SceneMain::SceneMain(SceneManager& manager) :
 {
 	m_pField = new Field;
 	m_pPlayer = new Player;
-	m_Information = new FieldInformation;
-
-	int num = 0;
-	num = title->SelectNum();
+	m_pInformation = new FieldInformation;
+	
+	int num = 1;
+	num = m_pSelect->SelectNum();
 
 	//初期化
 	m_pPlayer->SetField(m_pField);
-	m_Information->StageNum(num);
-	m_Information->Init();
-	m_Information->SetField(m_pField);
-	m_Information->SetPlayer(m_pPlayer);
-	m_Information->FieldInit();
+	m_pInformation->StageNum(num);
+	m_pInformation->Init();
+	m_pInformation->SetField(m_pField);
+	m_pInformation->SetPlayer(m_pPlayer);
+	m_pInformation->FieldInit();
 }
 
 SceneMain::~SceneMain()
 {
 	delete m_pField;		//メモリの削除
 	delete m_pPlayer;		//メモリの削除
-	delete m_Information;		//メモリの削除
+	delete m_pInformation;	//メモリの削除
+	delete m_pSelect;		//メモリの削除
 }
 
 void SceneMain::Update(const InputState& input)
@@ -101,7 +103,7 @@ void SceneMain::Draw()
 	//普通の描画
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
-	SetDrawBlendMode(DX_BLENDMODE_MULA, m_fadeValue);
+	SetDrawBlendMode(DX_BLENDMODE_MULA, static_cast<int> (m_fadeValue));
 	//画面全体を真っ黒に塗りつぶす
 	//変更したら元に戻す
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);

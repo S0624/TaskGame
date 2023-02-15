@@ -3,6 +3,7 @@
 #include"FieldInformation.h"
 #include<cassert>
 #include"../UI/game.h"
+#include"../DrawFunc.h"
 
 namespace
 {
@@ -30,10 +31,10 @@ Field::Field() :
 		}
 	}
 
-	m_emptyHandle = LoadGraph("../Date/floor.png");		//画像の読み込み
-	m_wallHandle = LoadGraph("../Date/wall.png");		//画像の読み込み
-	m_pinHandle = LoadGraph("../Date/pin.png");		//画像の読み込み
-	m_boxHandle = LoadGraph("../Date/box.png");		//画像の読み込み
+	m_emptyHandle = my::MyLoadGraph("../Date/floor.png");		//画像の読み込み
+	m_wallHandle = my::MyLoadGraph("../Date/wall.png");		//画像の読み込み
+	m_pinHandle = my::MyLoadGraph("../Date/pin.png");		//画像の読み込み
+	m_boxHandle = my::MyLoadGraph("../Date/box.png");		//画像の読み込み
 }
 
 Field::~Field()
@@ -76,7 +77,7 @@ void Field::Draw()
 
 			//if (m_field[y][x] == empty)
 			//{
-			//	DrawRectRotaGraph(posX + kWidth + (25),
+			//	my::MyDrawRectRotaGraph(posX + kWidth + (25),
 			//		posY + kHeight + (25),			//表示座標
 			//		0, 0,							//切り取り左上
 			//		16, 16,							//幅、高さ
@@ -86,7 +87,7 @@ void Field::Draw()
 
 			if (m_field[y][x] != empty)
 			{
-				DrawRectRotaGraph(posX + kWidth + (25),
+				my::MyDrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					0, 0,							//切り取り左上
 					16, 16,							//幅、高さ
@@ -97,7 +98,7 @@ void Field::Draw()
 			if (m_field[y][x] == wall)
 			{
 
-				DrawRectRotaGraph(posX + kWidth + (25),
+				my::MyDrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					0, 0,							//切り取り左上
 					16, 16,							//幅、高さ
@@ -106,7 +107,7 @@ void Field::Draw()
 			}
 			if (m_field[y][x] == storage)
 			{
-				DrawRectRotaGraph(posX + kWidth + (25),
+				my::MyDrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					0, 0,						//切り取り左上
 					16, 16,							//幅、高さ
@@ -115,7 +116,7 @@ void Field::Draw()
 			}
 			if (m_field[y][x] == box)
 			{
-				DrawRectRotaGraph(posX + kWidth + (25),
+				my::MyDrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					0, 0,							//切り取り左上
 					16, 21,							//幅、高さ
@@ -124,7 +125,7 @@ void Field::Draw()
 			}
 			if (m_field[y][x] == input)
 			{
-				DrawRectRotaGraph(posX + kWidth + (25),
+				my::MyDrawRectRotaGraph(posX + kWidth + (25),
 					posY + kHeight + (25),			//表示座標
 					16, 0,							//切り取り左上
 					16, 21,							//幅、高さ
@@ -146,7 +147,7 @@ void Field::Draw()
 		{
 			index = 16;
 		}
-		DrawRectRotaGraph(m_pos.x + kWidth + (25),
+		my::MyDrawRectRotaGraph(m_pos.x + kWidth + (25),
 			m_pos.y + kHeight + (25),			//表示座標
 			index, 0,							//切り取り左上
 			16, 21,							//幅、高さ
