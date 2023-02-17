@@ -12,6 +12,8 @@ class Stage4;
 class Stage5;
 class Stage6;
 class Stage7;
+class Stage8;
+class Stage9;
 
 class FieldInformation
 {
@@ -25,6 +27,8 @@ private:
 	Stage5* m_pStage5;
 	Stage6* m_pStage6;
 	Stage7* m_pStage7;
+	Stage8* m_pStage8;
+	Stage9* m_pStage9;
 
 public:
 	FieldInformation();

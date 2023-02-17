@@ -11,7 +11,7 @@ public:
 	//î’ñ ÇÃÉTÉCÉY
 	static constexpr int kSize = 48;		//â°
 	static constexpr int kFieldX = 20;		//â°
-	static constexpr int kFieldY = 10;		//èc
+	static constexpr int kFieldY = 12;		//èc
 	static constexpr int kWidth = kSize * 5;		//â°ïù
 	static constexpr int kHeight = kSize * 3;		//çÇÇ≥
 

@@ -139,7 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DrawFunc.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Object\MapChip.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\FieldInformation.cpp" />
@@ -154,6 +155,8 @@
     <ClCompile Include="Stage\Stage5.cpp" />
     <ClCompile Include="Stage\Stage6.cpp" />
     <ClCompile Include="Stage\Stage7.cpp" />
+    <ClCompile Include="Stage\Stage8.cpp" />
+    <ClCompile Include="Stage\Stage9.cpp" />
     <ClCompile Include="UI\InputState.cpp" />
     <ClCompile Include="UI\Pad.cpp" />
     <ClCompile Include="Object\Player.cpp" />
@@ -162,9 +165,11 @@
     <ClCompile Include="UI\Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawFunc.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Object\MapChip.h" />
     <ClInclude Include="Object\Field.h" />
     <ClInclude Include="Object\FieldInformation.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\ScenePause.h" />
     <ClInclude Include="Scene\SceneSelect.h" />
@@ -176,6 +181,8 @@
     <ClInclude Include="Stage\Stage5.h" />
     <ClInclude Include="Stage\Stage6.h" />
     <ClInclude Include="Stage\Stage7.h" />
+    <ClInclude Include="Stage\Stage8.h" />
+    <ClInclude Include="Stage\Stage9.h" />
     <ClInclude Include="UI\game.h" />
     <ClInclude Include="UI\InputState.h" />
     <ClInclude Include="UI\Pad.h" />
@@ -183,6 +190,9 @@
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneMain.h" />
     <ClInclude Include="UI\Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TaskGame.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

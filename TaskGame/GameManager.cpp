@@ -1,6 +1,6 @@
 #include<DXLib.h>
 #include<assert.h>
-#include"DrawFunc.h"
+#include"GameManager.h"
 
 namespace my
 {
@@ -18,4 +18,20 @@ namespace my
 			scale, angle,
 			handle, transFlg);
 	}
+
+	void MyFontPath(const TCHAR* path)
+	{
+		LPCSTR font_path = path; // 読み込むフォントファイルのパス
+
+		if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {
+		}
+		else {
+			// フォント読込エラー処理
+			MessageBox(NULL, "フォント読込失敗", "", MB_OK);
+		}
+		
+	}
+
+
+
 }

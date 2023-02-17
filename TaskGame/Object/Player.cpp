@@ -4,7 +4,7 @@
 #include"../Scene/SceneMain.h"
 #include"../UI/Pad.h"
 #include"../UI/InputState.h"
-#include"../DrawFunc.h"
+#include"../GameManager.h"
 
 namespace
 {

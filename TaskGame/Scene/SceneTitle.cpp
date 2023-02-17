@@ -3,6 +3,8 @@
 #include"SceneManager.h"
 #include"../UI/game.h"
 #include"../UI/InputState.h"
+#include"../GameManager.h"
+#include"../Object/MapChip.h"
 #include<DxLib.h>
 
 namespace
@@ -51,39 +53,32 @@ void SceneTitle::FadeOutUpdate(const InputState& input)
 SceneTitle::SceneTitle(SceneManager& manager) :
 	SceneBase(manager), 
 	m_updateFunc(&SceneTitle::FadeInUpdate),
+	m_handle(0),
 	m_displayCount(0),
 	m_TitleFont(0),
 	m_guideFont(0),
 	m_strTitle(-1),
 	m_strEx(-1)
 {
-	//m_test = MakeScreen(Game::kScreenWindth,Game::kScreenHeight,true);
-
-	LPCSTR font_path1 = "../Font/851MkPOP_101.ttf"; // 読み込むフォントファイルのパス
-	LPCSTR font_path2 = "../Font/komorebi-gothic.ttf"; // 読み込むフォントファイルのパス
-	if (AddFontResourceEx(font_path1, FR_PRIVATE, NULL) > 0) {
-	}
-	else {
-		// フォント読込エラー処理
-		MessageBox(NULL, "フォント読込失敗", "", MB_OK);
-	}
-	if (AddFontResourceEx(font_path2, FR_PRIVATE, NULL) > 0) {
-	}
-	else {
-		// フォント読込エラー処理
-		MessageBox(NULL, "フォント読込失敗", "", MB_OK);
-	}
-
+	m_pMap = new MapChip;
+	//std::shared_ptr<MapChip>;
+	my::MyFontPath("../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
+	my::MyFontPath("../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	
+	m_handle = my::MyLoadGraph("../Date/Grass.jpg");
 	m_TitleFont = CreateFontToHandle("851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle("木漏れ日ゴシック", 42, -1, -1);
 	m_strTitle = strlen(kTextTitle);
 	m_strEx = strlen(kTextExplanation);
 	m_strNum = strlen("%d");
 
+	//m_map->Load(L"../Date/back.fmf");
+	m_pMap->Load(L"../back.fmf");
 }
 
 SceneTitle::~SceneTitle()
 {
+	delete m_pMap;
 	DeleteFontToHandle(m_TitleFont);
 	DeleteFontToHandle(m_guideFont);
 }
@@ -121,6 +116,27 @@ void SceneTitle::Draw()
 	//	Game::kScreenHeight / 2,"タイトル", 0x00ffff, font);
 
 	
+	int mW, mH;
+	m_pMap->GetMapSize(mW, mH);
+	//m_map->GetMapSize(mW, mH);
+	const auto& mapData = m_pMap->GetMapData();
+	//const auto& mapData = m_map->GetMapData();
+	for (int chipY = 0; chipY < mH; ++chipY)	// 縦方向
+	{
+		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
+		{
+			auto chipId = mapData[0][chipY * mW + chipX];
+			//if (chipId != 0)
+			{
+				DrawRectGraph(chipX * 16 , chipY * 16,
+					(chipId % 16) * 16,
+					(chipId / 16) * 16,
+					16, 16,
+					m_handle, true);
+			}
+		}
+	}
+
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
 	SetDrawBlendMode(DX_BLENDMODE_MULA, static_cast<int> (m_fadeValue));

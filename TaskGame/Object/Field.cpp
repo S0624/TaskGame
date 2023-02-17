@@ -3,7 +3,7 @@
 #include"FieldInformation.h"
 #include<cassert>
 #include"../UI/game.h"
-#include"../DrawFunc.h"
+#include"../GameManager.h"
 
 namespace
 {

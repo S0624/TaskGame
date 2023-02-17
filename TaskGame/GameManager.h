@@ -8,4 +8,6 @@ namespace my
 
 	int MyDrawRectRotaGraph(int x, int y, int left, int top,
 		int width, int height, float scale, float angle, int handle, bool transFlag);
+
+	void MyFontPath(const TCHAR* path);
 }

@@ -1,12 +1,15 @@
 #pragma once
 #include "SceneBase.h"
-
+#include<memory>	//「スマートポインタ」を使うためのinclude
+class MapChip;
 class InputState;
 //タイトルシーン
 
 class SceneTitle : public SceneBase
 {
 private:
+	MapChip* m_pMap;
+	//std::shared_ptr<MapChip>m_map;
 	static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	float m_fadeValue = 255; //黒矩形とのブレンド具合
@@ -20,6 +23,7 @@ private:
 	//Update用メンバ関数ポインタ
 	void (SceneTitle::* m_updateFunc)(const InputState& input);
 
+	int m_handle;
 	int m_displayCount;
 	int m_TitleFont;
 	int m_guideFont;

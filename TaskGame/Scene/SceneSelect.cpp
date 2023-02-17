@@ -5,15 +5,15 @@
 #include"SceneManager.h"
 #include"../UI/game.h"
 #include"../UI/InputState.h"
-#include"../DrawFunc.h"
+#include"../GameManager.h"
 #include<DxLib.h>
 
 namespace
 {
 	const char* const kTextTitle = "ステージセレクト";
-	const char* const kTextExplanation = "ボタンを押してください";
+	const char* const kTextExplanation = "Aボタンを押してください";
 	int kSelectNum = 1;
-	constexpr int kMaxStage = 7;
+	constexpr int kMaxStage = 9;
 }
 void SceneSelect::FadeInUpdate(const InputState& input)
 {
@@ -61,21 +61,7 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 {
 	m_handle = my::MyLoadGraph("../Date/select.png");		//画像の読み込み
 
-	LPCSTR font_path1 = "../Font/851MkPOP_101.ttf"; // 読み込むフォントファイルのパス
-	LPCSTR font_path2 = "../Font/komorebi-gothic.ttf"; // 読み込むフォントファイルのパス
-	if (AddFontResourceEx(font_path1, FR_PRIVATE, NULL) > 0) {
-	}
-	else {
-		// フォント読込エラー処理
-		MessageBox(NULL, "フォント読込失敗", "", MB_OK);
-	}	
-	if (AddFontResourceEx(font_path2, FR_PRIVATE, NULL) > 0) {
-	}
-	else {
-		// フォント読込エラー処理
-		MessageBox(NULL, "フォント読込失敗", "", MB_OK);
-	}
-
+	my::MyFontPath("../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
 	m_selectFont = CreateFontToHandle("木漏れ日ゴシック", m_fontSize, -1, -1);
 	//m_selectFont = CreateFontToHandle("851マカポップ", m_fontSize, -1, -1);
@@ -155,7 +141,9 @@ void SceneSelect::DrawSelectNum()
 
 	for (int i = 0; i < kMaxStage; i++)
 	{
-		int color = 0x0ffffff;
+
+		int indexUp = 0;
+		int color = 0xffffff;
 		const char*  letter = "%d";
 		
 		X = i % 5;	//改行したときに文字がずれないように割った余りをXに代入する
@@ -168,6 +156,7 @@ void SceneSelect::DrawSelectNum()
 
 		if (i + 1 == kSelectNum)
 		{
+			indexUp = -10;
 			color = 0xff0000;
 		}
 
@@ -176,9 +165,16 @@ void SceneSelect::DrawSelectNum()
 			letter = "0%d";
 		}
 
+		/*DrawBox(posX + index * X - 5,
+			posY + index * Y - 5,
+			index + posX + index * X - 5,
+			index + posY + index * Y - 5, 0xaaaaf0, true);*/
+
 		DrawFormatStringToHandle(posX + index * X,
-			posY + index * Y, color, m_selectFont, letter, i + 1);	//選択中のステージの表示
+			(posY + index * Y) + indexUp, color, m_selectFont, letter, i + 1);	//選択中のステージの表示
 		
+
+	   
 	   DrawBox(posX + index * X - 5,
 		posY + index * Y - 5,
 		index + posX + index * X - 5,
