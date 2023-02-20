@@ -144,7 +144,7 @@ void SceneSelect::DrawSelectNum()
 
 		int indexUp = 0;
 		int color = 0xffffff;
-		const char* letter = "%d";
+		//const char* letter = "%d";
 
 		X = i % 5;	//改行したときに文字がずれないように割った余りをXに代入する
 
@@ -160,10 +160,10 @@ void SceneSelect::DrawSelectNum()
 			color = 0xff0000;
 		}
 
-		if (i < 9)
+	/*	if (i < 9)
 		{
 			letter = "0%d";
-		}
+		}*/
 
 		/*DrawBox(posX + index * X - 5,
 			posY + index * Y - 5,

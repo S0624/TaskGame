@@ -65,7 +65,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_handle = my::MyLoadGraph(L"../Date/Grass.jpg");
+	m_handle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
 	m_strTitle = strlen("倉庫番（仮）");
@@ -103,13 +103,21 @@ void SceneTitle::Draw()
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
 		{
 			auto chipId = mapData[0][chipY * mW + chipX];
-			//if (chipId != 0)
+			//if (chipId == 0)
 			{
-				DrawRectGraph(chipX * 16, chipY * 16,
-					(chipId % 16) * 16,
-					(chipId / 16) * 16,
+				DrawRectGraph(
+					chipX * 16, chipY * 16,
+					(chipId % 8) * 16,
+					(chipId / 8) * 16,
 					16, 16,
 					m_handle, true);
+				/*my::MyDrawRectRotaGraph(
+					chipX * 16, chipY * 16,
+					(chipId % 8) * 16,
+					(chipId / 8) * 16,
+					16, 16,
+					2.0f,0,
+					m_handle, true);*/
 			}
 		}
 	}

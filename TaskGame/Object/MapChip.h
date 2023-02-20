@@ -21,9 +21,13 @@ private:
 	int m_mapWidth = 0;
 	int m_mapHeight = 0;	
 private:
-
+	/// <summary>
+	/// データの内容をXY転置する
+	/// </summary>
+	/// <param name="layerId">レイヤーID</param>
+	void TransposeMapData(int layerId);
 public:
-	void Load(const wchar_t* filepath);
+	void Load(const wchar_t* filePath);
 	const MapData& GetMapData()const;
 	const int GetChipId(int layerId, int chipX, int chipY)const;
 	void GetMapSize(int& width, int& height);

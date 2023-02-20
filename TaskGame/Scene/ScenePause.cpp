@@ -128,7 +128,7 @@ void ScenePause::Draw()
 	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "→", 0x00a000);
 	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "▶", 0xff0000);
 
-	DrawFormatString(500, 0, 0x0ffffff, L"%d", m_numCount);
+	//DrawFormatString(500, 0, 0x0ffffff, L"%d", m_numCount);
 	//ポーズウインドウ枠線
 	/*DrawBox(widthPos, heightPos,
 		widthPos + width, heightPos + height,
