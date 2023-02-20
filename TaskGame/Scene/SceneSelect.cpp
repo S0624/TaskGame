@@ -10,8 +10,8 @@
 
 namespace
 {
-	const char* const kTextTitle = "ステージセレクト";
-	const char* const kTextExplanation = "Aボタンを押してください";
+	//const char* const kTextTitle = "ステージセレクト";
+	//const char* const kTextExplanation = "Aボタンを押してください";
 	int kSelectNum = 1;
 	constexpr int kMaxStage = 10;
 }
@@ -29,7 +29,7 @@ void SceneSelect::NormalUpdate(const InputState& input)
 	//「前へ」ボタンが押されたらタイトルへ
 	if (input.IsTrigger(InputType::back))
 	{
-		m_manager.ChangeScene(new SceneTitle(m_manager));
+		//m_manager.ChangeScene(new SceneTitle(m_manager));
 	}
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
@@ -59,17 +59,17 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_strEx(-1),
 	m_fontSize(128)
 {
-	m_handle = my::MyLoadGraph("../Date/select.png");		//画像の読み込み
+	m_handle = my::MyLoadGraph(L"../Date/select.png");		//画像の読み込み
 
-	my::MyFontPath("../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_selectFont = CreateFontToHandle("木漏れ日ゴシック", m_fontSize, -1, -1);
+	m_selectFont = CreateFontToHandle(L"木漏れ日ゴシック", m_fontSize, -1, -1);
 	//m_selectFont = CreateFontToHandle("851マカポップ", m_fontSize, -1, -1);
 	//m_selectFont = CreateFontToHandle("851マカポップ", 162, -1, -1);
-	m_guideFont = CreateFontToHandle("木漏れ日ゴシック", 42, -1, -1);
+	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
 
-	m_strTitle = strlen(kTextTitle);
-	m_strEx = strlen(kTextExplanation);
+	m_strTitle = strlen("ステージセレクト");
+	m_strEx = strlen("Aボタンを押してください");
 	m_strNum = strlen("%d");
 
 }
@@ -91,15 +91,15 @@ void SceneSelect::Draw()
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 
 	DrawStringToHandle((Game::kScreenWindth -
-		GetDrawStringWidthToHandle(kTextTitle, m_strTitle, m_guideFont)) / 2,
-		200, kTextTitle, 0xffffff, m_guideFont);								//タイトルの表示
+		GetDrawStringWidthToHandle(L"ステージセレクト", m_strTitle, m_guideFont)) / 2,
+		200, L"ステージセレクト", 0xffffff, m_guideFont);								//タイトルの表示
 
 	//点滅処理
 	//if (m_displayCount / 60 < 1)
 	{
 		DrawStringToHandle((Game::kScreenWindth -
-			GetDrawStringWidthToHandle(kTextExplanation, m_strEx, m_guideFont)) / 2,
-			Game::kScreenHeight - 100, kTextExplanation, 0xffffff, m_guideFont);	//ガイドの表示
+			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
+			Game::kScreenHeight - 100, L"Aボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
 	}
 
 	DrawSelectNum();
@@ -133,7 +133,7 @@ void SceneSelect::DrawSelectNum()
 	int Y = 0;		//何番目の数字か
 	int index = m_fontSize + 20;		//文字をずらす
 	int posX = ((Game::kScreenWindth -
-		GetDrawStringWidthToHandle("%d", m_strNum, m_selectFont)) / 2)
+		GetDrawStringWidthToHandle(L"%d", m_strNum, m_selectFont)) / 2)
 		- (index * 2);
 
 	int posY = (Game::kScreenHeight / 2) - (index * 2);
@@ -144,8 +144,8 @@ void SceneSelect::DrawSelectNum()
 
 		int indexUp = 0;
 		int color = 0xffffff;
-		const char*  letter = "%d";
-		
+		const char* letter = "%d";
+
 		X = i % 5;	//改行したときに文字がずれないように割った余りをXに代入する
 
 		//五個ずつで改行する
@@ -171,14 +171,14 @@ void SceneSelect::DrawSelectNum()
 			index + posY + index * Y - 5, 0xaaaaf0, true);*/
 
 		DrawFormatStringToHandle(posX + index * X,
-			(posY + index * Y) + indexUp, color, m_selectFont, letter, i + 1);	//選択中のステージの表示
-		
+			(posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
 
-	   
-	   DrawBox(posX + index * X - 5,
-		posY + index * Y - 5,
-		index + posX + index * X - 5,
-		index + posY + index * Y - 5, 0x00a000, false);
+
+
+		DrawBox(posX + index * X - 5,
+			posY + index * Y - 5,
+			index + posX + index * X - 5,
+			index + posY + index * Y - 5, 0x00a000, false);
 	}
 }
 
@@ -187,6 +187,7 @@ int SceneSelect::SelectNum()
 	int selectNum = 0;
 	selectNum = kSelectNum;
 	return selectNum;
+	//	return 0;
 }
 
 void SceneSelect::MoveCursor(const InputState& input)
@@ -249,7 +250,7 @@ void SceneSelect::Animation()
 			m_freamAnime = 0;
 		}
 		if (m_AnimeNum > 3)
-		//if (m_num > 4)
+			//if (m_num > 4)
 		{
 			m_AnimeNum = 0;
 			m_freamStop = 0;

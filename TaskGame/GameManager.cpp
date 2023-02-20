@@ -21,15 +21,16 @@ namespace my
 
 	void MyFontPath(const TCHAR* path)
 	{
-		LPCSTR font_path = path; // 読み込むフォントファイルのパス
+		LPCWSTR font_path = reinterpret_cast<LPCWSTR>(path); // 読み込むフォントファイルのパス
+		//LPCSTR font_path = path; // 読み込むフォントファイルのパス
 
 		if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {
 		}
 		else {
 			// フォント読込エラー処理
-			MessageBox(NULL, "フォント読込失敗", "", MB_OK);
+			MessageBox(NULL, L"フォント読込失敗", L"", MB_OK);
 		}
-		
+
 	}
 
 

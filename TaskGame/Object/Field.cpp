@@ -31,10 +31,10 @@ Field::Field() :
 		}
 	}
 
-	m_emptyHandle = my::MyLoadGraph("../Date/floor.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
-	m_wallHandle = my::MyLoadGraph("../Date/wall.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
-	m_pinHandle = my::MyLoadGraph("../Date/pin.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
-	m_boxHandle = my::MyLoadGraph("../Date/box.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_emptyHandle = my::MyLoadGraph(L"../Date/floor.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_wallHandle = my::MyLoadGraph(L"../Date/wall.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_pinHandle = my::MyLoadGraph(L"../Date/pin.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_boxHandle = my::MyLoadGraph(L"../Date/box.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
 }
 
 Field::~Field()

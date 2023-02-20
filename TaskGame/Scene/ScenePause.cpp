@@ -9,11 +9,11 @@
 
 ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 {
-	m_handle = my::MyLoadGraph("../Date/Setting menu.png");		//画像の読み込み
-	my::MyFontPath("../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
+	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_pauseFont = CreateFontToHandle("木漏れ日ゴシック", 32, -1, -1);
-	m_guideFont = CreateFontToHandle("木漏れ日ゴシック", 42, -1, -1);
+	m_pauseFont = CreateFontToHandle(L"木漏れ日ゴシック", 32, -1, -1);
+	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
 }
 ScenePause::~ScenePause()
 {
@@ -23,22 +23,22 @@ ScenePause::~ScenePause()
 
 void ScenePause::Update(const InputState& input)
 {
-	if (input.IsTrigger(InputType::pause) || (m_numCount == 1 &&input.IsTrigger(InputType::next)))
+	if (input.IsTrigger(InputType::pause) || (m_numCount == 1 && input.IsTrigger(InputType::next)))
 	{
 		m_manager.PopScene();
 		return;
 	}
-	else if(m_numCount == 2 && input.IsTrigger(InputType::next))
+	else if (m_numCount == 2 && input.IsTrigger(InputType::next))
 	{
 		m_manager.ChangeScene(new SceneMain(m_manager));
 		return;
 	}
-	else if(m_numCount == 3 && input.IsTrigger(InputType::next))
+	else if (m_numCount == 3 && input.IsTrigger(InputType::next))
 	{
 		m_manager.ChangeScene(new SceneTitle(m_manager));
 		return;
 	}
-	
+
 	if (input.IsTrigger(InputType::down))
 	{
 		++m_numCount;
@@ -76,13 +76,13 @@ void ScenePause::Draw()
 													//ポーズウィンドウセロファン			//ポーズ中メッセージ
 
 	DrawBox(0, 0,
-		Game::kScreenWindth,Game::kScreenHeight,
+		Game::kScreenWindth, Game::kScreenHeight,
 		0x00000, true);
 
 
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
-	
+
 	DrawExtendGraph(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		m_handle, true);
@@ -90,16 +90,16 @@ void ScenePause::Draw()
 
 	//ポーズ中メッセージ
 
-	DrawStringToHandle(widthPos + 10, heightPos + 10, "Pause", 0x000000, m_pauseFont);
-	DrawStringToHandle(widthPos + 50, heightPos + 60 * 1, "ゲームに戻る", 0x000000, m_guideFont);
-	DrawStringToHandle(widthPos + 50, heightPos + 60 * 2, "リトライ", 0x000000, m_guideFont);
-	DrawStringToHandle(widthPos + 50, heightPos + 60 * 3, "タイトル", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 10, heightPos + 10, L"Pause", 0x000000, m_pauseFont);
+	DrawStringToHandle(widthPos + 50, heightPos + 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 50, heightPos + 60 * 2, L"リトライ", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 50, heightPos + 60 * 3, L"タイトル", 0x000000, m_guideFont);
 
 	//DrawString(widthPos + 10, heightPos + 10, "ポーズ画面（仮実装）", 0x000000);
 	//DrawString(widthPos + 50, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0x000000);
 	//DrawString(widthPos + 50, heightPos + 50 * 2, "リトライ（仮実装）", 0x000000);
 	//DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0x000000);
-	
+
 	//if (m_numCount == 1)
 	//{
 	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0xffffff);
@@ -124,11 +124,11 @@ void ScenePause::Draw()
 	//{
 	//	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
 	//}
-	DrawStringToHandle(widthPos + 10, heightPos + 60 * m_numCount, "→", 0x00a000, m_guideFont);
+	DrawStringToHandle(widthPos + 10, heightPos + 60 * m_numCount, L"→", 0x00a000, m_guideFont);
 	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "→", 0x00a000);
 	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "▶", 0xff0000);
 
-	DrawFormatString(500, 0, 0x0ffffff, "%d", m_numCount);
+	DrawFormatString(500, 0, 0x0ffffff, L"%d", m_numCount);
 	//ポーズウインドウ枠線
 	/*DrawBox(widthPos, heightPos,
 		widthPos + width, heightPos + height,

@@ -41,7 +41,7 @@ void SceneMain::NormalUpdate(const InputState& input)
 	{
 		m_manager.PushScene(new ScenePause(m_manager));
 	}
-	
+
 }
 
 void SceneMain::FadeOutUpdate(const InputState& input)
@@ -59,7 +59,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 	m_pField = new Field;
 	m_pPlayer = new Player;
 	m_pInformation = new FieldInformation;
-	
+
 	int num = 1;
 	num = m_pSelect->SelectNum();
 
@@ -97,7 +97,7 @@ void SceneMain::Draw()
 
 	if (m_pField->GameClear())
 	{
-		DrawFormatString(400, 0, GetColor(0, 125, 255), "ゲームクリア");
+		DrawFormatString(400, 0, GetColor(0, 125, 255), L"ゲームクリア");
 	}
 
 	//普通の描画
@@ -108,5 +108,5 @@ void SceneMain::Draw()
 	//変更したら元に戻す
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	
+
 }

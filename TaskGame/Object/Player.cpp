@@ -2,7 +2,6 @@
 #include "Player.h"
 #include"Field.h"
 #include"../Scene/SceneMain.h"
-#include"../UI/Pad.h"
 #include"../UI/InputState.h"
 #include"../GameManager.h"
 
@@ -33,7 +32,7 @@ Player::Player() :
 	m_playerMoveNum(0)
 
 {
-	m_handle = my::MyLoadGraph("../Date/Player.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_handle = my::MyLoadGraph(L"../Date/Player.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
 
 }
 

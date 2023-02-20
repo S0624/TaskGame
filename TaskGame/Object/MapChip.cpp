@@ -7,10 +7,10 @@ void MapChip::Load(const wchar_t* filepath)
 
 {
 	ChipData chip;
-	int handle = FileRead_open(reinterpret_cast<const TCHAR *>(filepath));
+	int handle = FileRead_open(reinterpret_cast<const TCHAR*>(filepath));
 	//int handle = FileRead_open(filepath);
 	FileRead_read(&chip, sizeof(chip), handle);
-	
+
 	m_mapWidth = chip.m_mapWidth;
 	m_mapHeight = chip.m_mapHeight;
 	int layerCount = chip.m_layerCount;		// レイヤー1個当たりのサイズを計算する
