@@ -130,7 +130,7 @@ void SceneTitle::Draw()
 	{
 		DrawStringToHandle((Game::kScreenWindth -
 			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
-			Game::kScreenHeight - 200, L"Aボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
+			Game::kScreenHeight - 200, L"Aボタンを押してください", 0x000000, m_guideFont);	//ガイドの表示
 	}
 	//揺れてる処理
 	//SetDrawScreen(DX_SCREEN_BACK);
