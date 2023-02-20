@@ -1,11 +1,14 @@
 #include "MapChip.h"
 #include"DxLib.h"
+#include<string>
+#include<cassert>
 
 void MapChip::Load(const wchar_t* filepath)
 
 {
 	ChipData chip;
 	int handle = FileRead_open(reinterpret_cast<const TCHAR *>(filepath));
+	//int handle = FileRead_open(filepath);
 	FileRead_read(&chip, sizeof(chip), handle);
 	
 	m_mapWidth = chip.m_mapWidth;

@@ -31,7 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
    // main = new SceneMain;
     input = new InputState;
     scene = new SceneManager;
-   scene->ChangeScene(new SceneTitle(*scene));
+    scene->ChangeScene(new SceneTitle(*scene));
    // scene->ChangeScene(new SceneMain(*scene));
     //main->Init();
     while (ProcessMessage() == 0)

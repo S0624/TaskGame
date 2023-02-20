@@ -73,7 +73,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_strNum = strlen("%d");
 
 	//m_map->Load(L"../Date/back.fmf");
-	m_pMap->Load(L"../back.fmf");
+	m_pMap->Load(L"../Date/back.fmf");
+
 }
 
 SceneTitle::~SceneTitle()
@@ -98,7 +99,7 @@ void SceneTitle::Draw()
 
 	DrawStringToHandle((Game::kScreenWindth - 
 		GetDrawStringWidthToHandle(kTextTitle, m_strTitle,m_TitleFont)) / 2,
-		200, kTextTitle, 0xffffa0, m_TitleFont);								//タイトルの表示
+		200, kTextTitle, 0xff0000, m_TitleFont);								//タイトルの表示
 	
 	//点滅処理
 	if (m_displayCount / 60 < 1)
@@ -118,9 +119,7 @@ void SceneTitle::Draw()
 	
 	int mW, mH;
 	m_pMap->GetMapSize(mW, mH);
-	//m_map->GetMapSize(mW, mH);
 	const auto& mapData = m_pMap->GetMapData();
-	//const auto& mapData = m_map->GetMapData();
 	for (int chipY = 0; chipY < mH; ++chipY)	// 縦方向
 	{
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向

@@ -10,6 +10,7 @@
 #include"../Stage/Stage7.h"
 #include"../Stage/Stage8.h"
 #include"../Stage/Stage9.h"
+#include"../Stage/Stage10.h"
 
 namespace
 {
@@ -31,7 +32,8 @@ FieldInformation::FieldInformation() :
 	m_pStage6(nullptr),
 	m_pStage7(nullptr),
 	m_pStage8(nullptr),
-	m_pStage9(nullptr)
+	m_pStage9(nullptr),
+	m_pStage10(nullptr)
 {
 	for (int x = 0; x < Field::kFieldX; x++)		//‰¼‚Å•Ç‚Ì’Ç‰Á
 	{
@@ -55,6 +57,7 @@ FieldInformation::~FieldInformation()
 	delete m_pStage7;
 	delete m_pStage8;
 	delete m_pStage9;
+	delete m_pStage10;
 }
 
 void FieldInformation::StageNum(int num)
@@ -100,6 +103,10 @@ void FieldInformation::Init()
 	if (knum == 9)
 	{
 		m_pStage9 = new Stage9;
+	}
+	if (knum == 10)
+	{
+		m_pStage10 = new Stage10;
 	}
 }
 

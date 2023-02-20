@@ -1,15 +1,13 @@
 #pragma once
-
 class FieldInformation;
 
-class test2
+class Stage10
 {
 private:
 	FieldInformation* m_Information;
 public:
-	test2();
-	~test2(){};
+	Stage10();
+	~Stage10() {};
 
 	void FieldInit();
 };
-

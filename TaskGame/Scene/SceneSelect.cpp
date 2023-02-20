@@ -13,7 +13,7 @@ namespace
 	const char* const kTextTitle = "ステージセレクト";
 	const char* const kTextExplanation = "Aボタンを押してください";
 	int kSelectNum = 1;
-	constexpr int kMaxStage = 9;
+	constexpr int kMaxStage = 10;
 }
 void SceneSelect::FadeInUpdate(const InputState& input)
 {
