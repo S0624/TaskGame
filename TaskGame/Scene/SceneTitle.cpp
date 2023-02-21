@@ -53,7 +53,8 @@ void SceneTitle::FadeOutUpdate(const InputState& input)
 SceneTitle::SceneTitle(SceneManager& manager) :
 	SceneBase(manager),
 	m_updateFunc(&SceneTitle::FadeInUpdate),
-	m_handle(0),
+	m_backHandle(0),
+	m_roomHandle(0),
 	m_displayCount(0),
 	m_TitleFont(0),
 	m_guideFont(0),
@@ -65,7 +66,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_handle = my::MyLoadGraph(L"../Date/Grass.png");
+	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
+	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
 	m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
 	m_strTitle = strlen("倉庫番（仮）");
@@ -79,6 +81,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 SceneTitle::~SceneTitle()
 {
 	delete m_pMap;
+	DeleteGraph(m_backHandle);
+	DeleteGraph(m_roomHandle);
 	DeleteFontToHandle(m_TitleFont);
 	DeleteFontToHandle(m_guideFont);
 }
@@ -102,25 +106,48 @@ void SceneTitle::Draw()
 	{
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
 		{
-			auto chipId = mapData[0][chipY * mW + chipX];
-			//if (chipId == 0)
+			//auto chipId = m_pMap->GetChipId(1, chipX, chipY);
+			//auto chipId = mapData[0][chipY];
+			auto backChipId = mapData[0][chipY * mW + chipX];
+			//if (chipId != 10)
 			{
-				/*DrawRectGraph(
-					chipX * 16, chipY * 16,
-					(chipId % 8) * 16,
-					(chipId / 8) * 16,
+				my::MyDrawRectRotaGraph(chipX * 16, chipY * 16,
+					(backChipId % 10) * 16,
+					(backChipId / 8) * 16,
 					16, 16,
-					m_handle, true);*/
-				my::MyDrawRectRotaGraph(
-					chipX * 16, chipY * 16,
-					(chipId % 8) * 16,
-					(chipId / 8) * 16,
+					1.0f, 0,
+					m_backHandle, true);
+			}
+			auto roomchipId = mapData[1][chipY * mW + chipX];
+			if (roomchipId != 28)
+			{
+				my::MyDrawRectRotaGraph(chipX * 16, chipY * 16,
+					(roomchipId % 12) * 16,
+					(roomchipId / 8) * 16,
 					16, 16,
-					1.0f,0,
-					m_handle, true);
+					1.0f, 0,
+					m_roomHandle, true);
 			}
 		}
 	}
+	//for (int chipY = 0; chipY < mH; ++chipY)	// 縦方向
+	//{
+	//	for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
+	//	{
+	//		auto chipId = mapData[1][chipY * mW + chipX];
+	//		if (chipId != 1)
+	//		{
+	//			my::MyDrawRectRotaGraph(
+	//				chipX * 16, chipY * 16,
+	//				(chipId % 8) * 16,
+	//				(chipId / 8) * 16,
+	//				16, 16,
+	//				1.0f,0,
+	//				m_roomHandle, true);
+	//		}
+	//	}
+	//}
+
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"倉庫番（仮）", m_strTitle, m_TitleFont)) / 2,
 		200, L"倉庫番（仮）", 0xff0000, m_TitleFont);								//タイトルの表示
@@ -132,6 +159,7 @@ void SceneTitle::Draw()
 			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
 			Game::kScreenHeight - 200, L"Aボタンを押してください", 0x000000, m_guideFont);	//ガイドの表示
 	}
+
 	//揺れてる処理
 	//SetDrawScreen(DX_SCREEN_BACK);
 	//int shakeX = GetRand(2) - 2;

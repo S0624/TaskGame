@@ -23,7 +23,8 @@ private:
 	//Update用メンバ関数ポインタ
 	void (SceneTitle::* m_updateFunc)(const InputState& input);
 
-	int m_handle;
+	int m_backHandle;
+	int m_roomHandle;
 	int m_displayCount;
 	int m_TitleFont;
 	int m_guideFont;

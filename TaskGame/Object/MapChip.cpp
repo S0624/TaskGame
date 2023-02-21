@@ -26,10 +26,9 @@ void MapChip::TransposeMapData(int layerId)
 }
 
 void MapChip::Load(const wchar_t* filepath)
-
 {
 	ChipData chip;
-	int handle = FileRead_open(reinterpret_cast<const TCHAR*>(filepath));
+	int handle = FileRead_open(filepath);
 	//int handle = FileRead_open(filepath);
 	FileRead_read(&chip, sizeof(chip), handle);
 
@@ -44,14 +43,14 @@ void MapChip::Load(const wchar_t* filepath)
 		layer.resize(layerDataSize);
 		FileRead_read(layer.data(), layerDataSize, handle);
 	}
+	FileRead_close(handle);
+
 
 	//実行時メモリ効率化のために、データを加工
 	for (int layerIdx = 0; layerIdx < layerCount; ++layerIdx)
 	{
 		//TransposeMapData(layerIdx);
 	}
-
-	FileRead_close(handle);
 }
 
 const MapData& MapChip::GetMapData() const
