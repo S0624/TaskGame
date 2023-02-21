@@ -421,6 +421,19 @@ const void Player::AnimetionPlayer(bool anime)
 	//“®‚¢‚Ä‚¢‚È‚©‚Á‚½‚çŽ~‚Ü‚Á‚Ä‚¢‚éi—§‚Á‚Ä‚¢‚éj‰æ‘œ‚É–ß‚·
 	else
 	{
-		m_animationNumber = 0;
+		m_animetionFraem++;
+		if (m_animetionFraem >= 60 * 2)
+		{
+			m_animetionFraem = 0;
+		}
+
+		if (m_animetionFraem / 60 < 1)
+		{
+			m_animationNumber = 1;
+		}
+		else
+		{
+			m_animationNumber = 0;
+		}
 	}
 }

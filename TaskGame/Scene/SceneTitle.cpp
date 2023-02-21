@@ -105,19 +105,19 @@ void SceneTitle::Draw()
 			auto chipId = mapData[0][chipY * mW + chipX];
 			//if (chipId == 0)
 			{
-				DrawRectGraph(
+				/*DrawRectGraph(
 					chipX * 16, chipY * 16,
 					(chipId % 8) * 16,
 					(chipId / 8) * 16,
 					16, 16,
-					m_handle, true);
-				/*my::MyDrawRectRotaGraph(
-					chipX * 16, chipY * 16,
-					(chipId % 8) * 16,
-					(chipId / 8) * 16,
-					16, 16,
-					2.0f,0,
 					m_handle, true);*/
+				my::MyDrawRectRotaGraph(
+					chipX * 16, chipY * 16,
+					(chipId % 8) * 16,
+					(chipId / 8) * 16,
+					16, 16,
+					1.0f,0,
+					m_handle, true);
 			}
 		}
 	}
