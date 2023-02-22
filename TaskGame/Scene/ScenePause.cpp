@@ -66,11 +66,6 @@ void ScenePause::Draw()
 	constexpr int widthPos = (Game::kScreenWindth - width) / 2;
 	constexpr int heightPos = (Game::kScreenHeight - height) / 2;
 
-	//constexpr int width = 400;		//ポーズ枠の幅
-	//constexpr int height = 300;		//ポーズ枠の高さ
-	//constexpr int widthPos = (640 - width) / 2;
-	//constexpr int heightPos = (480 - height) / 2;
-
 
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);		//黒くしたいときMALA
 													//ポーズウィンドウセロファン			//ポーズ中メッセージ
@@ -86,11 +81,10 @@ void ScenePause::Draw()
 	DrawExtendGraph(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		m_handle, true);
-	//DrawGraph(widthPos, heightPos, m_handle,false);
 
 	//ポーズ中メッセージ
 
-	DrawStringToHandle(widthPos + 10, heightPos + 10, L"Pause", 0x000000, m_pauseFont);
+	DrawStringToHandle(widthPos + 10, heightPos + 20, L"Pause", 0x000000, m_pauseFont);
 	DrawStringToHandle(widthPos + 50, heightPos + 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
 	DrawStringToHandle(widthPos + 50, heightPos + 60 * 2, L"リトライ", 0x000000, m_guideFont);
 	DrawStringToHandle(widthPos + 50, heightPos + 60 * 3, L"タイトル", 0x000000, m_guideFont);
@@ -99,7 +93,7 @@ void ScenePause::Draw()
 	//DrawString(widthPos + 50, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0x000000);
 	//DrawString(widthPos + 50, heightPos + 50 * 2, "リトライ（仮実装）", 0x000000);
 	//DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0x000000);
-
+	//
 	//if (m_numCount == 1)
 	//{
 	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0xffffff);
@@ -125,12 +119,5 @@ void ScenePause::Draw()
 	//	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
 	//}
 	DrawStringToHandle(widthPos + 10, heightPos + 60 * m_numCount, L"→", 0x00a000, m_guideFont);
-	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "→", 0x00a000);
-	//DrawString(widthPos + 25, heightPos + 50 * m_numCount, "▶", 0xff0000);
 
-	//DrawFormatString(500, 0, 0x0ffffff, L"%d", m_numCount);
-	//ポーズウインドウ枠線
-	/*DrawBox(widthPos, heightPos,
-		widthPos + width, heightPos + height,
-		0xffffff, false);*/
 }

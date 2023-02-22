@@ -38,7 +38,7 @@ public:
 	void Draw();
 	void DrawSelectNum();
 
-	int SelectNum();
+	int SelectNum(int num);
 	//カーソルの移動処理
 	void MoveCursor(const InputState& input);
 	//イラストのアニメーション

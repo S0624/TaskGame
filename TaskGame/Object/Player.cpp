@@ -427,7 +427,7 @@ const void Player::AnimetionPlayer(bool anime)
 			m_animetionFraem = 0;
 		}
 
-		if (m_animetionFraem / 60 < 1)
+		if (m_animetionFraem / 60 == 1)
 		{
 			m_animationNumber = 1;
 		}

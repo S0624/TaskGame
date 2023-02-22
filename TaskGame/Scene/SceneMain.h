@@ -24,6 +24,14 @@ private:
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	float m_fadeValue = 255; //黒矩形とのブレンド具合
 
+	int m_numCount = 0;
+	int m_handle = 0;
+	int m_ClearFont = 0;
+	int m_guideFont = 0;
+
+	int num = 0;
+
+	int test = 0;
 		//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);
 	//通常状態のUpdate関数
@@ -39,8 +47,13 @@ public:
 
 	//更新処理
 	void Update(const InputState& input);
+	
+	void CursorUpdate(const InputState& input);
+
 	//描画処理
 	void Draw();
+	//ゲームクリア時の演出
+	void DrawGameClear();
 
 };
 

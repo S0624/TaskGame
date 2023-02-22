@@ -70,7 +70,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
 	m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
-	m_strTitle = strlen("倉庫番（仮）");
+	m_strTitle = strlen("倉庫番");
 	m_strEx = strlen("Aボタンを押してください");
 	m_strNum = strlen("%d");
 
@@ -106,26 +106,26 @@ void SceneTitle::Draw()
 	{
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
 		{
-			//auto chipId = m_pMap->GetChipId(1, chipX, chipY);
+			//auto chipId = m_phttps://www.youtube.com/watch?v=4IZ8jqpEj1wMap->GetChipId(1, chipX, chipY);
 			//auto chipId = mapData[0][chipY];
 			auto backChipId = mapData[0][chipY * mW + chipX];
 			//if (chipId != 10)
 			{
-				my::MyDrawRectRotaGraph(chipX * 16, chipY * 16,
+				my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
 					(backChipId % 10) * 16,
 					(backChipId / 8) * 16,
 					16, 16,
-					1.0f, 0,
+					2.0f, 0,
 					m_backHandle, true);
 			}
 			auto roomchipId = mapData[1][chipY * mW + chipX];
-			if (roomchipId != 28)
+			if (roomchipId == 0 || roomchipId == 2)
 			{
-				my::MyDrawRectRotaGraph(chipX * 16, chipY * 16,
+				my::MyDrawRectRotaGraph((chipX * 32) - 600, chipY * 32 - 125,
 					(roomchipId % 12) * 16,
 					(roomchipId / 8) * 16,
 					16, 16,
-					1.0f, 0,
+					2.0f, 0,
 					m_roomHandle, true);
 			}
 		}
@@ -149,15 +149,17 @@ void SceneTitle::Draw()
 	//}
 
 	DrawStringToHandle((Game::kScreenWindth -
-		GetDrawStringWidthToHandle(L"倉庫番（仮）", m_strTitle, m_TitleFont)) / 2,
-		200, L"倉庫番（仮）", 0xff0000, m_TitleFont);								//タイトルの表示
-
+		GetDrawStringWidthToHandle(L"倉庫番", m_strTitle, m_TitleFont)) / 2 + 5,
+		200 + 3, L"倉庫番", 0x000000, m_TitleFont);								//タイトルの表示
+	DrawStringToHandle((Game::kScreenWindth -
+		GetDrawStringWidthToHandle(L"倉庫番", m_strTitle, m_TitleFont)) / 2,
+		200, L"倉庫番", 0xff0000, m_TitleFont);								//タイトルの表示
 	//点滅処理
 	if (m_displayCount / 60 < 1)
 	{
 		DrawStringToHandle((Game::kScreenWindth -
 			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
-			Game::kScreenHeight - 200, L"Aボタンを押してください", 0x000000, m_guideFont);	//ガイドの表示
+			Game::kScreenHeight - 200, L"Aボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
 	}
 
 	//揺れてる処理

@@ -182,12 +182,12 @@ void SceneSelect::DrawSelectNum()
 	}
 }
 
-int SceneSelect::SelectNum()
+int SceneSelect::SelectNum(int num)
 {
+	kSelectNum = kSelectNum + num;
 	int selectNum = 0;
 	selectNum = kSelectNum;
 	return selectNum;
-	//	return 0;
 }
 
 void SceneSelect::MoveCursor(const InputState& input)
