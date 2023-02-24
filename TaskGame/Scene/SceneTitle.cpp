@@ -75,7 +75,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_strNum = strlen("%d");
 
 	//m_map->Load(L"../Date/back.fmf");
-	m_pMap->Load(L"../Date/back.fmf");
+	m_pMap->Load(L"../Date/room.fmf");
 }
 
 SceneTitle::~SceneTitle()
@@ -94,59 +94,8 @@ void SceneTitle::Update(const InputState& input)
 
 void SceneTitle::Draw()
 {
-	//—h‚ê‚Ä‚éˆ—
-	//SetDrawScreen(m_test);
 	//”wŒi
-	int mW, mH;
-	m_pMap->GetMapSize(mW, mH);
-	//m_map->GetMapSize(mW, mH);
-	const auto& mapData = m_pMap->GetMapData();
-	//const auto& mapData = m_map->GetMapData();
-	for (int chipY = 0; chipY < mH; ++chipY)	// c•ûŒü
-	{
-		for (int chipX = 0; chipX < mW; ++chipX)	// ‰¡•ûŒü
-		{
-			//auto chipId = m_phttps://www.youtube.com/watch?v=4IZ8jqpEj1wMap->GetChipId(1, chipX, chipY);
-			//auto chipId = mapData[0][chipY];
-			auto backChipId = mapData[0][chipY * mW + chipX];
-			//if (chipId != 10)
-			{
-				my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
-					(backChipId % 10) * 16,
-					(backChipId / 8) * 16,
-					16, 16,
-					2.0f, 0,
-					m_backHandle, true);
-			}
-			auto roomchipId = mapData[1][chipY * mW + chipX];
-			if (roomchipId == 0 || roomchipId == 2)
-			{
-				my::MyDrawRectRotaGraph((chipX * 32) - 600, chipY * 32 - 125,
-					(roomchipId % 12) * 16,
-					(roomchipId / 8) * 16,
-					16, 16,
-					2.0f, 0,
-					m_roomHandle, true);
-			}
-		}
-	}
-	//for (int chipY = 0; chipY < mH; ++chipY)	// c•ûŒü
-	//{
-	//	for (int chipX = 0; chipX < mW; ++chipX)	// ‰¡•ûŒü
-	//	{
-	//		auto chipId = mapData[1][chipY * mW + chipX];
-	//		if (chipId != 1)
-	//		{
-	//			my::MyDrawRectRotaGraph(
-	//				chipX * 16, chipY * 16,
-	//				(chipId % 8) * 16,
-	//				(chipId / 8) * 16,
-	//				16, 16,
-	//				1.0f,0,
-	//				m_roomHandle, true);
-	//		}
-	//	}
-	//}
+	DrawBackground();
 
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"‘qŒÉ”Ô", m_strTitle, m_TitleFont)) / 2 + 5,
@@ -162,17 +111,6 @@ void SceneTitle::Draw()
 			Game::kScreenHeight - 200, L"Aƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢", 0xffffff, m_guideFont);	//ƒKƒCƒh‚Ì•\Ž¦
 	}
 
-	//—h‚ê‚Ä‚éˆ—
-	//SetDrawScreen(DX_SCREEN_BACK);
-	//int shakeX = GetRand(2) - 2;
-	//int shakeY = GetRand(2) - 2;
-	//DrawGraph(shakeX, shakeY, m_test, true);
-	//DrawStringToHandle((Game::kScreenWindth - GetDrawStringWidth("ƒ^ƒCƒgƒ‹", -1)) / 2,
-	//	Game::kScreenHeight / 2,"ƒ^ƒCƒgƒ‹", 0x00ffff, font);
-
-
-
-
 	//¡‚©‚ç‘‚­‰æ‘œ‚ÆA‚·‚Å‚É•`‰æ‚³‚ê‚Ä‚¢‚éƒXƒNƒŠ[ƒ“‚Æ‚Ì
 	//ƒuƒŒƒ“ƒh‚ÌŽd•û‚ðŽw’è
 	SetDrawBlendMode(DX_BLENDMODE_MULA, static_cast<int> (m_fadeValue));
@@ -180,5 +118,36 @@ void SceneTitle::Draw()
 	//•ÏX‚µ‚½‚çŒ³‚É–ß‚·
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	//DrawString(300, 200, L"TitleScene", 0xfffff);
+}
+
+void SceneTitle::DrawBackground()
+{
+	//”wŒi
+	int mW, mH;
+	m_pMap->GetMapSize(mW, mH);
+	const auto& mapData = m_pMap->GetMapData();
+	for (int chipY = 0; chipY < mH; ++chipY)	// c•ûŒü
+	{
+		for (int chipX = 0; chipX < mW; ++chipX)	// ‰¡•ûŒü
+		{
+			auto backChipId = mapData[0][chipY * mW + chipX];
+			my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
+				(backChipId % 10) * 16,
+				(backChipId / 8) * 16,
+				16, 16,
+				2.0f, 0,
+				m_backHandle, true);
+
+			auto roomchipId = mapData[1][chipY * mW + chipX];
+			if (roomchipId == 0 || roomchipId == 2)
+			{
+				my::MyDrawRectRotaGraph((chipX * 32) - 650, chipY * 32 - 125,
+					(roomchipId % 12) * 16,
+					(roomchipId / 8) * 16,
+					16, 16,
+					2.0f, 0,
+					m_roomHandle, true);
+			}
+		}
+	}
 }

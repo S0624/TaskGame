@@ -6,12 +6,11 @@
 #include"../UI/game.h"
 #include"../UI/InputState.h"
 #include"../GameManager.h"
+#include"../Object/MapChip.h"
 #include<DxLib.h>
 
 namespace
 {
-	//const char* const kTextTitle = "ステージセレクト";
-	//const char* const kTextExplanation = "Aボタンを押してください";
 	int kSelectNum = 1;
 	constexpr int kMaxStage = 10;
 }
@@ -53,29 +52,36 @@ void SceneSelect::FadeOutUpdate(const InputState& input)
 SceneSelect::SceneSelect(SceneManager& manager) :
 	SceneBase(manager),
 	m_updateFunc(&SceneSelect::FadeInUpdate),
+	m_handle(0),
+	m_backHandle(0),
 	m_selectFont(0),
 	m_guideFont(0),
 	m_strTitle(-1),
 	m_strEx(-1),
 	m_fontSize(128)
 {
+	m_pMap = new MapChip;
+
 	m_handle = my::MyLoadGraph(L"../Date/select.png");		//画像の読み込み
 
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 
 	m_selectFont = CreateFontToHandle(L"木漏れ日ゴシック", m_fontSize, -1, -1);
-	//m_selectFont = CreateFontToHandle("851マカポップ", m_fontSize, -1, -1);
-	//m_selectFont = CreateFontToHandle("851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
 
 	m_strTitle = strlen("ステージセレクト");
 	m_strEx = strlen("Aボタンを押してください");
 	m_strNum = strlen("%d");
 
+	m_pMap->Load(L"../Date/room.fmf");
 }
 
 SceneSelect::~SceneSelect()
 {
+	delete m_pMap;
+	DeleteGraph(m_handle);
+	DeleteGraph(m_backHandle);
 	DeleteFontToHandle(m_selectFont);
 	DeleteFontToHandle(m_guideFont);
 }
@@ -87,9 +93,8 @@ void SceneSelect::Update(const InputState& input)
 
 void SceneSelect::Draw()
 {
-	//背景の代わり
-	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
-
+	//背景
+	DrawBackground();
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"ステージセレクト", m_strTitle, m_guideFont)) / 2,
 		200, L"ステージセレクト", 0xffffff, m_guideFont);								//タイトルの表示
@@ -103,12 +108,6 @@ void SceneSelect::Draw()
 	}
 
 	DrawSelectNum();
-
-	//DrawFormatStringToHandle((Game::kScreenWindth -
-	//	GetDrawStringWidthToHandle("%d", m_strNum, m_selectFont)) / 2,
-	//	(Game::kScreenHeight / 2) - 25, 0xffffff, m_selectFont, "%d", kSelectNum);	//選択中のステージの表示
-
-
 
 	my::MyDrawRectRotaGraph(200,
 		Game::kScreenHeight - 32,			//表示座標
@@ -127,6 +126,33 @@ void SceneSelect::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+void SceneSelect::DrawBackground()
+{
+	//背景
+	int mW, mH;
+	m_pMap->GetMapSize(mW, mH);
+	const auto& mapData = m_pMap->GetMapData();
+	for (int chipY = 0; chipY < mH; ++chipY)	// 縦方向
+	{
+		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
+		{
+			auto backChipId = mapData[0][chipY * mW + chipX];
+			my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
+				(backChipId % 10) * 16,
+				(backChipId / 8) * 16,
+				16, 16,
+				2.0f, 0,
+				m_backHandle, true);
+		}
+	}
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 50);		//黒くする
+	DrawBox(0, 0,
+		Game::kScreenWindth, Game::kScreenHeight,
+		0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
+
+}
+
 void SceneSelect::DrawSelectNum()
 {
 	int X = 0;		//何番目の数字か
@@ -138,6 +164,13 @@ void SceneSelect::DrawSelectNum()
 
 	int posY = (Game::kScreenHeight / 2) - (index * 2);
 
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);		//黒くする
+	DrawBox(posX - 5,
+		posY + index - 5,
+		index + posX + index * 4 - 5,
+		index + posY + index * 2 - 5, 0x000000, true);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
 	for (int i = 0; i < kMaxStage; i++)
 	{
@@ -160,20 +193,8 @@ void SceneSelect::DrawSelectNum()
 			color = 0xff0000;
 		}
 
-	/*	if (i < 9)
-		{
-			letter = "0%d";
-		}*/
-
-		/*DrawBox(posX + index * X - 5,
-			posY + index * Y - 5,
-			index + posX + index * X - 5,
-			index + posY + index * Y - 5, 0xaaaaf0, true);*/
-
 		DrawFormatStringToHandle(posX + index * X,
 			(posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
-
-
 
 		DrawBox(posX + index * X - 5,
 			posY + index * Y - 5,
@@ -234,8 +255,6 @@ void SceneSelect::MoveCursor(const InputState& input)
 	{
 		kSelectNum = 1;
 	}
-
-
 }
 
 void SceneSelect::Animation()

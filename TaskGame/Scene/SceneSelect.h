@@ -1,10 +1,14 @@
 #pragma once
 #include "SceneBase.h"
+class MapChip;
 class InputState;
+
 
 class SceneSelect : public SceneBase
 {
 private:
+	MapChip* m_pMap;
+
 	static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	float m_fadeValue = 255; //黒矩形とのブレンド具合
@@ -20,6 +24,7 @@ private:
 
 	//int m_test;
 	int m_handle;		//画像
+	int m_backHandle;
 	int m_selectFont;	//フォント
 	int m_guideFont;	//説明文のフォント
 	int m_strTitle;		//文字列の長さ
@@ -36,6 +41,7 @@ public:
 
 	void Update(const InputState& input);
 	void Draw();
+	void DrawBackground();
 	void DrawSelectNum();
 
 	int SelectNum(int num);

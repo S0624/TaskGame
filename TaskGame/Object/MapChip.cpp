@@ -45,7 +45,6 @@ void MapChip::Load(const wchar_t* filepath)
 	}
 	FileRead_close(handle);
 
-
 	//実行時メモリ効率化のために、データを加工
 	for (int layerIdx = 0; layerIdx < layerCount; ++layerIdx)
 	{

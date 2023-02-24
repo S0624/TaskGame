@@ -29,6 +29,8 @@ Stage1::Stage1()
 	};
 
 
+
+
 	for (int x = 0; x < Field::kFieldX; x++)		//‰¼‚Å•Ç‚Ì’Ç‰Á
 	{
 		for (int y = 0; y < Field::kFieldY; y++)		//‰¼‚Å•Ç‚Ì’Ç‰Á

@@ -37,6 +37,7 @@ public:
 	~SceneTitle();
 
 	void Update(const InputState& input);
+	void DrawBackground();
 	void Draw();
 
 };
