@@ -35,7 +35,7 @@ void SceneTitle::NormalUpdate(const InputState& input)
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
-		//m_manager.PushScene(new SceneSelect(m_manager));
+		PlaySoundMem(m_soundSEHandle, DX_PLAYTYPE_BACK);
 		m_updateFunc = &SceneTitle::FadeOutUpdate;
 	}
 }
@@ -55,6 +55,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_updateFunc(&SceneTitle::FadeInUpdate),
 	m_backHandle(0),
 	m_roomHandle(0),
+	m_soundSEHandle(0),
+	m_soundBgHandle(0),
 	m_displayCount(0),
 	m_TitleFont(0),
 	m_guideFont(0),
@@ -62,9 +64,11 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_strEx(-1)
 {
 	m_pMap = new MapChip;
-	//std::shared_ptr<MapChip>;
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+
+	m_soundSEHandle = LoadSoundMem(L"../Sound/SE1.mp3");
+	m_soundBgHandle = LoadSoundMem(L"../Sound/Bg1.mp3");
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
@@ -74,8 +78,10 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_strEx = strlen("Aボタンを押してください");
 	m_strNum = strlen("%d");
 
-	//m_map->Load(L"../Date/back.fmf");
 	m_pMap->Load(L"../Date/room.fmf");
+
+	PlaySoundMem(m_soundBgHandle, DX_PLAYTYPE_LOOP);
+
 }
 
 SceneTitle::~SceneTitle()
@@ -83,12 +89,15 @@ SceneTitle::~SceneTitle()
 	delete m_pMap;
 	DeleteGraph(m_backHandle);
 	DeleteGraph(m_roomHandle);
+	DeleteSoundMem(m_soundSEHandle);
+	DeleteSoundMem(m_soundBgHandle);
 	DeleteFontToHandle(m_TitleFont);
 	DeleteFontToHandle(m_guideFont);
 }
 
 void SceneTitle::Update(const InputState& input)
 {
+
 	(this->*m_updateFunc)(input);
 }
 
