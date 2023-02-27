@@ -25,6 +25,9 @@ private:
 	//int m_test;
 	int m_handle;		//画像
 	int m_backHandle;
+	int m_enterSESound;
+	int m_moveSESound;
+	int m_BgSound;
 	int m_selectFont;	//フォント
 	int m_guideFont;	//説明文のフォント
 	int m_strTitle;		//文字列の長さ

@@ -35,7 +35,7 @@ void SceneTitle::NormalUpdate(const InputState& input)
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
-		PlaySoundMem(m_soundSEHandle, DX_PLAYTYPE_BACK);
+		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
 		m_updateFunc = &SceneTitle::FadeOutUpdate;
 	}
 }
@@ -55,8 +55,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_updateFunc(&SceneTitle::FadeInUpdate),
 	m_backHandle(0),
 	m_roomHandle(0),
-	m_soundSEHandle(0),
-	m_soundBgHandle(0),
+	m_enterSESound(0),
+	m_BgSound(0),
 	m_displayCount(0),
 	m_TitleFont(0),
 	m_guideFont(0),
@@ -67,8 +67,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_soundSEHandle = LoadSoundMem(L"../Sound/SE1.mp3");
-	m_soundBgHandle = LoadSoundMem(L"../Sound/Bg1.mp3");
+	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
+	m_BgSound = LoadSoundMem(L"../Sound/TitleBg.mp3");
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
@@ -80,7 +80,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
-	PlaySoundMem(m_soundBgHandle, DX_PLAYTYPE_LOOP);
+	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 
 }
 
@@ -89,8 +89,8 @@ SceneTitle::~SceneTitle()
 	delete m_pMap;
 	DeleteGraph(m_backHandle);
 	DeleteGraph(m_roomHandle);
-	DeleteSoundMem(m_soundSEHandle);
-	DeleteSoundMem(m_soundBgHandle);
+	DeleteSoundMem(m_enterSESound);
+	DeleteSoundMem(m_BgSound);
 	DeleteFontToHandle(m_TitleFont);
 	DeleteFontToHandle(m_guideFont);
 }

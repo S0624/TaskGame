@@ -33,6 +33,7 @@ void SceneSelect::NormalUpdate(const InputState& input)
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
+		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
 		m_updateFunc = &SceneSelect::FadeOutUpdate;
 	}
 	MoveCursor(input);
@@ -54,6 +55,8 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_updateFunc(&SceneSelect::FadeInUpdate),
 	m_handle(0),
 	m_backHandle(0),
+	m_enterSESound(0),
+	m_BgSound(0),
 	m_selectFont(0),
 	m_guideFont(0),
 	m_strTitle(-1),
@@ -63,6 +66,10 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_pMap = new MapChip;
 
 	m_handle = my::MyLoadGraph(L"../Date/select.png");		//画像の読み込み
+
+	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
+	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
+	m_BgSound = LoadSoundMem(L"../Sound/SelectBg.mp3");
 
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
@@ -75,6 +82,8 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_strNum = strlen("%d");
 
 	m_pMap->Load(L"../Date/room.fmf");
+
+	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 }
 
 SceneSelect::~SceneSelect()
@@ -82,6 +91,9 @@ SceneSelect::~SceneSelect()
 	delete m_pMap;
 	DeleteGraph(m_handle);
 	DeleteGraph(m_backHandle);
+	DeleteSoundMem(m_enterSESound);
+	DeleteSoundMem(m_moveSESound);
+	DeleteSoundMem(m_BgSound);
 	DeleteFontToHandle(m_selectFont);
 	DeleteFontToHandle(m_guideFont);
 }
@@ -213,6 +225,7 @@ int SceneSelect::SelectNum(int num)
 
 void SceneSelect::MoveCursor(const InputState& input)
 {
+	int num = kSelectNum;
 	if (input.IsTrigger(InputType::right))
 	{
 		++kSelectNum;
@@ -255,6 +268,12 @@ void SceneSelect::MoveCursor(const InputState& input)
 	{
 		kSelectNum = 1;
 	}
+
+	if (num != kSelectNum)
+	{
+		PlaySoundMem(m_moveSESound, DX_PLAYTYPE_BACK);
+	}
+
 }
 
 void SceneSelect::Animation()
