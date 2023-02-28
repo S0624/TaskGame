@@ -7,6 +7,7 @@ class Player;
 class MapChip;
 class InputState;
 class SceneSelect;
+class ScenePause;
 
 class FieldInformation;
 
@@ -18,6 +19,7 @@ private:
 	FieldInformation* m_pInformation;
 	SceneSelect* m_pSelect;
 	MapChip* m_pMap;
+	ScenePause* m_pPause = 0;
 
 private:
 	//static constexpr int m_fadeInterval = 10;
@@ -28,14 +30,29 @@ private:
 	int m_numCount = 0;
 	int m_handle = 0;
 	int m_backHandle;
-	int m_ClearFont = 0;
+	
+	int m_enterSESound = 0;
+	int m_moveSESound = 0;
+	int m_pauseSESound = 0;
+	int m_clearSESound = 0;
+	int m_gamePlayBgSound = 0;
+
+	int m_clearFont = 0;
 	int m_guideFont = 0;
+	int m_scoreFont = 0;
 
-	int m_num = 0;
+	int m_setBlend = 0;
+
+	int m_test = 1;
+
+	int m_stageNum = 0;
 	int m_minNum = 0;
-	int m_index = 50;
+	int m_index = 70;
 
-		//フェードインの時のUpdeta関数
+	bool m_fadeColor = false;
+
+	int m_pauseNum = 0;
+	//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);
 	//通常状態のUpdate関数
 	void NormalUpdate(const InputState& input);
@@ -43,6 +60,12 @@ private:
 	void FadeOutUpdate(const InputState& input);
 	//Update用メンバ関数ポインタ
 	void (SceneMain::* m_updateFunc)(const InputState& input);
+
+	//ロード系の関数まとめ
+	void InitLoad();
+	//サウンド系の関数まとめ
+	void InitSound();
+
 
 public:
 	SceneMain(SceneManager& manager);
@@ -59,5 +82,7 @@ public:
 	//ゲームクリア時の演出
 	void DrawGameClear();
 
+	//スコア（仮）
+	void DrawScore();
 };
 

@@ -80,6 +80,9 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
+	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
+	ChangeNextPlayVolumeSoundMem(150, m_BgSound);
+
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 
 }

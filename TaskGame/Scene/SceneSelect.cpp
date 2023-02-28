@@ -83,6 +83,10 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
+	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
+	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
+	ChangeNextPlayVolumeSoundMem(150, m_BgSound);
+
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 }
 
@@ -109,21 +113,21 @@ void SceneSelect::Draw()
 	DrawBackground();
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"ステージセレクト", m_strTitle, m_guideFont)) / 2,
-		200, L"ステージセレクト", 0xffffff, m_guideFont);								//タイトルの表示
+		200, L"ステージセレクト", 0x000000, m_guideFont);								//タイトルの表示
 
 	//点滅処理
 	//if (m_displayCount / 60 < 1)
 	{
 		DrawStringToHandle((Game::kScreenWindth -
 			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
-			Game::kScreenHeight - 100, L"Aボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
+			Game::kScreenHeight - 100, L"Aボタンを押してください", 0x000000, m_guideFont);	//ガイドの表示
 	}
 
 	DrawSelectNum();
 
 	my::MyDrawRectRotaGraph(200,
 		Game::kScreenHeight - 32,			//表示座標
-		32 * m_AnimeNum, 32 * 3,			//切り取り左上
+		32 * m_animeNum, 32 * 3,			//切り取り左上
 		32, 32,							//幅、高さ
 		3.0f, 0.0f,						//拡大率、回転角度
 		m_handle, true);
@@ -284,13 +288,13 @@ void SceneSelect::Animation()
 		m_freamAnime++;
 		if (m_freamAnime >= 10)
 		{
-			m_AnimeNum++;
+			m_animeNum++;
 			m_freamAnime = 0;
 		}
-		if (m_AnimeNum > 3)
+		if (m_animeNum > 3)
 			//if (m_num > 4)
 		{
-			m_AnimeNum = 0;
+			m_animeNum = 0;
 			m_freamStop = 0;
 		}
 	}

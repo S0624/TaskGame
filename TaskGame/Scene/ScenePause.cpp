@@ -7,55 +7,74 @@
 #include"../GameManager.h"
 #include"DxLib.h"
 
+namespace
+{
+	int kPauseNum = 1;
+}
+
 ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 {
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	kPauseNum = 1;
+
+	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
+	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
+	m_pauseSESound = LoadSoundMem(L"../Sound/Pause2.mp3");
 
 	m_pauseFont = CreateFontToHandle(L"木漏れ日ゴシック", 32, -1, -1);
 	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
+
+	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
+	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
+	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
 }
 ScenePause::~ScenePause()
 {
+	delete pMain;
 	DeleteFontToHandle(m_pauseFont);
 	DeleteFontToHandle(m_guideFont);
 }
 
 void ScenePause::Update(const InputState& input)
 {
-	if (input.IsTrigger(InputType::pause) || (m_numCount == 1 && input.IsTrigger(InputType::next)))
+	if (input.IsTrigger(InputType::pause))
 	{
+		PlaySoundMem(m_pauseSESound, DX_PLAYTYPE_BACK);
+		kPauseNum = 1;
 		m_manager.PopScene();
 		return;
 	}
-	else if (m_numCount == 2 && input.IsTrigger(InputType::next))
+	else if (input.IsTrigger(InputType::next))
 	{
-		m_manager.ChangeScene(new SceneMain(m_manager));
+		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
+		m_manager.PopScene();
 		return;
 	}
-	else if (m_numCount == 3 && input.IsTrigger(InputType::next))
-	{
-		m_manager.ChangeScene(new SceneTitle(m_manager));
-		return;
-	}
+
+	int count = kPauseNum;
 
 	if (input.IsTrigger(InputType::down))
 	{
-		++m_numCount;
+		++kPauseNum;
 	}
 	else if (input.IsTrigger(InputType::up))
 	{
-		--m_numCount;
+		--kPauseNum;
 	}
 
 
-	if (m_numCount < 1)
+	if (kPauseNum < 1)
 	{
-		m_numCount = 3;
+		kPauseNum = 3;
 	}
-	if (m_numCount > 3)
+	if (kPauseNum > 3)
 	{
-		m_numCount = 1;
+		kPauseNum = 1;
+	}
+	if (kPauseNum != count)
+	{
+		PlaySoundMem(m_moveSESound, DX_PLAYTYPE_BACK);
 	}
 }
 
@@ -118,6 +137,13 @@ void ScenePause::Draw()
 	//{
 	//	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
 	//}
-	DrawStringToHandle(widthPos + 10, heightPos + 60 * m_numCount, L"→", 0x00a000, m_guideFont);
+	DrawStringToHandle(widthPos + 10, heightPos + 60 * kPauseNum, L"→", 0x00a000, m_guideFont);
 
+}
+
+int ScenePause::CursolUpdate()
+{
+	int num = kPauseNum;
+	kPauseNum = 1;
+	return 	num;
 }

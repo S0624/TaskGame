@@ -14,7 +14,7 @@
 
 
 namespace {
-	int ktest = 0;
+	int kNextStage = 0;
 }
 
 void SceneMain::FadeInUpdate(const InputState& input)
@@ -29,8 +29,8 @@ void SceneMain::FadeInUpdate(const InputState& input)
 void SceneMain::NormalUpdate(const InputState& input)
 {
 
-	//クリアになったらタイトルへ戻す
-	if (m_pField->GameClear())
+	//クリアしてフェードが掛かり切ったらセレクトしてもらう
+	if (m_fadeColor)
 	{
 		CursorUpdate(input);
 	}
@@ -38,8 +38,17 @@ void SceneMain::NormalUpdate(const InputState& input)
 	//ゲームクリアしていたら押せなくする
 	else if (input.IsTrigger(InputType::pause))
 	{
+		PlaySoundMem(m_pauseSESound, DX_PLAYTYPE_BACK);
 		m_manager.PushScene(new ScenePause(m_manager));
 	}
+
+	m_pauseNum = m_pPause->CursolUpdate();
+	if (m_pauseNum == 2 || m_pauseNum == 3)
+	{
+		m_test = m_pauseNum;
+		m_updateFunc = &SceneMain::FadeOutUpdate;
+	}
+
 
 }
 
@@ -47,26 +56,58 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
-		if (m_num != 10)
+		if (m_stageNum != 10)
 		{
 			if (m_numCount == 1)
 			{
-				ktest = 1;
+				kNextStage = 1;
 				m_manager.ChangeScene(new SceneMain(m_manager));
 				return;
 			}
 		}
-		if (m_numCount == 2)
+		if (m_numCount == 2 || m_test == 2)
 		{
+			kNextStage = 0;
 			m_manager.ChangeScene(new SceneMain(m_manager));
 			return;
 		}
-		if (m_numCount == 3)
+		if (m_numCount == 3 || m_test == 3)
 		{
+			kNextStage = 0;
 			m_manager.ChangeScene(new SceneTitle(m_manager));
 			return;
 		}
 	}
+}
+
+void SceneMain::InitLoad()
+{
+	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
+	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
+
+	m_clearFont = CreateFontToHandle(L"851マカポップ", 128, -1, -1);
+	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
+	m_scoreFont = CreateFontToHandle(L"えり字", 64, -1, -1);
+
+	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
+	m_pMap->Load(L"../Date/room.fmf");
+}
+
+void SceneMain::InitSound()
+{
+	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
+	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
+	m_pauseSESound = LoadSoundMem(L"../Sound/Pause1.mp3");
+	m_clearSESound = LoadSoundMem(L"../Sound/GameClear.mp3");
+	m_gamePlayBgSound = LoadSoundMem(L"../Sound/GamePlayBg.mp3");
+
+	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
+	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
+	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
+	ChangeNextPlayVolumeSoundMem(150, m_clearSESound);
+	ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
 }
 
 SceneMain::SceneMain(SceneManager& manager) :
@@ -78,26 +119,39 @@ SceneMain::SceneMain(SceneManager& manager) :
 
 	m_pMap = new MapChip;
 
-	//int num = 1;
-	m_num = m_pSelect->SelectNum(ktest);
-	ktest = 0;
+	m_stageNum = m_pSelect->SelectNum(kNextStage);
+	kNextStage = 0;
 	//初期化
 	m_pPlayer->SetField(m_pField);
-	m_pInformation->StageNum(m_num);
+	m_pInformation->StageNum(m_stageNum);
 	m_pInformation->Init();
 	m_pInformation->SetField(m_pField);
 	m_pInformation->SetPlayer(m_pPlayer);
 	m_pInformation->FieldInit();
 
-	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
-	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
-	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	if (m_stageNum == 10)
+	{
+		m_index = 50;
+	}
 
-	m_ClearFont = CreateFontToHandle(L"851マカポップ", 128, -1, -1);
-	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
+	if (m_numCount == 0)
+	{
+		if (m_stageNum != 10)
+		{
+			m_minNum = 1;
+			m_numCount = m_minNum;
+		}
+		else
+		{
+			m_minNum = 2;
+			m_numCount = m_minNum;
+		}
+	}
 
-	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
-	m_pMap->Load(L"../Date/room.fmf");
+	InitLoad();
+	InitSound();
+
+	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 
 }
 
@@ -108,10 +162,16 @@ SceneMain::~SceneMain()
 	delete m_pInformation;	//メモリの削除
 	delete m_pSelect;		//メモリの削除
 	delete m_pMap;
+	//delete m_pPause;
 
 	DeleteGraph(m_handle);
 	DeleteGraph(m_backHandle);
-	DeleteFontToHandle(m_ClearFont);
+	DeleteSoundMem(m_enterSESound);
+	DeleteSoundMem(m_moveSESound);
+	DeleteSoundMem(m_pauseSESound);
+	DeleteSoundMem(m_clearSESound);
+	DeleteSoundMem(m_gamePlayBgSound);
+	DeleteFontToHandle(m_clearFont);
 	DeleteFontToHandle(m_guideFont);
 }
 
@@ -124,24 +184,8 @@ void SceneMain::Update(const InputState& input)
 
 void SceneMain::CursorUpdate(const InputState& input)
 {
-	if (m_num != 10)
-	{
-		m_index = 70;
-	}
-
-	if (m_numCount == 0)
-	{
-		if (m_num != 10)
-		{
-			m_minNum = 1;
-			m_numCount = m_minNum;
-		}
-		else
-		{
-			m_minNum = 2;
-			m_numCount = m_minNum;
-		}
-	}
+	int count = m_numCount;
+	
 	if (input.IsTrigger(InputType::down))
 	{
 		++m_numCount;
@@ -159,10 +203,16 @@ void SceneMain::CursorUpdate(const InputState& input)
 		m_numCount = m_minNum;
 	}
 
+
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
+		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
 		m_updateFunc = &SceneMain::FadeOutUpdate;
+	}
+	if (m_numCount != count)
+	{
+		PlaySoundMem(m_moveSESound, DX_PLAYTYPE_BACK);
 	}
 }
 
@@ -173,7 +223,7 @@ void SceneMain::Draw()
 
 	m_pField->Draw();		//フィールドクラスの描画処理
 	m_pPlayer->Draw();		//プレイヤークラスの描画処理
-
+	DrawScore();
 	if (m_pField->GameClear())
 	{
 		DrawGameClear();
@@ -218,17 +268,35 @@ void SceneMain::DrawBackground()
 
 void SceneMain::DrawGameClear()
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 100);		//黒くする
+	SetDrawBlendMode(DX_BLENDMODE_MULA, m_setBlend);		//黒くする
 	DrawBox(0, 0,
 		Game::kScreenWindth, Game::kScreenHeight,
 		0x00000, true);		//ポーズウィンドウセロファン
+	m_setBlend++;
+
+	if (m_setBlend < 100)
+	{
+		if (m_setBlend == 90)
+		{
+			PlaySoundMem(m_clearSESound, DX_PLAYTYPE_BACK, true);
+		}
+		return;
+	}
+	if (m_setBlend > 100)
+	{
+		m_fadeColor = true;
+		//PlaySoundMem(m_clearSESound, DX_PLAYTYPE_BACK, true);
+		m_setBlend = 100;
+	}
+
+	DeleteSoundMem(m_gamePlayBgSound);
 
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 	
 	DrawStringToHandle((Game::kScreenWindth -
-		GetDrawStringWidthToHandle(L"Game Clear", 11, m_ClearFont)) / 2,
-		175, L"Game Clear", 0xff0000, m_ClearFont);								//タイトルの表示
+		GetDrawStringWidthToHandle(L"Game Clear", 11, m_clearFont)) / 2,
+		175, L"Game Clear", 0xff0000, m_clearFont);								//タイトルの表示
 
 	constexpr int width = 400;		//ポーズ枠の幅
 	constexpr int height = 300;		//ポーズ枠の高さ
@@ -238,7 +306,7 @@ void SceneMain::DrawGameClear()
 	DrawExtendGraph(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		m_handle, true);
-	if (m_num != 10)
+	if (m_stageNum != 10)
 	{
 		DrawStringToHandle(widthPos + 50, heightPos + m_index * 0.9, L"次へすすむ", 0x000000, m_guideFont);
 	}
@@ -246,6 +314,17 @@ void SceneMain::DrawGameClear()
 	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"タイトルへ戻る", 0x000000, m_guideFont);
 
 	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"→", 0x00a000, m_guideFont);
+}
 
-	//DrawFormatString(400, 0, GetColor(0, 125, 255), L"ゲームクリア");
+void SceneMain::DrawScore()
+{
+	//仮の数値
+	DrawBox(Game::kScreenWindth - 400, 100, Game::kScreenWindth - 100, 250, 0x000000, true);
+	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100, 
+		0x0f0add, m_scoreFont,L"STAGE:%d", 0);
+	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100 + 48,
+		0x0f0add, m_scoreFont,L"STEP:%d", 0);
+	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100 + 96,
+		0x0f0add, m_scoreFont,L"LIMIT:%d", 0);
+
 }

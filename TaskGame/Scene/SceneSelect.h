@@ -8,7 +8,6 @@ class SceneSelect : public SceneBase
 {
 private:
 	MapChip* m_pMap;
-
 	static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	float m_fadeValue = 255; //黒矩形とのブレンド具合
@@ -36,7 +35,8 @@ private:
 	int m_fontSize;
 	int m_freamAnime = 0;	//アニメーションを行うフレーム
 	int m_freamStop = 0;	//アニメーションを止めているフレーム
-	int m_AnimeNum = 0;			//アニメーションの番号
+	int m_animeNum = 0;			//アニメーションの番号
+	int m_countNum = 0;
 
 public:
 	SceneSelect(SceneManager& manager);
