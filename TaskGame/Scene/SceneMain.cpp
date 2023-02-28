@@ -318,11 +318,11 @@ void SceneMain::DrawGameClear()
 void SceneMain::DrawScore()
 {
 	//‰¼‚Ì”’l
-	DrawBox(Game::kScreenWindth - 400, 100, Game::kScreenWindth - 100, 250, 0x000000, true);
-	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100, 
+	DrawBox(Game::kScreenWindth - 450, 100, Game::kScreenWindth - 100, 250, 0x000000, true);
+	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100, 
 		0x0f0add, m_scoreFont,L"STAGE:%d", m_stageNum);
-	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100 + 48,
-		0x0f0add, m_scoreFont,L"STEP:%d", m_pPlayer->MoveStep());
-	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100 + 96,
-		0x0f0add, m_scoreFont,L"LIMIT:%d", 0);
+	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 48,
+		0x0f0add, m_scoreFont,L"STEP :%d", m_pPlayer->MoveStep());
+	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 96,
+		0x0f0add, m_scoreFont,L"LIMIT:%d", m_pInformation->StepLimit());
 }

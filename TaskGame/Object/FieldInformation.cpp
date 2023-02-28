@@ -19,6 +19,10 @@ namespace
 	int kIndexY = 0;
 
 	int knum = 0;
+
+	int m_limit = 100;
+
+	int kLimit = 0;
 }
 
 FieldInformation::FieldInformation() :
@@ -131,4 +135,9 @@ void FieldInformation::FieldInit()
 {
 	m_pField->FieldInfo(kStage);
 	m_pPlayer->PosInit(kIndexX, kIndexY);
+}
+
+int FieldInformation::StepLimit()
+{
+	return m_limit;
 }

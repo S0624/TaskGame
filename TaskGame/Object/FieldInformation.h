@@ -34,6 +34,9 @@ private:
 
 private:
 
+	int m_limit = 100;
+
+
 public:
 	FieldInformation();
 	~FieldInformation();
@@ -49,4 +52,8 @@ public:
 
 	void Init();
 	void FieldInit();
+
+	void LimitInfo(int limit);
+
+	int StepLimit();
 };
