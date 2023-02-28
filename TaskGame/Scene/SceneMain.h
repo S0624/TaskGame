@@ -52,6 +52,9 @@ private:
 	bool m_fadeColor = false;
 
 	int m_pauseNum = 0;
+	
+	int m_stepNum = 0;
+
 	//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);
 	//通常状態のUpdate関数

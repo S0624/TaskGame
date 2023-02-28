@@ -32,6 +32,8 @@ private:
 	Stage9* m_pStage9;
 	Stage10* m_pStage10;
 
+private:
+
 public:
 	FieldInformation();
 	~FieldInformation();

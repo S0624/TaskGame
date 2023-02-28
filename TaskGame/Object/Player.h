@@ -4,7 +4,6 @@
 //　プロトタイプ宣言
 class Field;
 class InputState;
-//class Box;
 
 class Player
 {
@@ -39,29 +38,14 @@ private:
 	bool m_animeFlag;			//アニメーションのフラグ
 
 	int m_playerMoveNum;		//プレイヤーがどの向きに動くか
-public:
-	Player();
-	~Player();
 
-	//プレイヤーの初期位置を受け取る
-	void PosInit(int x, int y);
-
-	//更新処理
-	void Update(const InputState& input);
-	// 使用するフィールドのデータを設定する
-	void SetField(Field* pField) { m_pField = pField; }
-
-	//プレイヤーの移動処理
-	void UpdatePlayer(const InputState& input);
-
+private:
 	//プレイヤーが動くために必要な情報を持つ関数
 	void MoveFrame(Vec2 vel);
 	//プレイヤーが動く処理
 	void MoveFrame();
-
-	//次に動く場所が動けるかをチェックする処理
-	bool IsMovePos(int x, int y)const;
-
+	//プレイヤーの移動処理
+	void UpdatePlayer(const InputState& input);
 	//下に動けるかどうかの判定処理
 	bool IsMoveDown()const;
 	//上に動けるかどうかの判定処理
@@ -74,7 +58,25 @@ public:
 	//アニメーションを行う処理
 	const void AnimetionPlayer(bool animeFlag);
 
+
+public:
+	Player();
+	~Player();
+
+	//プレイヤーの初期位置を受け取る
+	void PosInit(int x, int y);
+
+	//更新処理
+	void Update(const InputState& input);
+	// 使用するフィールドのデータを設定する
+	void SetField(Field* pField) { m_pField = pField; }
+
+	//次に動く場所が動けるかをチェックする処理
+	bool IsMovePos(int x, int y)const;
+
 	//描画処理
 	void Draw()const;
+
+	int MoveStep()const { return m_stepCount; }
 };
 

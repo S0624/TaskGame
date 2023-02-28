@@ -56,15 +56,6 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
-		if (m_stageNum != 10)
-		{
-			if (m_numCount == 1)
-			{
-				kNextStage = 1;
-				m_manager.ChangeScene(new SceneMain(m_manager));
-				return;
-			}
-		}
 		if (m_numCount == 2 || m_test == 2)
 		{
 			kNextStage = 0;
@@ -76,6 +67,15 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneTitle(m_manager));
 			return;
+		}
+		if (m_stageNum != 10)
+		{
+			if (m_numCount == 1)
+			{
+				kNextStage = 1;
+				m_manager.ChangeScene(new SceneMain(m_manager));
+				return;
+			}
 		}
 	}
 }
@@ -285,7 +285,6 @@ void SceneMain::DrawGameClear()
 	if (m_setBlend > 100)
 	{
 		m_fadeColor = true;
-		//PlaySoundMem(m_clearSESound, DX_PLAYTYPE_BACK, true);
 		m_setBlend = 100;
 	}
 
@@ -321,10 +320,9 @@ void SceneMain::DrawScore()
 	//‰¼‚Ì”’l
 	DrawBox(Game::kScreenWindth - 400, 100, Game::kScreenWindth - 100, 250, 0x000000, true);
 	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100, 
-		0x0f0add, m_scoreFont,L"STAGE:%d", 0);
+		0x0f0add, m_scoreFont,L"STAGE:%d", m_stageNum);
 	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100 + 48,
-		0x0f0add, m_scoreFont,L"STEP:%d", 0);
+		0x0f0add, m_scoreFont,L"STEP:%d", m_pPlayer->MoveStep());
 	DrawFormatStringToHandle(Game::kScreenWindth - 400, 100 + 96,
 		0x0f0add, m_scoreFont,L"LIMIT:%d", 0);
-
 }

@@ -127,8 +127,6 @@ void FieldInformation::PlayerInfo(int x, int y)
 	kIndexY = y;
 }
 
-
-
 void FieldInformation::FieldInit()
 {
 	m_pField->FieldInfo(kStage);

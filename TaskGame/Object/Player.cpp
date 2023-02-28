@@ -11,61 +11,6 @@ namespace
 	constexpr int kMovementFrame = 10;
 }
 
-//プレイヤークラスのコンストラクタ
-Player::Player() :
-	m_pField(nullptr),
-	m_pos(0, 0),
-	m_handlePos(25),
-	m_handle(0),
-	m_imgidx(0),
-	m_moveDown(0),
-	m_moveUp(0),
-	m_moveLeft(0),
-	m_moveRight(0),
-	m_lastMove(0),
-	m_animationNumber(0),
-	m_animetionFraem(0),
-	m_stepCount(0),
-	m_playerMoveSpeed(0),
-	m_playerNextPos(0, 0),
-	m_animeFlag(0),
-	m_playerMoveNum(0)
-
-{
-	m_handle = my::MyLoadGraph(L"../Date/Player.png");		//画像の読み込み
-
-}
-
-//プレイヤークラスのデストラクタ
-Player::~Player()
-{
-	DeleteGraph(m_handle);		//画像のデリート
-}
-
-//初期位置を受け取る
-void Player::PosInit(int x, int y)
-{
-	//位置にサイズをかける
-	m_pos.x = x * Field::kSize;
-	m_pos.y = y * Field::kSize;
-
-	//初期化
-	m_playerNextPos = m_pos;
-}
-
-
-//プレイヤークラスの更新処理
-void Player::Update(const InputState& input)
-{
-	//プレイヤーが動く処理
-	MoveFrame();
-	//ゲームクリアではなかったらキー入力を受け付ける
-	if (!m_pField->GameClear())
-	{
-		UpdatePlayer(input);				//プレイヤーの移動処理を呼び出す
-	}
-}
-
 
 //プレイヤーの動きの処理
 void Player::UpdatePlayer(const InputState& input)
@@ -292,27 +237,6 @@ void Player::MoveFrame()
 	}
 }
 
-//次に動く場所が動けるかをチェックする処理
-bool Player::IsMovePos(int x, int y) const
-{
-	int indexPosX = static_cast<int>(m_playerNextPos.x) / Field::kSize;
-	int indexPosY = static_cast<int>(m_playerNextPos.y) / Field::kSize;
-	int posX = 0;
-	int posY = 0;
-	posX = x;
-	posY = y;
-	// すでに一番下にある場合
-	if (indexPosX <= 0) return false;
-	if (indexPosY <= 0) return false;
-	if (indexPosX >= (Field::kFieldX - 1)) return false;
-	if (indexPosY >= (Field::kFieldY - 1)) return false;
-
-	// 一つ下にブロックが置かれている場合
-	if (m_pField->IsMovablePos(indexPosX + posX, indexPosY + posY)) return false;
-
-	return true;
-}
-
 //プレイヤーの下に行けるかの判定
 bool Player::IsMoveDown()const
 {
@@ -378,20 +302,6 @@ bool Player::IsMoveRight()const
 	return true;
 }
 
-//プレイヤークラスの描画処理
-void Player::Draw()const
-{
-	int posX = static_cast<int>(m_pos.x);
-	int posY = static_cast<int>(m_pos.y);
-
-	my::MyDrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
-		posY + Field::kHeight + m_handlePos,			//表示座標
-		48 * m_animationNumber, 48 * m_imgidx,			//切り取り左上
-		48, 48,							//幅、高さ
-		2.5f, 0.0f,						//拡大率、回転角度
-		m_handle, true);
-}
-
 //アニメーションを行う処理
 const void Player::AnimetionPlayer(bool anime)
 {
@@ -436,4 +346,93 @@ const void Player::AnimetionPlayer(bool anime)
 			m_animationNumber = 0;
 		}
 	}
+}
+
+//プレイヤークラスのコンストラクタ
+Player::Player() :
+	m_pField(nullptr),
+	m_pos(0, 0),
+	m_handlePos(25),
+	m_handle(0),
+	m_imgidx(0),
+	m_moveDown(0),
+	m_moveUp(0),
+	m_moveLeft(0),
+	m_moveRight(0),
+	m_lastMove(0),
+	m_animationNumber(0),
+	m_animetionFraem(0),
+	m_stepCount(0),
+	m_playerMoveSpeed(0),
+	m_playerNextPos(0, 0),
+	m_animeFlag(0),
+	m_playerMoveNum(0)
+
+{
+	m_handle = my::MyLoadGraph(L"../Date/Player.png");		//画像の読み込み
+
+}
+
+//プレイヤークラスのデストラクタ
+Player::~Player()
+{
+	DeleteGraph(m_handle);		//画像のデリート
+}
+
+//初期位置を受け取る
+void Player::PosInit(int x, int y)
+{
+	//位置にサイズをかける
+	m_pos.x = x * Field::kSize;
+	m_pos.y = y * Field::kSize;
+
+	//初期化
+	m_playerNextPos = m_pos;
+}
+
+//プレイヤークラスの更新処理
+void Player::Update(const InputState& input)
+{
+	//プレイヤーが動く処理
+	MoveFrame();
+	//ゲームクリアではなかったらキー入力を受け付ける
+	if (!m_pField->GameClear())
+	{
+		UpdatePlayer(input);				//プレイヤーの移動処理を呼び出す
+	}
+}
+
+//次に動く場所が動けるかをチェックする処理
+bool Player::IsMovePos(int x, int y) const
+{
+	int indexPosX = static_cast<int>(m_playerNextPos.x) / Field::kSize;
+	int indexPosY = static_cast<int>(m_playerNextPos.y) / Field::kSize;
+	int posX = 0;
+	int posY = 0;
+	posX = x;
+	posY = y;
+	// すでに一番下にある場合
+	if (indexPosX <= 0) return false;
+	if (indexPosY <= 0) return false;
+	if (indexPosX >= (Field::kFieldX - 1)) return false;
+	if (indexPosY >= (Field::kFieldY - 1)) return false;
+
+	// 一つ下にブロックが置かれている場合
+	if (m_pField->IsMovablePos(indexPosX + posX, indexPosY + posY)) return false;
+
+	return true;
+}
+
+//プレイヤークラスの描画処理
+void Player::Draw()const
+{
+	int posX = static_cast<int>(m_pos.x);
+	int posY = static_cast<int>(m_pos.y);
+
+	my::MyDrawRectRotaGraph(posX + Field::kWidth + m_handlePos,
+		posY + Field::kHeight + m_handlePos,			//表示座標
+		48 * m_animationNumber, 48 * m_imgidx,			//切り取り左上
+		48, 48,							//幅、高さ
+		2.5f, 0.0f,						//拡大率、回転角度
+		m_handle, true);
 }
