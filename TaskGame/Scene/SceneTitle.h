@@ -3,12 +3,14 @@
 #include<memory>	//「スマートポインタ」を使うためのinclude
 class MapChip;
 class InputState;
+class Player;
 //タイトルシーン
 
 class SceneTitle : public SceneBase
 {
 private:
 	MapChip* m_pMap;
+	Player* m_pPlayer;
 	//std::shared_ptr<MapChip>m_map;
 	static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー

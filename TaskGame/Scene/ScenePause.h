@@ -18,6 +18,8 @@ private:
     int m_pauseFont = 0;
     int m_guideFont = 0;
 
+    int m_movingX = 375;
+
 public:
     ScenePause(SceneManager& manager);
     ~ScenePause();

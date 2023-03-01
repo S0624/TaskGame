@@ -351,7 +351,7 @@ const void Player::AnimetionPlayer(bool anime)
 //プレイヤークラスのコンストラクタ
 Player::Player() :
 	m_pField(nullptr),
-	m_pos(0, 0),
+	m_pos(200, 300),
 	m_handlePos(25),
 	m_handle(0),
 	m_imgidx(0),
@@ -383,9 +383,9 @@ Player::~Player()
 void Player::PosInit(int x, int y)
 {
 	//位置にサイズをかける
-	m_pos.x = x * Field::kSize;
-	m_pos.y = y * Field::kSize;
-
+	m_pos.x = static_cast<float>(x) * Field::kSize;
+	m_pos.y = static_cast<float>(y) * Field::kSize;
+	
 	//初期化
 	m_playerNextPos = m_pos;
 }
@@ -421,6 +421,60 @@ bool Player::IsMovePos(int x, int y) const
 	if (m_pField->IsMovablePos(indexPosX + posX, indexPosY + posY)) return false;
 
 	return true;
+}
+
+void Player::TitleUpdate()
+{
+	//下の移動
+	m_animeFlag = true;				//フラグを変える
+	if (m_playerMoveNum == 0)
+	{
+		m_pos.y += m_test;
+		if (m_pos.y >= 500)
+		{
+			m_imgidx = 3;
+			m_pos.y = m_posY;
+			m_posY = 300;
+			m_playerMoveNum = 1;
+		}
+	}
+	if (m_playerMoveNum == 1)
+	{
+		m_pos.x += m_test;
+		if (m_pos.x >= 800)
+		{
+			m_test *= -1;
+			m_imgidx = 1;
+			m_pos.x = m_posX;
+			m_posX = 300;
+			m_playerMoveNum = 2;
+		}
+	}
+	if (m_playerMoveNum == 2)
+	{
+		m_pos.y += m_test;
+		if (m_pos.y <= 300)
+		{
+			m_imgidx = 2;
+			m_pos.y = m_posY;
+			m_posY = 500;
+			m_playerMoveNum = 3;
+		}
+	}
+	if (m_playerMoveNum == 3)
+	{
+		m_pos.x += m_test;
+		if (m_pos.x <= 300)
+		{
+			m_test *= -1;
+			m_imgidx = 0;
+			m_pos.x = m_posX;
+			m_posX = 800;
+			m_playerMoveNum = 0;
+		}
+	}
+	//アニメーションを行う処理
+	AnimetionPlayer(m_animeFlag);
 }
 
 //プレイヤークラスの描画処理

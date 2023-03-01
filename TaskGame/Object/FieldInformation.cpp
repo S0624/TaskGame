@@ -17,12 +17,6 @@ namespace
 	int kStage[Field::kFieldY][Field::kFieldX];
 	int kIndexX = 0;
 	int kIndexY = 0;
-
-	int knum = 0;
-
-	int m_limit = 100;
-
-	int kLimit = 0;
 }
 
 FieldInformation::FieldInformation() :
@@ -50,8 +44,6 @@ FieldInformation::FieldInformation() :
 
 FieldInformation::~FieldInformation()
 {
-	/*delete m_pField;
-	delete m_pPlayer;*/
 	delete m_pStage1;
 	delete m_pStage2;
 	delete m_pStage3;
@@ -66,51 +58,61 @@ FieldInformation::~FieldInformation()
 
 void FieldInformation::StageNum(int num)
 {
-	knum = num;
+	m_stageNum = num;
 }
 
 void FieldInformation::Init()
 {
 	/*int num = 2;*/
-	if (knum == 1)
+	if (m_stageNum == 1)
 	{
 		m_pStage1 = new Stage1;
+		m_limit = 100;
 	}
-	if (knum == 2)
+	if (m_stageNum == 2)
 	{
 		m_pStage2 = new Stage2;
+		m_limit = 160;
 	}
-	if (knum == 3)
+	if (m_stageNum == 3)
 	{
 		m_pStage3 = new Stage3;
+		m_limit = 60;
 	}
-	if (knum == 4)
+	if (m_stageNum == 4)
 	{
 		m_pStage4 = new Stage4;
+		m_limit = 200;
 	}
-	if (knum == 5)
+	if (m_stageNum == 5)
 	{
 		m_pStage5 = new Stage5;
+		m_limit = 100;
 	}
-	if (knum == 6)
+	if (m_stageNum == 6)
 	{
 		m_pStage6 = new Stage6;
+		m_limit = 80;
 	}
-	if (knum == 7)
+	if (m_stageNum == 7)
 	{
 		m_pStage7 = new Stage7;
+		m_limit = 200;
 	}
-	if (knum == 8)
+	if (m_stageNum == 8)
 	{
 		m_pStage8 = new Stage8;
+		m_limit = 480;
 	}
-	if (knum == 9)
+	if (m_stageNum == 9)
 	{
 		m_pStage9 = new Stage9;
+		m_limit = 220;
 	}
-	if (knum == 10)
+	if (m_stageNum == 10)
 	{
 		m_pStage10 = new Stage10;
+		m_limit = 400;
 	}
 }
 

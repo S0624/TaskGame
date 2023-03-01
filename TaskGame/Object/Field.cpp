@@ -171,6 +171,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//Œ»İ’n‚É‹ó”’‚ğ“ü‚ê‚é
+			//m_field[y + posY][x + posX] = ground;			//Ÿ‚É” ‚ª—ˆ‚éêŠ‚ÌŠm•Û
 			m_field[y + posY][x + posX] = nextpos;			//Ÿ‚É” ‚ª—ˆ‚éêŠ‚ÌŠm•Û
 			MoveFrame(posX, posY, x, y, box);
 

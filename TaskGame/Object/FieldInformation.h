@@ -35,7 +35,7 @@ private:
 private:
 
 	int m_limit = 100;
-
+	int m_stageNum = 0;
 
 public:
 	FieldInformation();
@@ -52,8 +52,6 @@ public:
 
 	void Init();
 	void FieldInit();
-
-	void LimitInfo(int limit);
 
 	int StepLimit();
 };

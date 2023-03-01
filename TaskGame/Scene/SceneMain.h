@@ -55,6 +55,8 @@ private:
 	
 	int m_stepNum = 0;
 
+	bool m_gameOverFlag = false;
+
 	//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);
 	//通常状態のUpdate関数
@@ -69,6 +71,14 @@ private:
 	//サウンド系の関数まとめ
 	void InitSound();
 
+	void DrawBackground();
+	//ゲームクリア時の演出
+	void DrawGameClear();
+	//ゲームオーバー時の演出
+	void DrawGameOver();
+
+	//スコア（仮）
+	void DrawScore();
 
 public:
 	SceneMain(SceneManager& manager);
@@ -81,11 +91,6 @@ public:
 
 	//描画処理
 	void Draw();
-	void DrawBackground();
-	//ゲームクリア時の演出
-	void DrawGameClear();
 
-	//スコア（仮）
-	void DrawScore();
 };
 

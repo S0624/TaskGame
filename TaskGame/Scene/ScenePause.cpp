@@ -85,6 +85,11 @@ void ScenePause::Draw()
 	constexpr int widthPos = (Game::kScreenWindth - width) / 2;
 	constexpr int heightPos = (Game::kScreenHeight - height) / 2;
 
+	m_movingX += 10;
+	if (m_movingX >= widthPos)
+	{
+		m_movingX = widthPos;
+	}
 
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);		//黒くしたいときMALA
 													//ポーズウィンドウセロファン			//ポーズ中メッセージ
@@ -97,16 +102,16 @@ void ScenePause::Draw()
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
-	DrawExtendGraph(widthPos, heightPos,
-		widthPos + width, heightPos + height,
+	DrawExtendGraph(m_movingX, heightPos,
+		m_movingX + width, heightPos + height,
 		m_handle, true);
 
 	//ポーズ中メッセージ
 
-	DrawStringToHandle(widthPos + 10, heightPos + 20, L"Pause", 0x000000, m_pauseFont);
-	DrawStringToHandle(widthPos + 50, heightPos + 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
-	DrawStringToHandle(widthPos + 50, heightPos + 60 * 2, L"リトライ", 0x000000, m_guideFont);
-	DrawStringToHandle(widthPos + 50, heightPos + 60 * 3, L"タイトル", 0x000000, m_guideFont);
+	DrawStringToHandle(m_movingX + 10, heightPos + 20, L"Pause", 0x000000, m_pauseFont);
+	DrawStringToHandle(m_movingX + 50, heightPos + 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
+	DrawStringToHandle(m_movingX + 50, heightPos + 60 * 2, L"リトライ", 0x000000, m_guideFont);
+	DrawStringToHandle(m_movingX + 50, heightPos + 60 * 3, L"タイトル", 0x000000, m_guideFont);
 
 	//DrawString(widthPos + 10, heightPos + 10, "ポーズ画面（仮実装）", 0x000000);
 	//DrawString(widthPos + 50, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0x000000);
@@ -137,7 +142,7 @@ void ScenePause::Draw()
 	//{
 	//	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
 	//}
-	DrawStringToHandle(widthPos + 10, heightPos + 60 * kPauseNum, L"→", 0x00a000, m_guideFont);
+	DrawStringToHandle(m_movingX + 10, heightPos + 60 * kPauseNum, L"→", 0x00a000, m_guideFont);
 
 }
 

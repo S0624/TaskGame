@@ -1,6 +1,7 @@
 #include "SceneTitle.h"
 #include"SceneSelect.h"
 #include"SceneManager.h"
+#include"../Object/Player.h"
 #include"../UI/game.h"
 #include"../UI/InputState.h"
 #include"../GameManager.h"
@@ -64,6 +65,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_strEx(-1)
 {
 	m_pMap = new MapChip;
+	m_pPlayer = new Player;
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
@@ -90,6 +92,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 SceneTitle::~SceneTitle()
 {
 	delete m_pMap;
+	delete m_pPlayer;
 	DeleteGraph(m_backHandle);
 	DeleteGraph(m_roomHandle);
 	DeleteSoundMem(m_enterSESound);
@@ -100,7 +103,7 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Update(const InputState& input)
 {
-
+	m_pPlayer->TitleUpdate();
 	(this->*m_updateFunc)(input);
 }
 
@@ -108,6 +111,7 @@ void SceneTitle::Draw()
 {
 	//背景
 	DrawBackground();
+	m_pPlayer->Draw();
 
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"倉庫番", m_strTitle, m_TitleFont)) / 2 + 5,

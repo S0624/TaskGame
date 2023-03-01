@@ -39,6 +39,9 @@ private:
 
 	int m_playerMoveNum;		//プレイヤーがどの向きに動くか
 
+	int m_test = 1;
+	float m_posX = 800;
+	float m_posY = 500;
 private:
 	//プレイヤーが動くために必要な情報を持つ関数
 	void MoveFrame(Vec2 vel);
@@ -74,6 +77,7 @@ public:
 	//次に動く場所が動けるかをチェックする処理
 	bool IsMovePos(int x, int y)const;
 
+	void TitleUpdate();
 	//描画処理
 	void Draw()const;
 
