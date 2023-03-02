@@ -1,6 +1,7 @@
 #include "DxLib.h"
 
 #include"Scene/SceneTitle.h"
+#include"Scene/SceneSelect.h"
 #include"Scene/SceneManager.h"
 #include"UI/InputState.h"
 #include "UI/game.h"
@@ -30,7 +31,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     input = new InputState;
     scene = new SceneManager;
-    scene->ChangeScene(new SceneTitle(*scene));
+    //scene->ChangeScene(new SceneTitle(*scene));
+    scene->ChangeScene(new SceneSelect(*scene));
     while (ProcessMessage() == 0)
     {
         LONGLONG time = GetNowHiPerformanceCount();

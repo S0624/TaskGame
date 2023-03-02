@@ -102,7 +102,7 @@ void FieldInformation::Init()
 	if (m_stageNum == 8)
 	{
 		m_pStage8 = new Stage8;
-		m_limit = 480;
+		m_limit = 500;
 	}
 	if (m_stageNum == 9)
 	{

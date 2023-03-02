@@ -21,6 +21,7 @@ private:
 	MapChip* m_pMap;
 	ScenePause* m_pPause = 0;
 
+
 private:
 	//static constexpr int m_fadeInterval = 10;
 	 static constexpr int m_fadeInterval = 30;

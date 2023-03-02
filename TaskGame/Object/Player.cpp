@@ -19,6 +19,95 @@ void Player::UpdatePlayer(const InputState& input)
 	//アニメーションのフラグ
 	bool animetionFlag = false;
 
+	//下を押された時の処理
+	if (input.IsPressed(InputType::down))
+	{
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
+		m_imgidx = 0;						//画像の場所の指定
+		if (m_playerMoveNum == 0)
+		{
+			if (IsMoveDown())
+			{
+				m_playerMoveNum = 1;
+				if (IsMovePos(0, 1))
+				{
+					vel.y = +Field::kSize;		//下に動かす
+					m_stepCount++;
+				}
+			}
+		}
+	}
+
+	//上を押された時の処理
+	else if (input.IsPressed(InputType::up))
+	{
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
+		m_imgidx = 1;						//画像の場所の指定
+		if (m_playerMoveNum == 0) 
+		{
+			if (IsMoveUp())
+			{
+				m_playerMoveNum = 2;
+				if (IsMovePos(0, -1))
+				{
+					vel.y = -Field::kSize;		//上に動かす
+					m_stepCount++;
+				}
+			}
+		}
+	}
+				
+	//左を押された時の処理
+	else if (input.IsPressed(InputType::left))
+	{
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
+		m_imgidx = 2;						//画像の場所の指定
+		if (m_playerMoveNum == 0)
+		{
+			if (IsMoveLeft())
+			{
+				m_playerMoveNum = 3;
+				if (IsMovePos(-1, 0))
+				{
+					vel.x = -Field::kSize;		//左に動かす
+					m_stepCount++;
+				}
+			}
+		}
+	}
+
+	//右を押された時の処理
+	else if (input.IsPressed(InputType::right))
+	{
+		animetionFlag = true;				//ボタンが押された時だけフラグを変える
+		m_imgidx = 3;						//画像の場所の指定
+		if (m_playerMoveNum == 0)
+		{
+			if (IsMoveRight())
+			{
+				m_playerMoveNum = 4;
+				if (IsMovePos(1, 0))
+				{
+					vel.x = +Field::kSize;		//右に動く
+					m_stepCount++;
+				}
+			}
+		}
+	}
+
+	//アニメーションを行う処理
+	AnimetionPlayer(m_animeFlag);
+	//動いた数を渡す
+	MoveFrame(vel);
+}
+
+/*
+void Player::UpdatePlayer(const InputState& input)
+{
+	Vec2 vel = { 0,0 };
+	//アニメーションのフラグ
+	bool animetionFlag = false;
+
 	//かくかくする移動にするために使用
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	//if (pad & PAD_INPUT_DOWN)
@@ -157,6 +246,7 @@ void Player::UpdatePlayer(const InputState& input)
 	MoveFrame(vel);
 
 }
+*/
 
 //プレイヤーが動くために必要な情報を持つ関数
 void Player::MoveFrame(Vec2 vel)

@@ -187,7 +187,6 @@ void SceneMain::DrawGameClear()
 
 void SceneMain::DrawGameOver()
 {
-	m_stageNum = 10;
 	m_index = 50;
 	if (m_numCount == 1)
 	{
@@ -221,7 +220,7 @@ void SceneMain::DrawGameOver()
 
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Over...", 11, m_clearFont)) / 2,
-		175, L"Game Over...", 0xff0000, m_clearFont);								//タイトルの表示
+		175, L"Game Over...", 0xa000a0, m_clearFont);								//タイトルの表示
 
 	constexpr int width = 400;		//ポーズ枠の幅
 	constexpr int height = 300;		//ポーズ枠の高さ
@@ -231,10 +230,7 @@ void SceneMain::DrawGameOver()
 	DrawExtendGraph(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		m_handle, true);
-	if (m_stageNum != 10)
-	{
-		DrawStringToHandle(widthPos + 50, heightPos + m_index, L"次へすすむ", 0x000000, m_guideFont);
-	}
+
 	DrawStringToHandle(widthPos + 50, heightPos + m_index * 2, L"もう一度プレイ", 0x000000, m_guideFont);
 	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"タイトルへ戻る", 0x000000, m_guideFont);
 
