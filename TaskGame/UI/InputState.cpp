@@ -6,8 +6,9 @@ InputState::InputState()
 {
 	//次へ
 	m_defaultMapTable[InputType::next] = { {InputCategory::keybd,KEY_INPUT_RETURN},
-										{InputCategory::pad,PAD_INPUT_1} };		//スタートボタン
-		//次へ
+										{InputCategory::pad,PAD_INPUT_1},
+										{InputCategory::pad,PAD_INPUT_2} };		//スタートボタン
+
 	m_defaultMapTable[InputType::back] = {{InputCategory::pad,PAD_INPUT_2} };		//スタートボタン
 
 

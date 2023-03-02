@@ -67,12 +67,12 @@ void FieldInformation::Init()
 	if (m_stageNum == 1)
 	{
 		m_pStage1 = new Stage1;
-		m_limit = 100;
+		m_limit = 80;
 	}
 	if (m_stageNum == 2)
 	{
 		m_pStage2 = new Stage2;
-		m_limit = 160;
+		m_limit = 140;
 	}
 	if (m_stageNum == 3)
 	{
@@ -82,12 +82,12 @@ void FieldInformation::Init()
 	if (m_stageNum == 4)
 	{
 		m_pStage4 = new Stage4;
-		m_limit = 200;
+		m_limit = 160;
 	}
 	if (m_stageNum == 5)
 	{
 		m_pStage5 = new Stage5;
-		m_limit = 100;
+		m_limit = 70;
 	}
 	if (m_stageNum == 6)
 	{
@@ -97,22 +97,22 @@ void FieldInformation::Init()
 	if (m_stageNum == 7)
 	{
 		m_pStage7 = new Stage7;
-		m_limit = 200;
+		m_limit = 120;
 	}
 	if (m_stageNum == 8)
 	{
 		m_pStage8 = new Stage8;
-		m_limit = 500;
+		m_limit = 450;
 	}
 	if (m_stageNum == 9)
 	{
 		m_pStage9 = new Stage9;
-		m_limit = 220;
+		m_limit = 200;
 	}
 	if (m_stageNum == 10)
 	{
 		m_pStage10 = new Stage10;
-		m_limit = 400;
+		m_limit = 340;
 	}
 }
 
