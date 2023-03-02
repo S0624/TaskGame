@@ -8,13 +8,6 @@
 #include"../Object/MapChip.h"
 #include<DxLib.h>
 
-namespace
-{
-	//const char* const kTextTitle = "SOUKOBAN（KARI）";
-	//const char* const kTextTitle = "倉庫番（仮）";
-	//const char* const kTextExplanation = "Aボタンを押してください";
-}
-
 void SceneTitle::FadeInUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
@@ -27,10 +20,15 @@ void SceneTitle::FadeInUpdate(const InputState& input)
 void SceneTitle::NormalUpdate(const InputState& input)
 {
 	//ガイドの文字の点滅
-	m_displayCount++;
-	if (m_displayCount >= 60 * 2)
+	m_test++;
+	if (m_test > 60)
 	{
-		m_displayCount = 0;
+		m_displayCount++;
+		if (m_displayCount >= 5 * 4)
+		{
+			m_test = 0;
+			m_displayCount = 0;
+		}
 	}
 
 	//「次へ」ボタンが押されたら次へ
@@ -74,6 +72,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
+	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
 	m_strTitle = strlen("倉庫番");
@@ -109,6 +108,12 @@ void SceneTitle::Update(const InputState& input)
 
 void SceneTitle::Draw()
 {
+	int posX = (Game::kScreenWindth -
+		GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2;
+	int posY = Game::kScreenHeight - 200;
+	int animeNum = (m_displayCount / 5) + 1;
+
+
 	//背景
 	DrawBackground();
 	m_pPlayer->Draw();
@@ -119,13 +124,25 @@ void SceneTitle::Draw()
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"倉庫番", m_strTitle, m_TitleFont)) / 2,
 		200, L"倉庫番", 0xff0000, m_TitleFont);								//タイトルの表示
+
 	//点滅処理
-	if (m_displayCount / 60 < 1)
-	{
-		DrawStringToHandle((Game::kScreenWindth -
-			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
-			Game::kScreenHeight - 200, L"Aボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
-	}
+
+	my::MyDrawRectRotaGraph(posX, posY + 25,			//表示座標
+		32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
+		16, 16,							//幅、高さ
+		3.0f, 0.0f,						//拡大率、回転角度
+		m_buttonHandle, true);
+	DrawStringToHandle(posX, posY, L" ボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
+
+	//my::MyDrawRectRotaGraph(posX, posY + 25,			//表示座標
+	//	32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
+	//	16, 16,							//幅、高さ
+	//	3.0f, 0.0f,						//拡大率、回転角度
+	//	m_buttonHandle, true);
+
+
+
+
 
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定

@@ -36,6 +36,7 @@ private:
 	int m_moveSESound = 0;
 	int m_pauseSESound = 0;
 	int m_clearSESound = 0;
+	int m_overSESound = 0;
 	int m_gamePlayBgSound = 0;
 
 	int m_clearFont = 0;

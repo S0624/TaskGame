@@ -31,8 +31,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     input = new InputState;
     scene = new SceneManager;
-    //scene->ChangeScene(new SceneTitle(*scene));
-    scene->ChangeScene(new SceneSelect(*scene));
+    scene->ChangeScene(new SceneTitle(*scene));
+    //scene->ChangeScene(new SceneSelect(*scene));
     while (ProcessMessage() == 0)
     {
         LONGLONG time = GetNowHiPerformanceCount();

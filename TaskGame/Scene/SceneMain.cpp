@@ -12,7 +12,6 @@
 #include"../GameManager.h"
 #include"DxLib.h"
 
-
 namespace {
 	int kNextStage = 0;
 }
@@ -101,12 +100,14 @@ void SceneMain::InitSound()
 	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
 	m_pauseSESound = LoadSoundMem(L"../Sound/Pause1.mp3");
 	m_clearSESound = LoadSoundMem(L"../Sound/GameClear.mp3");
+	m_overSESound = LoadSoundMem(L"../Sound/GameOver.mp3");
 	m_gamePlayBgSound = LoadSoundMem(L"../Sound/GamePlayBg.mp3");
 
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
 	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
 	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
 	ChangeNextPlayVolumeSoundMem(150, m_clearSESound);
+	ChangeNextPlayVolumeSoundMem(170, m_overSESound);
 	ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
 }
 
@@ -199,19 +200,16 @@ void SceneMain::DrawGameOver()
 		0x00000, true);		//ポーズウィンドウセロファン
 	m_setBlend++;
 
-	//if (m_setBlend < 200)
-	//{
-	//	if (m_setBlend == 90)
-	//	{
-	//		//PlaySoundMem(m_clearSESound, DX_PLAYTYPE_BACK, true);
-	//	}
-	//	return;
-	//}
-	if (m_setBlend > 150)
+	if (m_setBlend == 140)
 	{
-		m_fadeColor = true;
-		m_setBlend = 150;
+		PlaySoundMem(m_overSESound, DX_PLAYTYPE_BACK, true);
 	}
+	if (m_setBlend < 150)
+	{
+		return;
+	}
+	m_fadeColor = true;
+	m_setBlend = 150;
 
 	DeleteSoundMem(m_gamePlayBgSound);
 

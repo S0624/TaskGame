@@ -75,7 +75,7 @@ public:
 	void SetField(Field* pField) { m_pField = pField; }
 
 	//次に動く場所が動けるかをチェックする処理
-	bool IsMovePos(int x, int y)const;
+	bool IsMoveNextPos(int x, int y)const;
 
 	void TitleUpdate();
 	//描画処理

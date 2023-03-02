@@ -35,6 +35,10 @@ private:
 	int m_strTitle;
 	int m_strEx;
 	int m_strNum;
+	int m_buttonHandle = 0;
+
+	//仮の変数（テスト）
+	int m_test = 0;
 
 public:
 	SceneTitle(SceneManager& manager);

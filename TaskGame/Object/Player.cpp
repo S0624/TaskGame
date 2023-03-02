@@ -5,13 +5,6 @@
 #include"../UI/InputState.h"
 #include"../GameManager.h"
 
-namespace
-{
-	// 左右キーのリピートフレーム
-	constexpr int kMovementFrame = 10;
-}
-
-
 //プレイヤーの動きの処理
 void Player::UpdatePlayer(const InputState& input)
 {
@@ -29,7 +22,7 @@ void Player::UpdatePlayer(const InputState& input)
 			if (IsMoveDown())
 			{
 				m_playerMoveNum = 1;
-				if (IsMovePos(0, 1))
+				if (IsMoveNextPos(0, 1))
 				{
 					vel.y = +Field::kSize;		//下に動かす
 					m_stepCount++;
@@ -48,7 +41,7 @@ void Player::UpdatePlayer(const InputState& input)
 			if (IsMoveUp())
 			{
 				m_playerMoveNum = 2;
-				if (IsMovePos(0, -1))
+				if (IsMoveNextPos(0, -1))
 				{
 					vel.y = -Field::kSize;		//上に動かす
 					m_stepCount++;
@@ -67,7 +60,7 @@ void Player::UpdatePlayer(const InputState& input)
 			if (IsMoveLeft())
 			{
 				m_playerMoveNum = 3;
-				if (IsMovePos(-1, 0))
+				if (IsMoveNextPos(-1, 0))
 				{
 					vel.x = -Field::kSize;		//左に動かす
 					m_stepCount++;
@@ -86,7 +79,7 @@ void Player::UpdatePlayer(const InputState& input)
 			if (IsMoveRight())
 			{
 				m_playerMoveNum = 4;
-				if (IsMovePos(1, 0))
+				if (IsMoveNextPos(1, 0))
 				{
 					vel.x = +Field::kSize;		//右に動く
 					m_stepCount++;
@@ -146,7 +139,6 @@ void Player::MoveFrame()
 			}
 		}
 	}
-
 	// 毎フレーム緩やかに目標に近づく
 	if (m_playerMoveNum == 3)
 	{
@@ -189,7 +181,6 @@ bool Player::IsMoveDown()const
 	int y = 1;
 	// すでに一番下にある場合
 	if (indexY >= (Field::kFieldY - 1)) return false;
-
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY + y, x, y)) return false;
 
@@ -205,7 +196,6 @@ bool Player::IsMoveUp()const
 	int y = -1;
 	// すでに一番上にある場合
 	if (indexY <= 0) return false;
-
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX, indexY + y, x, y)) return false;
 
@@ -222,7 +212,6 @@ bool Player::IsMoveLeft()const
 
 	// すでに一番左にある場合
 	if (indexX <= 0) return false;
-
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX + x, indexY, x, y)) return false;
 
@@ -236,9 +225,9 @@ bool Player::IsMoveRight()const
 	int indexY = static_cast<int>(m_pos.y) / Field::kSize;
 	int x = 1;
 	int y = 0;
+
 	// すでに一番右にある場合
 	if (indexX >= (Field::kFieldX - 1)) return false;
-
 	// 一つ右にブロックが置かれている場合
 	if (m_pField->IsMovable(indexX + x, indexY, x, y)) return false;
 
@@ -313,7 +302,6 @@ Player::Player() :
 
 {
 	m_handle = my::MyLoadGraph(L"../Date/Player.png");		//画像の読み込み
-
 }
 
 //プレイヤークラスのデストラクタ
@@ -346,7 +334,7 @@ void Player::Update(const InputState& input)
 }
 
 //次に動く場所が動けるかをチェックする処理
-bool Player::IsMovePos(int x, int y) const
+bool Player::IsMoveNextPos(int x, int y) const
 {
 	int indexPosX = static_cast<int>(m_playerNextPos.x) / Field::kSize;
 	int indexPosY = static_cast<int>(m_playerNextPos.y) / Field::kSize;
@@ -354,12 +342,12 @@ bool Player::IsMovePos(int x, int y) const
 	int posY = 0;
 	posX = x;
 	posY = y;
+
 	// すでに一番下にある場合
 	if (indexPosX <= 0) return false;
 	if (indexPosY <= 0) return false;
 	if (indexPosX >= (Field::kFieldX - 1)) return false;
 	if (indexPosY >= (Field::kFieldY - 1)) return false;
-
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovablePos(indexPosX + posX, indexPosY + posY)) return false;
 
