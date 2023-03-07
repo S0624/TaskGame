@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneBase.h"
-
+#include <memory>
 //　プロトタイプ宣言
 class Field;
 class Player;
@@ -8,6 +8,7 @@ class MapChip;
 class InputState;
 class SceneSelect;
 class ScenePause;
+class CreateEffect;
 
 class FieldInformation;
 
@@ -20,7 +21,7 @@ private:
 	SceneSelect* m_pSelect;
 	MapChip* m_pMap;
 	ScenePause* m_pPause = 0;
-
+	std::shared_ptr<CreateEffect> m_pEffect;
 
 private:
 	//static constexpr int m_fadeInterval = 10;
@@ -79,7 +80,7 @@ private:
 	//ゲームオーバー時の演出
 	void DrawGameOver();
 
-	//スコア（仮）
+	//スコア
 	void DrawScore();
 
 public:

@@ -18,7 +18,7 @@ public:
 private:
 	// 現在の盤面データ
 	int m_field[kFieldY][kFieldX];
-	int m_emptyHandle;				//空の時の画像
+	int m_groundHandle;				//空の時の画像
 	int m_boxHandle;				//箱の画像
 	int m_wallHandle;				//壁の画像
 	int m_pinHandle;				//置き場所の画像
@@ -38,7 +38,6 @@ private:
 		storage,	//置き場所（箱を置く場所）
 		box,		//箱
 		input,		//置かれた
-		nextpos		//次に置かれる予定
 	};
 
 public:

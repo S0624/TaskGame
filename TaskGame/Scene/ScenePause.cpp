@@ -10,10 +10,15 @@
 namespace
 {
 	int kPauseNum = 1;
+	constexpr int kWidth = 400;		//ポーズ枠の幅
+	constexpr int kHeight = 300;		//ポーズ枠の高さ
+	constexpr int kWidthPos = (Game::kScreenWindth - kWidth) / 2;
+	constexpr int kHeightPos = (Game::kScreenHeight - kHeight) / 2;
 }
 
 ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 {
+	//m_handle = my::MyLoadGraph(L"../Date/pause.png");		//画像の読み込み
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 	kPauseNum = 1;
@@ -28,27 +33,62 @@ ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
 	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
 	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
+
+	PauseInit();
 }
 ScenePause::~ScenePause()
 {
 	delete pMain;
+	DeleteGraph(m_handle);
+	DeleteGraph(m_pausehandle);
 	DeleteFontToHandle(m_pauseFont);
 	DeleteFontToHandle(m_guideFont);
 }
 
+void ScenePause::PauseInit()
+{
+	m_pausehandle = MakeScreen(kWidth - 8 ,kHeight);
+	SetDrawScreen(m_pausehandle);
+	DrawExtendGraph(0,0,
+		kWidth , kHeight,
+		m_handle, true);
+
+
+	//ポーズ中メッセージ
+	DrawStringToHandle(10, 20, L"Pause", 0x000000, m_pauseFont);
+	DrawStringToHandle(50, 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
+	DrawStringToHandle(50, 60 * 2, L"リトライ", 0x000000, m_guideFont);
+	DrawStringToHandle(50, 60 * 3, L"タイトル", 0x000000, m_guideFont);
+
+	SetDrawScreen(DX_SCREEN_BACK);
+}
+
 void ScenePause::Update(const InputState& input)
 {
+	m_magnification += m_Increase;
+	m_cursolFlag = false;
+	if (m_magnification > 1.0f)
+	{
+		m_magnification = 1.0f;
+		m_cursolFlag = true;
+	}
+	if (m_magnification < 0.0f)
+	{
+		m_magnification = 0.0f;
+		m_manager.PopScene();
+	}
+
 	if (input.IsTrigger(InputType::pause))
 	{
 		PlaySoundMem(m_pauseSESound, DX_PLAYTYPE_BACK);
 		kPauseNum = 1;
-		m_manager.PopScene();
+		m_Increase *= -1;
 		return;
 	}
 	else if (input.IsTrigger(InputType::next))
 	{
 		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
-		m_manager.PopScene();
+		m_Increase *= -1;
 		return;
 	}
 
@@ -80,20 +120,8 @@ void ScenePause::Update(const InputState& input)
 
 void ScenePause::Draw()
 {
-	constexpr int width = 400;		//ポーズ枠の幅
-	constexpr int height = 300;		//ポーズ枠の高さ
-	constexpr int widthPos = (Game::kScreenWindth - width) / 2;
-	constexpr int heightPos = (Game::kScreenHeight - height) / 2;
-
-	m_movingX += 10;
-	if (m_movingX >= widthPos)
-	{
-		m_movingX = widthPos;
-	}
-
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);		//黒くしたいときMALA
 													//ポーズウィンドウセロファン			//ポーズ中メッセージ
-
 	DrawBox(0, 0,
 		Game::kScreenWindth, Game::kScreenHeight,
 		0x00000, true);
@@ -102,48 +130,13 @@ void ScenePause::Draw()
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
-	DrawExtendGraph(m_movingX, heightPos,
-		m_movingX + width, heightPos + height,
-		m_handle, true);
+	DrawRotaGraph(kWidthPos + 200, kHeightPos + 150,
+		m_magnification, 0.0f, m_pausehandle, true);
 
-	//ポーズ中メッセージ
-
-	DrawStringToHandle(m_movingX + 10, heightPos + 20, L"Pause", 0x000000, m_pauseFont);
-	DrawStringToHandle(m_movingX + 50, heightPos + 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
-	DrawStringToHandle(m_movingX + 50, heightPos + 60 * 2, L"リトライ", 0x000000, m_guideFont);
-	DrawStringToHandle(m_movingX + 50, heightPos + 60 * 3, L"タイトル", 0x000000, m_guideFont);
-
-	//DrawString(widthPos + 10, heightPos + 10, "ポーズ画面（仮実装）", 0x000000);
-	//DrawString(widthPos + 50, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0x000000);
-	//DrawString(widthPos + 50, heightPos + 50 * 2, "リトライ（仮実装）", 0x000000);
-	//DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0x000000);
-	//
-	//if (m_numCount == 1)
-	//{
-	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0xffffff);
-	//}
-	//else
-	//{
-	//	DrawString(widthPos + 50, heightPos + 50 * 1, "ゲームに戻る（仮実装）", 0xffffff);
-	//}
-	//if (m_numCount == 2)
-	//{
-	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 2, "リトライ（仮実装）", 0xffffff);
-	//}
-	//else
-	//{
-	//	DrawString(widthPos + 50, heightPos + 50 * 2, "リトライ（仮実装）", 0xffffff);
-	//}
-	//if (m_numCount == 3)
-	//{
-	//	DrawString(widthPos + 50 + 10, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
-	//}
-	//else
-	//{
-	//	DrawString(widthPos + 50, heightPos + 50 * 3, "タイトル（仮実装）", 0xffffff);
-	//}
-	DrawStringToHandle(m_movingX + 10, heightPos + 60 * kPauseNum, L"→", 0x00a000, m_guideFont);
-
+	if (m_cursolFlag)
+	{
+		DrawStringToHandle(kWidthPos + 10, kHeightPos + 60 * kPauseNum, L"→", 0x00a000, m_guideFont);
+	}
 }
 
 int ScenePause::CursolUpdate()

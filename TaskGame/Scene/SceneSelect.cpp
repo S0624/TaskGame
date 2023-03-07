@@ -14,6 +14,8 @@ namespace
 	int kSelectNum = 1;
 	constexpr int kMaxStage = 10;
 }
+
+//フェード処理
 void SceneSelect::FadeInUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
@@ -23,6 +25,7 @@ void SceneSelect::FadeInUpdate(const InputState& input)
 	}
 }
 
+//アップデート処理
 void SceneSelect::NormalUpdate(const InputState& input)
 {
 	//「前へ」ボタンが押されたらタイトルへ
@@ -40,6 +43,7 @@ void SceneSelect::NormalUpdate(const InputState& input)
 	Animation();
 }
 
+//フェード処理
 void SceneSelect::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
@@ -50,6 +54,7 @@ void SceneSelect::FadeOutUpdate(const InputState& input)
 	}
 }
 
+//コンストラクタ
 SceneSelect::SceneSelect(SceneManager& manager) :
 	SceneBase(manager),
 	m_updateFunc(&SceneSelect::FadeInUpdate),
@@ -90,6 +95,7 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 }
 
+//デストラクタ
 SceneSelect::~SceneSelect()
 {
 	delete m_pMap;
@@ -102,11 +108,13 @@ SceneSelect::~SceneSelect()
 	DeleteFontToHandle(m_guideFont);
 }
 
+//アップデート処理
 void SceneSelect::Update(const InputState& input)
 {
 	(this->*m_updateFunc)(input);
 }
 
+//描画処理
 void SceneSelect::Draw()
 {
 	//背景
@@ -142,6 +150,7 @@ void SceneSelect::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+//背景の描画処理
 void SceneSelect::DrawBackground()
 {
 	//背景
@@ -208,17 +217,22 @@ void SceneSelect::DrawSelectNum()
 			indexUp = -10;
 			color = 0xff0000;
 		}
-
+		int a = posX + index * X;
+		//仮実装で1～9に0を付けて表示する処理
 		if (i == kMaxStage - 1)
 		{
-			DrawFormatStringToHandle(posX + index * X,
-				(posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
+			DrawFormatStringToHandle(a,
+				10 + (posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
 		}
 		else
 		{
-			DrawFormatStringToHandle(posX + index * X,
-				(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
+			DrawFormatStringToHandle(a,
+				10+(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
 		}
+
+		//DrawFormatStringToHandle(posX + index * X,
+		//		(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
+		
 		DrawBox(posX + index * X - 5,
 			posY + index * Y - 5,
 			index + posX + index * X - 5,
@@ -234,6 +248,7 @@ int SceneSelect::SelectNum(int num)
 	return selectNum;
 }
 
+//キーを押されたら移動させる処理
 void SceneSelect::MoveCursor(const InputState& input)
 {
 	int num = kSelectNum;
@@ -287,6 +302,7 @@ void SceneSelect::MoveCursor(const InputState& input)
 
 }
 
+//下にいる奴のアニメーション処理
 void SceneSelect::Animation()
 {
 	m_freamStop++;

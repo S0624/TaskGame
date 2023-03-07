@@ -10,12 +10,14 @@
 #include"../Object/FieldInformation.h"
 #include"../Object/MapChip.h"
 #include"../GameManager.h"
+#include"../Object/CreateEffect.h"
 #include"DxLib.h"
 
 namespace {
 	int kNextStage = 0;
 }
 
+//フェード処理
 void SceneMain::FadeInUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
@@ -25,9 +27,10 @@ void SceneMain::FadeInUpdate(const InputState& input)
 	}
 }
 
+//アップデート処理
 void SceneMain::NormalUpdate(const InputState& input)
 {
-
+	m_pEffect->Update();
 	//クリアしてフェードが掛かり切ったらセレクトしてもらう
 	if (m_fadeColor)
 	{
@@ -51,6 +54,7 @@ void SceneMain::NormalUpdate(const InputState& input)
 
 }
 
+//フェード処理
 void SceneMain::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
@@ -79,6 +83,7 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 	}
 }
 
+//ロード系の初期化
 void SceneMain::InitLoad()
 {
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
@@ -94,6 +99,7 @@ void SceneMain::InitLoad()
 	m_pMap->Load(L"../Date/room.fmf");
 }
 
+//サウンド系の初期化
 void SceneMain::InitSound()
 {
 	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
@@ -111,6 +117,7 @@ void SceneMain::InitSound()
 	ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
 }
 
+//背景表示の処理
 void SceneMain::DrawBackground()
 {
 	//背景
@@ -137,6 +144,7 @@ void SceneMain::DrawBackground()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 }
 
+//ゲームクリアの処理
 void SceneMain::DrawGameClear()
 {
 	SetDrawBlendMode(DX_BLENDMODE_MULA, m_setBlend);		//黒くする
@@ -164,6 +172,8 @@ void SceneMain::DrawGameClear()
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
+	m_pEffect->Draw();
+
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Clear", 11, m_clearFont)) / 2,
 		175, L"Game Clear", 0xff0000, m_clearFont);								//タイトルの表示
@@ -186,6 +196,7 @@ void SceneMain::DrawGameClear()
 	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"→", 0x00a000, m_guideFont);
 }
 
+//ゲームオーバーの処理
 void SceneMain::DrawGameOver()
 {
 	m_index = 50;
@@ -235,6 +246,7 @@ void SceneMain::DrawGameOver()
 	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"→", 0x00a000, m_guideFont);
 }
 
+//右上のスコアを表示させる処理
 void SceneMain::DrawScore()
 {
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 200);		//黒くする
@@ -250,6 +262,7 @@ void SceneMain::DrawScore()
 		0xffffff, m_scoreFont, L"LIMIT:%d", m_pInformation->StepLimit());
 }
 
+//コンストラクタ
 SceneMain::SceneMain(SceneManager& manager) :
 	SceneBase(manager), m_updateFunc(&SceneMain::FadeInUpdate)
 {
@@ -258,7 +271,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 	m_pInformation = new FieldInformation;
 
 	m_pMap = new MapChip;
-
+	m_pEffect = std::make_shared<CreateEffect>();
 	m_stageNum = m_pSelect->SelectNum(kNextStage);
 	kNextStage = 0;
 	//初期化
@@ -295,6 +308,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 
 }
 
+//デストラクタ
 SceneMain::~SceneMain()
 {
 	delete m_pField;		//メモリの削除
@@ -315,6 +329,7 @@ SceneMain::~SceneMain()
 	DeleteFontToHandle(m_guideFont);
 }
 
+//アップデート処理
 void SceneMain::Update(const InputState& input)
 {
 	if (m_pPlayer->MoveStep() <= m_pInformation->StepLimit())
@@ -329,6 +344,7 @@ void SceneMain::Update(const InputState& input)
 	(this->*m_updateFunc)(input);
 }
 
+//ゲームクリアしたときのCursorを動かす処理
 void SceneMain::CursorUpdate(const InputState& input)
 {
 	int count = m_numCount;
@@ -363,6 +379,7 @@ void SceneMain::CursorUpdate(const InputState& input)
 	}
 }
 
+//描画処理
 void SceneMain::Draw()
 {
 	//背景の代わり

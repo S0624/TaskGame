@@ -12,7 +12,7 @@ namespace
 
 //フィールドクラスのコンストラクタ
 Field::Field() :
-	m_emptyHandle(0),
+	m_groundHandle(0),
 	m_boxHandle(0),
 	m_wallHandle(0),
 	m_pinHandle(0),
@@ -31,7 +31,7 @@ Field::Field() :
 		}
 	}
 
-	m_emptyHandle = my::MyLoadGraph(L"../Date/floor.png");		//画像の読み込み
+	m_groundHandle = my::MyLoadGraph(L"../Date/floor.png");		//画像の読み込み
 	m_wallHandle = my::MyLoadGraph(L"../Date/wall.png");		//画像の読み込み
 	m_pinHandle = my::MyLoadGraph(L"../Date/pin.png");		//画像の読み込み
 	m_boxHandle = my::MyLoadGraph(L"../Date/box.png");		//画像の読み込み
@@ -39,7 +39,7 @@ Field::Field() :
 
 Field::~Field()
 {
-	DeleteGraph(m_emptyHandle);
+	DeleteGraph(m_groundHandle);
 	DeleteGraph(m_wallHandle);
 	DeleteGraph(m_pinHandle);
 	DeleteGraph(m_boxHandle);
@@ -75,16 +75,6 @@ void Field::Draw()
 			int posX = kSize * x;
 			int posY = kSize * y;
 
-			//if (m_field[y][x] == empty)
-			//{
-			//	my::MyDrawRectRotaGraph(posX + kWidth + (25),
-			//		posY + kHeight + (25),			//表示座標
-			//		0, 0,							//切り取り左上
-			//		16, 16,							//幅、高さ
-			//		3.0f, 0.0f,						//拡大率、回転角度
-			//		m_emptyHandle, true);
-			//}
-
 			if (m_field[y][x] != empty)
 			{
 				my::MyDrawRectRotaGraph(posX + kWidth + (25),
@@ -92,7 +82,7 @@ void Field::Draw()
 					0, 0,							//切り取り左上
 					16, 16,							//幅、高さ
 					3.0f, 0.0f,						//拡大率、回転角度
-					m_emptyHandle, true);
+					m_groundHandle, true);
 			}
 
 			if (m_field[y][x] == wall)
@@ -147,8 +137,8 @@ void Field::Draw()
 		{
 			index = 16;
 		}
-		my::MyDrawRectRotaGraph(m_pos.x + kWidth + (25),
-			m_pos.y + kHeight + (25),			//表示座標
+		my::MyDrawRectRotaGraph(static_cast<int>(m_pos.x) + kWidth + (25),
+			static_cast<int>(m_pos.y) + kHeight + (25),			//表示座標
 			index, 0,							//切り取り左上
 			16, 21,							//幅、高さ
 			2.5f, 0.0f,						//拡大率、回転角度
@@ -172,7 +162,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//現在地に空白を入れる
 			//m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
-			m_field[y + posY][x + posX] = nextpos;			//次に箱が来る場所の確保
+			m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, box);
 
 			return false;
@@ -181,7 +171,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//現在地に空白を入れる
-			m_field[y + posY][x + posX] = nextpos;			//次に箱が来る場所の確保
+			m_field[y + posY][x + posX] = storage;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, input);
 			return false;
 		}
@@ -194,7 +184,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = storage;
-			m_field[y + posY][x + posX] = nextpos;			//次に箱が来る場所の確保
+			m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, box);
 			return false;
 		}
@@ -202,7 +192,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = storage;
-			m_field[y + posY][x + posX] = nextpos;			//次に箱が来る場所の確保
+			m_field[y + posY][x + posX] = storage;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, input);
 			return false;
 		}
@@ -245,11 +235,11 @@ void Field::MoveFrame(int posX, int posY, int x, int y, int type)
 {
 	int vec = x + y;			//移動ベクトルがマイナスかプラスか調べる
 	m_drawFlag = true;			//フラグをtrueにする
-	m_pos.x = posX * kSize;	//箱の現在地を計算する
-	m_pos.y = posY * kSize;	//箱の現在地を計算する
-	m_boxMoveSpeed = 3.0 * vec;	//移動スピードの設定
-	m_boxNextPos.x = (posX * kSize) + (x * kSize);	//箱の次の場所の計算
-	m_boxNextPos.y = (posY * kSize) + (y * kSize);	//箱の次の場所の計算
+	m_pos.x = static_cast<float>(posX * kSize);	//箱の現在地を計算する
+	m_pos.y = static_cast<float>(posY * kSize);	//箱の現在地を計算する
+	m_boxMoveSpeed = static_cast <float>(3.0 * vec);	//移動スピードの設定
+	m_boxNextPos.x = static_cast<float>(posX * kSize) + (x * kSize);	//箱の次の場所の計算
+	m_boxNextPos.y = static_cast<float>(posY * kSize) + (y * kSize);	//箱の次の場所の計算
 	m_boxType = type;			//箱のタイプ
 }
 
@@ -257,8 +247,8 @@ void Field::MoveFrame(int posX, int posY, int x, int y, int type)
 void Field::MoveFrame()
 {
 	//箱の場所
-	int x = m_boxNextPos.x / kSize;
-	int y = m_boxNextPos.y / kSize;
+	int x = static_cast<int>(m_boxNextPos.x) / kSize;
+	int y = static_cast<int>(m_boxNextPos.y) / kSize;
 	// 毎フレーム緩やかに目標に近づく
 	if (m_pos.y != m_boxNextPos.y)
 	{

@@ -18,11 +18,17 @@ private:
     int m_pauseFont = 0;
     int m_guideFont = 0;
 
-    int m_movingX = 375;
+    int m_pausehandle = 0;
+
+    float m_Increase = 0.05;
+    float m_magnification = 0.0f;
+    bool m_cursolFlag = false;
 
 public:
     ScenePause(SceneManager& manager);
     ~ScenePause();
+    virtual void PauseInit();
+
     virtual void Update(const InputState& input);
     void Draw();
     int CursolUpdate();

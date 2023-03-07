@@ -81,9 +81,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
+	ChangeNextPlayVolumeSoundMem(180, m_BgSound);
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
-	ChangeNextPlayVolumeSoundMem(150, m_BgSound);
-
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 
 }
@@ -102,6 +101,13 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Update(const InputState& input)
 {
+	//printfDx(L"%d\n", 255 - static_cast<int>(m_fadeValue));
+	//ChangeNextPlayVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_BgSound);
+	//if (!CheckSoundMem(m_BgSound))
+	//{
+	//	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
+	//}
+
 	m_pPlayer->TitleUpdate();
 	(this->*m_updateFunc)(input);
 }
@@ -133,16 +139,6 @@ void SceneTitle::Draw()
 		3.0f, 0.0f,						//拡大率、回転角度
 		m_buttonHandle, true);
 	DrawStringToHandle(posX, posY, L" ボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
-
-	//my::MyDrawRectRotaGraph(posX, posY + 25,			//表示座標
-	//	32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
-	//	16, 16,							//幅、高さ
-	//	3.0f, 0.0f,						//拡大率、回転角度
-	//	m_buttonHandle, true);
-
-
-
-
 
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
