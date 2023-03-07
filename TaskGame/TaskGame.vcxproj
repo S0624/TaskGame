@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Object\ClearEffect.cpp" />
+    <ClCompile Include="Object\CreateEffect.cpp" />
     <ClCompile Include="Object\MapChip.cpp" />
     <ClCompile Include="Object\Field.cpp" />
     <ClCompile Include="main.cpp" />
@@ -167,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Object\ClearEffect.h" />
+    <ClInclude Include="Object\CreateEffect.h" />
     <ClInclude Include="Object\MapChip.h" />
     <ClInclude Include="Object\Field.h" />
     <ClInclude Include="Object\FieldInformation.h" />

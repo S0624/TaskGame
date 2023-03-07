@@ -209,9 +209,16 @@ void SceneSelect::DrawSelectNum()
 			color = 0xff0000;
 		}
 
-		DrawFormatStringToHandle(posX + index * X,
-			(posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
-
+		if (i == kMaxStage - 1)
+		{
+			DrawFormatStringToHandle(posX + index * X,
+				(posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
+		}
+		else
+		{
+			DrawFormatStringToHandle(posX + index * X,
+				(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
+		}
 		DrawBox(posX + index * X - 5,
 			posY + index * Y - 5,
 			index + posX + index * X - 5,

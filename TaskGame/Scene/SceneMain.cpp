@@ -374,6 +374,7 @@ void SceneMain::Draw()
 	if (m_pField->GameClear())
 	{
 		DrawGameClear();
+
 	}
 
 	if (m_gameOverFlag)
