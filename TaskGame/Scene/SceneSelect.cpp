@@ -18,6 +18,8 @@ namespace
 //フェード処理
 void SceneSelect::FadeInUpdate(const InputState& input)
 {
+	SetVolumeMusic(static_cast<int>(255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
+
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (--m_fadeTimer == 0) {
 		m_updateFunc = &SceneSelect::NormalUpdate;
@@ -46,6 +48,7 @@ void SceneSelect::NormalUpdate(const InputState& input)
 //フェード処理
 void SceneSelect::FadeOutUpdate(const InputState& input)
 {
+	SetVolumeMusic(static_cast<int>(255 - 255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
 
@@ -90,7 +93,7 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
 	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
-	ChangeNextPlayVolumeSoundMem(150, m_BgSound);
+	//ChangeNextPlayVolumeSoundMem(150, m_BgSound);
 
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 }

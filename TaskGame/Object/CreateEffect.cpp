@@ -1,12 +1,12 @@
-#include "CreateEffect.h"
-#include "ClearEffect.h"
+#include"CreateEffect.h"
+#include"ClearEffect.h"
+#include "DxLib.h"
 
-#include"DxLib.h"
 CreateEffect::CreateEffect()
 {
-	for (auto& pPart : m_pClear)
+	for (auto& clear : m_pClear)
 	{
-		pPart = std::make_shared<ClearEffect>();
+		clear = std::make_shared<ClearEffect>();
 	}
 }
 
@@ -16,10 +16,10 @@ CreateEffect::~CreateEffect()
 
 void CreateEffect::Update()
 {
-	for (auto& pPart : m_pClear)
+	for (auto& clear : m_pClear)
 	{
-		if (!pPart->IsExist())	continue;
-		pPart->Update();
+		if (!clear->IsExist())	continue;
+		clear->Update();
 	}
 
 	flowerFrame--;
@@ -28,28 +28,29 @@ void CreateEffect::Update()
 	{
 		int count = 0;
 		// ”­¶ˆÊ’u‚©‚çã‚É”ò‚ñ‚Å—Ž‚¿‚Ä‚¢‚­
-		for (auto& pPart : m_pClear)
+		for (auto& clear : m_pClear)
 		{
-			if (pPart->IsExist())	continue;
+			if (clear->IsExist())	continue;
 
 			float randSin = static_cast<float>(GetRand(360)) / 360.0f;
 			randSin *= DX_TWO_PI_F;
 			float randSpeed = static_cast<float>(GetRand(160)) / 10.0f + 1.0f;
 
 			Vec2 pos;
-			pos.x = 200;
+			//pos.x = m_startPosX;
 			//pos.x = 256 + cosf(randSin) * 2.0f;
+			pos.x = m_startPosX + cosf(randSin) * 2.0f;
 			pos.y = 256 + sinf(randSin) * 2.0f;
 
 			Vec2 vec;
 			vec.x = cosf(randSin) * randSpeed;
 			vec.y = sinf(randSin) * randSpeed;
 
-			pPart->StartPos(pos);
-			pPart->SetVec(vec);
-			pPart->SetRadius(2.0f);
-			pPart->SetColor(0xff2020);
-			pPart->SetGravity(0.4f);
+			clear->StartPos(pos);
+			clear->SetVec(vec);
+			clear->SetRadius(2.0f);
+			clear->SetColor(0xff2020);
+			clear->SetGravity(0.4f);
 
 			count++;
 			if (count >= 32)
@@ -58,16 +59,24 @@ void CreateEffect::Update()
 			}
 		}
 		flowerFrame = kFlowerInterval;
+		if (m_startPosX == 200)
+		{
+			m_startPosX = 1200;
+		}
+		else
+		{
+			m_startPosX = 200;
+		}
 	}
 }
 
 void CreateEffect::Draw()
 {
 	int count = 0;
-	for (auto& pPart : m_pClear)
+	for (auto& clear : m_pClear)
 	{
-		if (!pPart->IsExist())	continue;
-		pPart->Draw();
+		if (!clear->IsExist())	continue;
+		clear->Draw();
 		count++;
 	}
 	DrawFormatString(24, 24, 0xffffff, L"Particle Num : %d", count);

@@ -10,6 +10,7 @@
 
 void SceneTitle::FadeInUpdate(const InputState& input)
 {
+	SetVolumeMusic(static_cast<int>(255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (--m_fadeTimer == 0) {
 		m_updateFunc = &SceneTitle::NormalUpdate;
@@ -20,13 +21,13 @@ void SceneTitle::FadeInUpdate(const InputState& input)
 void SceneTitle::NormalUpdate(const InputState& input)
 {
 	//ƒKƒCƒh‚Ì•¶Žš‚Ì“_–Å
-	m_test++;
-	if (m_test > 60)
+	m_animation++;
+	if (m_animation > 60)
 	{
 		m_displayCount++;
 		if (m_displayCount >= 5 * 4)
 		{
-			m_test = 0;
+			m_animation = 0;
 			m_displayCount = 0;
 		}
 	}
@@ -41,6 +42,8 @@ void SceneTitle::NormalUpdate(const InputState& input)
 
 void SceneTitle::FadeOutUpdate(const InputState& input)
 {
+	SetVolumeMusic(255 - static_cast<int>(255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
+
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
 
@@ -81,7 +84,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
-	ChangeNextPlayVolumeSoundMem(180, m_BgSound);
+	//ChangeNextPlayVolumeSoundMem(180, m_BgSound);
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 

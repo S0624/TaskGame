@@ -13,14 +13,14 @@ ClearEffect::~ClearEffect()
 
 void ClearEffect::Init()
 {
-	m_pos = { 0,0 };
-	m_vec = { 0,0 };
-	m_radius = 0;
-	m_color = 0x0ffffff;
-	m_alpha = 0;
+	m_pos = Vec2(0, 0);
+	m_vec = Vec2(0, 0);
+	m_radius = 1.0f;
+	m_color = 0xffffff;
+	m_alpha = 255;
 	m_isExist = false;
 	m_gravity = 0.0f;
-	m_alphaDec = 0;
+	m_alphaDec = 2;
 	m_radiusAcc = 0.0f;
 }
 

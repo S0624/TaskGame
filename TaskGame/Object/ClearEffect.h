@@ -21,7 +21,6 @@ private:
 	// ”¼Œa‚Ì•Ï‰»—Ê
 	float m_radiusAcc = 0.0f;
 
-
 public:
 	ClearEffect();
 	~ClearEffect();

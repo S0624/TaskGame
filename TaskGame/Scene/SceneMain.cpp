@@ -20,6 +20,7 @@ namespace {
 //フェード処理
 void SceneMain::FadeInUpdate(const InputState& input)
 {
+	//SetVolumeMusic(static_cast<int>(255 - 255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (--m_fadeTimer == 0) {
 		m_updateFunc = &SceneMain::NormalUpdate;
@@ -30,7 +31,10 @@ void SceneMain::FadeInUpdate(const InputState& input)
 //アップデート処理
 void SceneMain::NormalUpdate(const InputState& input)
 {
-	m_pEffect->Update();
+	if (m_pField->GameClear())
+	{
+		m_pEffect->Update();
+	}
 	//クリアしてフェードが掛かり切ったらセレクトしてもらう
 	if (m_fadeColor)
 	{
@@ -50,8 +54,6 @@ void SceneMain::NormalUpdate(const InputState& input)
 		m_test = m_pauseNum;
 		m_updateFunc = &SceneMain::FadeOutUpdate;
 	}
-
-
 }
 
 //フェード処理
@@ -114,7 +116,7 @@ void SceneMain::InitSound()
 	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
 	ChangeNextPlayVolumeSoundMem(150, m_clearSESound);
 	ChangeNextPlayVolumeSoundMem(170, m_overSESound);
-	ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
+	//ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
 }
 
 //背景表示の処理
@@ -172,8 +174,8 @@ void SceneMain::DrawGameClear()
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
-	m_pEffect->Draw();
 
+	m_pEffect->Draw();
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Clear", 11, m_clearFont)) / 2,
 		175, L"Game Clear", 0xff0000, m_clearFont);								//タイトルの表示
@@ -272,6 +274,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 
 	m_pMap = new MapChip;
 	m_pEffect = std::make_shared<CreateEffect>();
+
 	m_stageNum = m_pSelect->SelectNum(kNextStage);
 	kNextStage = 0;
 	//初期化
@@ -304,6 +307,7 @@ SceneMain::SceneMain(SceneManager& manager) :
 	InitLoad();
 	InitSound();
 
+	SetVolumeMusic(0);
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 
 }
@@ -342,6 +346,10 @@ void SceneMain::Update(const InputState& input)
 		m_gameOverFlag = true;
 	}
 	(this->*m_updateFunc)(input);
+
+	SetVolumeMusic(0);
+	//SetVolumeMusic(static_cast<int>(255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
+	printfDx(L"%d\n", (static_cast<int>(255 - 255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer))));
 }
 
 //ゲームクリアしたときのCursorを動かす処理
