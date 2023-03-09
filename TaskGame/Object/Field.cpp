@@ -240,6 +240,17 @@ int Field::FieldInfo(int field[kFieldY][kFieldX])
 	return 0;
 }
 
+int Field::StepLimit(int step)
+{
+	m_step = step;
+	return 0;
+}
+
+int Field::StepLimit()
+{
+	return m_step;
+}
+
 //” ‚ğˆÚ“®‚³‚¹‚é‚½‚ß‚Ìî•ñ‚ğ‚ÂŠÖ”
 void Field::MoveFrame(int posX, int posY, int x, int y, int type)
 {

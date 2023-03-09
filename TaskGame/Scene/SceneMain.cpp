@@ -34,14 +34,16 @@ void SceneMain::NormalUpdate(const InputState& input)
 	m_pField->Update();		//フィールドクラスの更新処理
 	m_pPlayer->Update(input);	//プレイヤークラスの更新処理
 
+	//現在のステップ数
 	m_stepNum = m_pPlayer->MoveStep();
+
 	if (!m_pField->MoveBox())
 	{
 		if (m_pField->GameClear())
 		{
 			m_pEffect->Update();
 		}
-		else if (m_stepNum >= 1)
+		else if (m_stepNum >= m_LimitNum)
 		{
 			m_gameOverFlag = true;
 		}
@@ -122,15 +124,6 @@ void SceneMain::InitSound()
 	m_overSESound = LoadSoundMem(L"../Sound/GameOver.mp3");
 	m_gamePlayBgSound = LoadSoundMem(L"../Sound/GamePlayBg.mp3");
 
-	//ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
-	//ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
-	//ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
-	//ChangeNextPlayVolumeSoundMem(150, m_clearSESound);
-	//ChangeNextPlayVolumeSoundMem(170, m_overSESound);
-	//ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
-	//SetVolumeMusic(0);
-	//PlayMusic(L"../Sound/GamePlayBg.mp3", DX_PLAYTYPE_LOOP);
-	//SetVolumeSound(0);
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 }
 
@@ -276,7 +269,7 @@ void SceneMain::DrawScore()
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 48,
 		0xffffff, m_scoreFont, L"STEP :%d",m_stepNum);
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 96,
-		0xffffff, m_scoreFont, L"LIMIT:%d", m_pInformation->StepLimit());
+		0xffffff, m_scoreFont, L"LIMIT:%d", m_LimitNum);
 }
 
 //コンストラクタ
@@ -286,7 +279,6 @@ SceneMain::SceneMain(SceneManager& manager) :
 	m_pField = new Field;
 	m_pPlayer = new Player;
 	m_pInformation = new FieldInformation;
-
 	m_pMap = new MapChip;
 	m_pEffect = std::make_shared<CreateEffect>();
 
@@ -299,6 +291,8 @@ SceneMain::SceneMain(SceneManager& manager) :
 	m_pInformation->SetField(m_pField);
 	m_pInformation->SetPlayer(m_pPlayer);
 	m_pInformation->FieldInit();
+	//ステージのリミット
+	m_LimitNum = m_pInformation->StepLimit();
 
 	if (m_stageNum == 10)
 	{
@@ -398,9 +392,7 @@ void SceneMain::Draw()
 	if (m_pField->GameClear())
 	{
 		DrawGameClear();
-
 	}
-
 	if (m_gameOverFlag)
 	{
 		DrawGameOver();

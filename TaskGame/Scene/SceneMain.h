@@ -50,6 +50,7 @@ private:
 	bool m_gameOverFlag = false;
 
 	int m_stepNum = 0;
+	int m_LimitNum = 0;
 
 	//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);
@@ -85,6 +86,5 @@ public:
 
 	//描画処理
 	void Draw();
-
 };
 

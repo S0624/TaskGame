@@ -327,7 +327,8 @@ void Player::Update(const InputState& input)
 	//プレイヤーが動く処理
 	MoveFrame();
 	//ゲームクリアではなかったらキー入力を受け付ける
-	if (!m_pField->GameClear())
+	if (!m_pField->GameClear() && m_stepCount < m_pField->StepLimit())
+	//if (!m_pField->GameClear() || !m_pMain->GameOver())
 	{
 		UpdatePlayer(input);				//プレイヤーの移動処理を呼び出す
 	}

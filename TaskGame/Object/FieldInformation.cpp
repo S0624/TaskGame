@@ -136,6 +136,7 @@ void FieldInformation::PlayerInfo(int x, int y)
 void FieldInformation::FieldInit()
 {
 	m_pField->FieldInfo(kStage);
+	m_pField->StepLimit(m_limit);
 	m_pPlayer->PosInit(kIndexX, kIndexY);
 }
 

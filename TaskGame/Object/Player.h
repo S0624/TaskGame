@@ -4,7 +4,6 @@
 //　プロトタイプ宣言
 class Field;
 class InputState;
-
 class Player
 {
 private:

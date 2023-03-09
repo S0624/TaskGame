@@ -30,7 +30,7 @@ private:
 	Vec2 m_boxNextPos;	//次の箱の場所の位置
 	int m_boxType;				//箱のタイプ（普通の箱か、置かれているか）
 	bool m_moveBox = false;		//箱が移動中かどうか
-
+	int m_step;
 	enum
 	{
 		empty,		//何も置かれていない
@@ -62,6 +62,8 @@ public:
 
 	//フィールドの情報を持ってくる関数
 	int FieldInfo(int field[kFieldY][kFieldX]);
+	int StepLimit(int step);
+	int StepLimit();
 
 	//箱を移動させるための情報を持つ関数
 	void MoveFrame(int posX, int posY, int x, int y, int type);
@@ -70,4 +72,5 @@ public:
 
 	//箱が移動中かどうか判定
 	bool MoveBox()const;
+
 };
