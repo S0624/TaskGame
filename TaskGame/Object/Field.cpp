@@ -122,6 +122,15 @@ void Field::Draw()
 					2.5f, 0.0f,						//拡大率、回転角度
 					m_boxHandle, true);
 			}
+			if (m_field[y][x] == nextPos)
+			{
+				my::MyDrawRectRotaGraph(posX + kWidth + (25),
+					posY + kHeight + (25),			//表示座標
+					0, 0,						//切り取り左上
+					16, 16,							//幅、高さ
+					2.5f, 0.0f,						//拡大率、回転角度
+					m_pinHandle, true);
+			}
 		}
 	}
 
@@ -155,6 +164,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 	if (m_field[posY][posX] == empty)	return true;		//何もないとその先に行けなくする
 	if (m_field[posY][posX] == wall)	return true;		//壁だとその先に行けなくする
 
+	m_moveBox = true;
 	if (m_field[posY][posX] == box)						//箱を押したときの処理
 	{
 		if (m_field[posY + y][posX + x] == ground)	//箱を押してその先に何もない時の処理
@@ -171,7 +181,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//現在地に空白を入れる
-			m_field[y + posY][x + posX] = storage;			//次に箱が来る場所の確保
+			m_field[y + posY][x + posX] = nextPos;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, input);
 			return false;
 		}
@@ -188,11 +198,11 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 			MoveFrame(posX, posY, x, y, box);
 			return false;
 		}
-		if (m_field[posY + y][posX + x] == storage)
+		if (m_field[posY + y][posX + x] == nextPos)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = storage;
-			m_field[y + posY][x + posX] = storage;			//次に箱が来る場所の確保
+			m_field[y + posY][x + posX] = nextPos;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, input);
 			return false;
 		}
@@ -326,4 +336,11 @@ void Field::MoveFrame()
 			}
 		}
 	}
+	m_moveBox = false;
+}
+
+bool Field::MoveBox() const
+{
+	if (m_moveBox == true)return true;
+	return false;
 }

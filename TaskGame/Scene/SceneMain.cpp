@@ -31,9 +31,20 @@ void SceneMain::FadeInUpdate(const InputState& input)
 //アップデート処理
 void SceneMain::NormalUpdate(const InputState& input)
 {
-	if (m_pField->GameClear())
+	m_pField->Update();		//フィールドクラスの更新処理
+	m_pPlayer->Update(input);	//プレイヤークラスの更新処理
+
+	m_stepNum = m_pPlayer->MoveStep();
+	if (!m_pField->MoveBox())
 	{
-		m_pEffect->Update();
+		if (m_pField->GameClear())
+		{
+			m_pEffect->Update();
+		}
+		else if (m_stepNum >= 1)
+		{
+			m_gameOverFlag = true;
+		}
 	}
 	//クリアしてフェードが掛かり切ったらセレクトしてもらう
 	if (m_fadeColor)
@@ -51,7 +62,7 @@ void SceneMain::NormalUpdate(const InputState& input)
 	m_pauseNum = m_pPause->CursolUpdate();
 	if (m_pauseNum == 2 || m_pauseNum == 3)
 	{
-		m_test = m_pauseNum;
+		m_selectNum = m_pauseNum;
 		m_updateFunc = &SceneMain::FadeOutUpdate;
 	}
 }
@@ -61,13 +72,13 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
-		if (m_numCount == 3 || m_test == 3)
+		if (m_numCount == 3 || m_selectNum == 3)
 		{
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneTitle(m_manager));
 			return;
 		}
-		if (m_numCount == 2 || m_test == 2)
+		if (m_numCount == 2 || m_selectNum == 2)
 		{
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneMain(m_manager));
@@ -111,12 +122,16 @@ void SceneMain::InitSound()
 	m_overSESound = LoadSoundMem(L"../Sound/GameOver.mp3");
 	m_gamePlayBgSound = LoadSoundMem(L"../Sound/GamePlayBg.mp3");
 
-	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
-	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
-	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
-	ChangeNextPlayVolumeSoundMem(150, m_clearSESound);
-	ChangeNextPlayVolumeSoundMem(170, m_overSESound);
+	//ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
+	//ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
+	//ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
+	//ChangeNextPlayVolumeSoundMem(150, m_clearSESound);
+	//ChangeNextPlayVolumeSoundMem(170, m_overSESound);
 	//ChangeNextPlayVolumeSoundMem(150, m_gamePlayBgSound);
+	//SetVolumeMusic(0);
+	//PlayMusic(L"../Sound/GamePlayBg.mp3", DX_PLAYTYPE_LOOP);
+	//SetVolumeSound(0);
+	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 }
 
 //背景表示の処理
@@ -175,7 +190,7 @@ void SceneMain::DrawGameClear()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
 
-	m_pEffect->Draw();
+	//m_pEffect->Draw();
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Clear", 11, m_clearFont)) / 2,
 		175, L"Game Clear", 0xff0000, m_clearFont);								//タイトルの表示
@@ -259,7 +274,7 @@ void SceneMain::DrawScore()
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100,
 		0xffffff, m_scoreFont, L"STAGE:%d", m_stageNum);
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 48,
-		0xffffff, m_scoreFont, L"STEP :%d", m_pPlayer->MoveStep());
+		0xffffff, m_scoreFont, L"STEP :%d",m_stepNum);
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 96,
 		0xffffff, m_scoreFont, L"LIMIT:%d", m_pInformation->StepLimit());
 }
@@ -306,10 +321,6 @@ SceneMain::SceneMain(SceneManager& manager) :
 
 	InitLoad();
 	InitSound();
-
-	SetVolumeMusic(0);
-	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
-
 }
 
 //デストラクタ
@@ -336,20 +347,8 @@ SceneMain::~SceneMain()
 //アップデート処理
 void SceneMain::Update(const InputState& input)
 {
-	if (m_pPlayer->MoveStep() <= m_pInformation->StepLimit())
-	{
-		m_pField->Update();		//フィールドクラスの更新処理
-		m_pPlayer->Update(input);	//プレイヤークラスの更新処理
-	}
-	else
-	{
-		m_gameOverFlag = true;
-	}
+	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);
-
-	SetVolumeMusic(0);
-	//SetVolumeMusic(static_cast<int>(255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
-	printfDx(L"%d\n", (static_cast<int>(255 - 255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer))));
 }
 
 //ゲームクリアしたときのCursorを動かす処理

@@ -17,6 +17,7 @@ private:
 	int auraFrame = kAuraInterval;
 
 	int m_startPosX = 200;
+	int m_startPosY = 200;
 private:
 	std::array<std::shared_ptr<ClearEffect>, 4096> m_pClear;
 public:

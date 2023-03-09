@@ -1,6 +1,7 @@
 #include"CreateEffect.h"
 #include"ClearEffect.h"
 #include "DxLib.h"
+#include"../UI/game.h"
 
 CreateEffect::CreateEffect()
 {
@@ -40,7 +41,7 @@ void CreateEffect::Update()
 			//pos.x = m_startPosX;
 			//pos.x = 256 + cosf(randSin) * 2.0f;
 			pos.x = m_startPosX + cosf(randSin) * 2.0f;
-			pos.y = 256 + sinf(randSin) * 2.0f;
+			pos.y = m_startPosY + sinf(randSin) * 2.0f;
 
 			Vec2 vec;
 			vec.x = cosf(randSin) * randSpeed;
@@ -59,6 +60,7 @@ void CreateEffect::Update()
 			}
 		}
 		flowerFrame = kFlowerInterval;
+		m_startPosY = GetRand(600) + 200;
 		if (m_startPosX == 200)
 		{
 			m_startPosX = 1200;

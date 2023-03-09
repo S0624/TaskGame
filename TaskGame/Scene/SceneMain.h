@@ -28,37 +28,28 @@ private:
 	 static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	float m_fadeValue = 255; //黒矩形とのブレンド具合
-
 	int m_numCount = 0;
 	int m_handle = 0;
 	int m_backHandle;
-	
 	int m_enterSESound = 0;
 	int m_moveSESound = 0;
 	int m_pauseSESound = 0;
 	int m_clearSESound = 0;
 	int m_overSESound = 0;
 	int m_gamePlayBgSound = 0;
-
 	int m_clearFont = 0;
 	int m_guideFont = 0;
 	int m_scoreFont = 0;
-
 	int m_setBlend = 0;
-
-	int m_test = 1;
-
+	int m_selectNum = 1;
 	int m_stageNum = 0;
 	int m_minNum = 0;
 	int m_index = 70;
-
 	bool m_fadeColor = false;
-
 	int m_pauseNum = 0;
-	
-	int m_stepNum = 0;
-
 	bool m_gameOverFlag = false;
+
+	int m_stepNum = 0;
 
 	//フェードインの時のUpdeta関数
 	void FadeInUpdate(const InputState& input);

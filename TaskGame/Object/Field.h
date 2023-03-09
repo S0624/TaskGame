@@ -29,6 +29,7 @@ private:
 	Vec2 m_pos;			//現在の箱の位置
 	Vec2 m_boxNextPos;	//次の箱の場所の位置
 	int m_boxType;				//箱のタイプ（普通の箱か、置かれているか）
+	bool m_moveBox = false;		//箱が移動中かどうか
 
 	enum
 	{
@@ -38,6 +39,7 @@ private:
 		storage,	//置き場所（箱を置く場所）
 		box,		//箱
 		input,		//置かれた
+		nextPos,		//置かれた
 	};
 
 public:
@@ -65,4 +67,7 @@ public:
 	void MoveFrame(int posX, int posY, int x, int y, int type);
 	//箱を移動させる処理
 	void MoveFrame();
+
+	//箱が移動中かどうか判定
+	bool MoveBox()const;
 };
