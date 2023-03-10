@@ -39,6 +39,7 @@ private:
 	int m_gamePlayBgSound = 0;
 	int m_clearFont = 0;
 	int m_guideFont = 0;
+	int m_UIFont = 0;
 	int m_scoreFont = 0;
 	int m_setBlend = 0;
 	int m_selectNum = 1;
@@ -48,7 +49,10 @@ private:
 	bool m_fadeColor = false;
 	int m_pauseNum = 0;
 	bool m_gameOverFlag = false;
-
+	int m_gravity = 1;
+	int m_overPosY = 0;
+	int m_buttonHandle = 0;
+	int m_stepColor = 0xffffff;
 	int m_stepNum = 0;
 	int m_LimitNum = 0;
 
@@ -71,7 +75,8 @@ private:
 	void DrawGameClear();
 	//ゲームオーバー時の演出
 	void DrawGameOver();
-
+	//UIの表示
+	void DrawUI();
 	//スコア
 	void DrawScore();
 

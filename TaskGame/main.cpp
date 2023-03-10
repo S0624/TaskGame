@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ChangeWindowMode(Game::kWindowMode);
 
     // ウインドウ名設定
-    SetMainWindowText(L"ゲーム名");
+    SetMainWindowText(L"片付け番");
 
     // 画面サイズの設定
     SetGraphMode(Game::kScreenWindth, Game::kScreenHeight, Game::kColorDepth);
@@ -46,8 +46,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         ScreenFlip();
 
         // escキーを押したら終了する
-        if (CheckHitKey(KEY_INPUT_ESCAPE)) break;
-
+        if (input->IsPressed(InputType::end))
+        {
+            break;
+        }
         // fpsを60に固定
         while (GetNowHiPerformanceCount() - time < 16667)
         {

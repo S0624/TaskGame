@@ -71,15 +71,16 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
-	m_BgSound = LoadSoundMem(L"../Sound/TitleBg.mp3");
+	//m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
+	//m_BgSound = LoadSoundMem(L"../Sound/TitleBg.mp3");
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
-	m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
-	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
-	m_strTitle = strlen("倉庫番");
+	m_titleHandle = my::MyLoadGraph(L"../Date/Title.png");
+	//m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
+	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
+	m_strTitle = strlen("片付け番");
 	m_strEx = strlen("Aボタンを押してください");
 	m_strNum = strlen("%d");
 
@@ -110,7 +111,7 @@ void SceneTitle::Update(const InputState& input)
 void SceneTitle::Draw()
 {
 	int posX = (Game::kScreenWindth -
-		GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2;
+			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2;
 	int posY = Game::kScreenHeight - 200;
 	int animeNum = (m_displayCount / 5) + 1;
 
@@ -119,12 +120,16 @@ void SceneTitle::Draw()
 	DrawBackground();
 	m_pPlayer->Draw();
 
-	DrawStringToHandle((Game::kScreenWindth -
-		GetDrawStringWidthToHandle(L"倉庫番", m_strTitle, m_TitleFont)) / 2 + 5,
-		200 + 3, L"倉庫番", 0x000000, m_TitleFont);								//タイトルの表示
-	DrawStringToHandle((Game::kScreenWindth -
-		GetDrawStringWidthToHandle(L"倉庫番", m_strTitle, m_TitleFont)) / 2,
-		200, L"倉庫番", 0xff0000, m_TitleFont);								//タイトルの表示
+	//DrawStringToHandle((Game::kScreenWindth -
+	//	GetDrawStringWidthToHandle(L"片付け番", m_strTitle, m_TitleFont)) / 2 + 5,
+	//	200 + 3, L"片付け番", 0x000000, m_TitleFont);								//タイトルの表示
+	//DrawStringToHandle((Game::kScreenWindth -
+	//	GetDrawStringWidthToHandle(L"片付け番", m_strTitle, m_TitleFont)) / 2,
+	//	200, L"片付け番", 0xff0000, m_TitleFont);								//タイトルの表示
+	
+	DrawRotaGraph((Game::kScreenWindth  / 2), 300,
+		0.5f,0,
+		m_titleHandle, true);
 
 	//点滅処理
 
@@ -133,7 +138,7 @@ void SceneTitle::Draw()
 		16, 16,							//幅、高さ
 		3.0f, 0.0f,						//拡大率、回転角度
 		m_buttonHandle, true);
-	DrawStringToHandle(posX, posY, L" ボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
+	DrawStringToHandle(posX + 5, posY, L" ボタンを押してください", 0xffffff, m_guideFont);	//ガイドの表示
 
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定

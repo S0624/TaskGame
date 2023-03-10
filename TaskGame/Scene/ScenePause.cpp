@@ -20,15 +20,15 @@ ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 {
 	//m_handle = my::MyLoadGraph(L"../Date/pause.png");		//画像の読み込み
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
-	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
 	kPauseNum = 1;
 
 	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
 	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
 	m_pauseSESound = LoadSoundMem(L"../Sound/Pause2.mp3");
 
-	m_pauseFont = CreateFontToHandle(L"木漏れ日ゴシック", 32, -1, -1);
-	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
+	m_pauseFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 32, -1, -1);
+	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
 
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
 	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);

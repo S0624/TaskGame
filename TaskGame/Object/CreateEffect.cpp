@@ -81,6 +81,4 @@ void CreateEffect::Draw()
 		clear->Draw();
 		count++;
 	}
-	DrawFormatString(24, 24, 0xffffff, L"Particle Num : %d", count);
-	DrawFormatString(24, 40, 0xffffff, L"DrawCall : %d", GetDrawCallCount());
 }

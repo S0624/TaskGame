@@ -35,6 +35,14 @@ void SceneMain::NormalUpdate(const InputState& input)
 	m_pPlayer->Update(input);	//プレイヤークラスの更新処理
 
 	//現在のステップ数
+	if (m_stepNum != 0)
+	{
+		m_stepColor = 0xF0E68C;
+	}
+	if (m_stepNum > m_LimitNum * 0.8)
+	{
+		m_stepColor = 0xFF4500;
+	}
 	m_stepNum = m_pPlayer->MoveStep();
 
 	if (!m_pField->MoveBox())
@@ -102,12 +110,13 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 void SceneMain::InitLoad()
 {
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
+	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
-
-	m_clearFont = CreateFontToHandle(L"851マカポップ", 128, -1, -1);
-	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
+	m_clearFont = CreateFontToHandle(L"851マカポップ", 200, -1, -1);
+	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
+	m_UIFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 32, -1, -1);
 	m_scoreFont = CreateFontToHandle(L"えり字", 64, -1, -1);
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
@@ -182,11 +191,10 @@ void SceneMain::DrawGameClear()
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
-
-	//m_pEffect->Draw();
+	m_pEffect->Draw();
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Clear", 11, m_clearFont)) / 2,
-		175, L"Game Clear", 0xff0000, m_clearFont);								//タイトルの表示
+		100, L"Game Clear", 0x7fffff, m_clearFont);								//タイトルの表示
 
 	constexpr int width = 400;		//ポーズ枠の幅
 	constexpr int height = 300;		//ポーズ枠の高さ
@@ -209,6 +217,11 @@ void SceneMain::DrawGameClear()
 //ゲームオーバーの処理
 void SceneMain::DrawGameOver()
 {
+	m_overPosY += m_gravity;
+	if (m_overPosY > 20 || m_overPosY < -20)
+	{
+		m_gravity *= -1;
+	}
 	m_index = 50;
 	if (m_numCount == 1)
 	{
@@ -239,7 +252,7 @@ void SceneMain::DrawGameOver()
 
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Over...", 11, m_clearFont)) / 2,
-		175, L"Game Over...", 0xa000a0, m_clearFont);								//タイトルの表示
+		100 + m_overPosY, L"Game Over...", 0xf62e36, m_clearFont);								//タイトルの表示
 
 	constexpr int width = 400;		//ポーズ枠の幅
 	constexpr int height = 300;		//ポーズ枠の高さ
@@ -256,6 +269,17 @@ void SceneMain::DrawGameOver()
 	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"→", 0x00a000, m_guideFont);
 }
 
+void SceneMain::DrawUI()
+{
+	my::MyDrawRectRotaGraph(1200, 300,			//表示座標
+		224, 576,			//切り取り左上
+		16, 16,							//幅、高さ
+		3.0f, 0.0f,						//拡大率、回転角度
+		m_buttonHandle, true);
+	DrawStringToHandle(1200 + 25, 300 - 20, L"...Pause", 0x000000, m_UIFont);
+	DrawScore();
+}
+
 //右上のスコアを表示させる処理
 void SceneMain::DrawScore()
 {
@@ -267,7 +291,7 @@ void SceneMain::DrawScore()
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100,
 		0xffffff, m_scoreFont, L"STAGE:%d", m_stageNum);
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 48,
-		0xffffff, m_scoreFont, L"STEP :%d",m_stepNum);
+		m_stepColor, m_scoreFont, L"STEP :%d",m_stepNum);
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100 + 96,
 		0xffffff, m_scoreFont, L"LIMIT:%d", m_LimitNum);
 }
@@ -383,12 +407,11 @@ void SceneMain::CursorUpdate(const InputState& input)
 //描画処理
 void SceneMain::Draw()
 {
-	//背景の代わり
+	//背景
 	DrawBackground();
-
+	DrawUI();
 	m_pField->Draw();		//フィールドクラスの描画処理
 	m_pPlayer->Draw();		//プレイヤークラスの描画処理
-	DrawScore();
 	if (m_pField->GameClear())
 	{
 		DrawGameClear();

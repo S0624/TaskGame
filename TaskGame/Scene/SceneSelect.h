@@ -37,6 +37,9 @@ private:
 	int m_freamStop = 0;	//アニメーションを止めているフレーム
 	int m_animeNum = 0;			//アニメーションの番号
 	int m_countNum = 0;
+	int m_displayCount;
+	int m_buttonHandle = 0;
+	int m_animation = 0;
 
 public:
 	SceneSelect(SceneManager& manager);

@@ -9,7 +9,7 @@ namespace Game
     constexpr bool kWindowMode = false;
 #endif
     // ウインドウ名
-    const char* const kTitleText = "ゲーム名";
+    const char* const kTitleText = "片付け番";
 
     // ウインドウサイズ
     constexpr int kScreenWindth = 1600;

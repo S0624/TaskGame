@@ -20,7 +20,7 @@ private:
 
     int m_pausehandle = 0;
 
-    float m_Increase = 0.05;
+    float m_Increase = 0.1;
     float m_magnification = 0.0f;
     bool m_cursolFlag = false;
 

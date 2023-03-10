@@ -14,6 +14,8 @@ enum class InputType {
 	down,		//下
 	right,		//右
 	left,		//左
+	end,		//終わる
+	change,		//変更
 	max			//最大入力インデックス
 };
 

@@ -36,6 +36,7 @@ private:
 	int m_strEx;
 	int m_strNum;
 	int m_buttonHandle = 0;
+	int m_titleHandle = 0;
 
 	//仮の変数（テスト）
 	int m_animation = 0;

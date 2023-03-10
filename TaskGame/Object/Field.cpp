@@ -198,7 +198,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 			MoveFrame(posX, posY, x, y, box);
 			return false;
 		}
-		if (m_field[posY + y][posX + x] == nextPos)
+		if (m_field[posY + y][posX + x] == storage)
 		{
 			m_drawFlag = true;
 			m_field[posY][posX] = storage;

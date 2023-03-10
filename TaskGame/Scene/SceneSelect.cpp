@@ -28,6 +28,17 @@ void SceneSelect::FadeInUpdate(const InputState& input)
 //アップデート処理
 void SceneSelect::NormalUpdate(const InputState& input)
 {
+	m_animation++;
+	if (m_animation > 60)
+	{
+		m_displayCount++;
+		if (m_displayCount >= 5 * 4)
+		{
+			m_animation = 0;
+			m_displayCount = 0;
+		}
+	}
+
 	//「前へ」ボタンが押されたらタイトルへ
 	if (input.IsTrigger(InputType::back))
 	{
@@ -76,16 +87,17 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
 	m_BgSound = LoadSoundMem(L"../Sound/SelectBg.mp3");
 
-	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 
-	m_selectFont = CreateFontToHandle(L"木漏れ日ゴシック", m_fontSize, -1, -1);
-	m_guideFont = CreateFontToHandle(L"木漏れ日ゴシック", 42, -1, -1);
+	m_selectFont = CreateFontToHandle(L"えり字", m_fontSize, -1, -1);
+	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
 
 	m_strTitle = strlen("ステージセレクト");
 	m_strEx = strlen("Aボタンを押してください");
 	m_strNum = strlen("%d");
 
+	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	m_pMap->Load(L"../Date/room.fmf");
 
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
@@ -123,13 +135,19 @@ void SceneSelect::Draw()
 		GetDrawStringWidthToHandle(L"ステージセレクト", m_strTitle, m_guideFont)) / 2,
 		200, L"ステージセレクト", 0x000000, m_guideFont);								//タイトルの表示
 
-	//点滅処理
-	//if (m_displayCount / 60 < 1)
-	{
-		DrawStringToHandle((Game::kScreenWindth -
-			GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2,
-			Game::kScreenHeight - 100, L"Aボタンを押してください", 0x000000, m_guideFont);	//ガイドの表示
-	}
+	int posX = (Game::kScreenWindth -
+		GetDrawStringWidthToHandle(L"Aボタンを押してください", m_strEx, m_guideFont)) / 2;
+	int posY = Game::kScreenHeight - 100;
+	int animeNum = (m_displayCount / 5) + 1;
+
+	my::MyDrawRectRotaGraph(posX - 5, posY + 20,			//表示座標
+		32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
+		16, 16,							//幅、高さ
+		3.0f, 0.0f,						//拡大率、回転角度
+		m_buttonHandle, true);
+	DrawStringToHandle((Game::kScreenWindth -
+		GetDrawStringWidthToHandle(L"ボタンを押してください", m_strEx, m_guideFont)) / 2,
+		posY, L"ボタンを押してください", 0x000000, m_guideFont);	//ガイドの表示
 
 	DrawSelectNum();
 
