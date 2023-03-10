@@ -24,6 +24,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 1;
 				if (IsMoveNextPos(0, 1))
 				{
+					tempX = m_pos.x;
+					tempY = m_pos.y;
 					vel.y = +Field::kSize;		//â∫Ç…ìÆÇ©Ç∑
 					m_stepCount++;
 				}
@@ -43,6 +45,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 2;
 				if (IsMoveNextPos(0, -1))
 				{
+					tempX = m_pos.x;
+					tempY = m_pos.y;
 					vel.y = -Field::kSize;		//è„Ç…ìÆÇ©Ç∑
 					m_stepCount++;
 				}
@@ -62,6 +66,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 3;
 				if (IsMoveNextPos(-1, 0))
 				{
+					tempX = m_pos.x;
+					tempY = m_pos.y;
 					vel.x = -Field::kSize;		//ç∂Ç…ìÆÇ©Ç∑
 					m_stepCount++;
 				}
@@ -81,10 +87,23 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 4;
 				if (IsMoveNextPos(1, 0))
 				{
+					tempX = m_pos.x;
+					tempY = m_pos.y;
 					vel.x = +Field::kSize;		//âEÇ…ìÆÇ≠
 					m_stepCount++;
 				}
 			}
+		}
+	}
+	if(!animetionFlag)
+	{
+		if (input.IsTrigger(InputType::back))
+		{
+			//m_pos.x = tempX;
+			//m_pos.y = tempY;
+			//m_playerNextPos.x = tempX;
+			//m_playerNextPos.y = tempY;
+			//m_animeFlag = false;
 		}
 	}
 
@@ -421,4 +440,6 @@ void Player::Draw()const
 		48, 48,							//ïùÅAçÇÇ≥
 		2.5f, 0.0f,						//ägëÂó¶ÅAâÒì]äpìx
 		m_handle, true);
+	//DrawFormatString(0, 0, 0xffffff, L"X:%f,Y:%f", m_pos.x, m_pos.y);
+	//DrawFormatString(0, 20, 0xffffff, L"NX:%f,NY:%f", m_playerNextPos.x, m_playerNextPos.y);
 }

@@ -41,6 +41,9 @@ private:
 	int m_test = 1;
 	float m_posX = 800;
 	float m_posY = 500;
+
+	int tempX = 0;
+	int tempY = 0;
 private:
 	//プレイヤーが動くために必要な情報を持つ関数
 	void MoveFrame(Vec2 vel);
