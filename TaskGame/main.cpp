@@ -10,9 +10,9 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     // windowモード設定
-    //ChangeWindowMode(Game::kWindowMode);
-    bool isWindowMode = true;
-    ChangeWindowMode(isWindowMode);
+    ChangeWindowMode(Game::kWindowMode);
+    SetWindowSizeChangeEnableFlag(true);//ウィンドウモードの拡大縮小（サイズ変更）が可能になります
+    SetAlwaysRunFlag(true);//dxlib.exeにフォーカス合わせなくても更新処理を続けてくれる関数です
 
     // ウインドウ名設定
     SetMainWindowText(L"片付け番");
@@ -27,7 +27,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     SceneManager* scene;
     InputState* input;
-    bool isTriggerEnter = false;
 
     // ダブルバッファモード
     SetDrawScreen(DX_SCREEN_BACK);
@@ -39,24 +38,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     while (ProcessMessage() == 0)
     {
         LONGLONG time = GetNowHiPerformanceCount();
-
-        if (DxLib::CheckHitKey(KEY_INPUT_LALT))
-        {
-            if (DxLib::CheckHitKey(KEY_INPUT_RETURN))
-            {
-                if (!isTriggerEnter)
-                {
-                    isWindowMode = !isWindowMode;
-                    ChangeWindowMode(isWindowMode);
-
-                }
-                isTriggerEnter = true;
-            }
-            else
-            {
-                isTriggerEnter = false;
-            }
-        }
 
         // 画面のクリア
         ClearDrawScreen();

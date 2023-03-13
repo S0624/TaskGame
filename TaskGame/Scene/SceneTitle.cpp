@@ -71,8 +71,8 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	//m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
-	//m_BgSound = LoadSoundMem(L"../Sound/TitleBg.mp3");
+	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
+	m_BgSound = LoadSoundMem(L"../Sound/TitleBg.mp3");
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
