@@ -133,7 +133,7 @@ void SceneTitle::Draw()
 
 	//点滅処理
 
-	my::MyDrawRectRotaGraph(posX, posY + 25,			//表示座標
+	my::MyDrawRectRotaGraph(posX - 5, posY + 25,			//表示座標
 		32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
 		16, 16,							//幅、高さ
 		3.0f, 0.0f,						//拡大率、回転角度

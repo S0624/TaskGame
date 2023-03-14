@@ -111,6 +111,7 @@ void SceneMain::InitLoad()
 {
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
+	//m_clearHandle = my::MyLoadGraph(L"../Date/Clear.png");
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
@@ -204,6 +205,7 @@ void SceneMain::DrawGameClear()
 	DrawExtendGraph(widthPos, heightPos,
 		widthPos + width, heightPos + height,
 		m_handle, true);
+
 	if (m_stageNum != 10)
 	{
 		DrawStringToHandle(widthPos + 50, heightPos + m_index, L"次へすすむ", 0x000000, m_guideFont);

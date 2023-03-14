@@ -31,6 +31,7 @@ private:
 	int m_numCount = 0;
 	int m_handle = 0;
 	int m_backHandle;
+	int m_clearHandle = 0;
 	int m_enterSESound = 0;
 	int m_moveSESound = 0;
 	int m_pauseSESound = 0;

@@ -140,7 +140,7 @@ void SceneSelect::Draw()
 	int posY = Game::kScreenHeight - 100;
 	int animeNum = (m_displayCount / 5) + 1;
 
-	my::MyDrawRectRotaGraph(posX - 5, posY + 20,			//表示座標
+	my::MyDrawRectRotaGraph(posX - 10, posY + 20,			//表示座標
 		32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
 		16, 16,							//幅、高さ
 		3.0f, 0.0f,						//拡大率、回転角度

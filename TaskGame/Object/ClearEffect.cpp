@@ -3,7 +3,7 @@
 
 ClearEffect::ClearEffect()
 {
-
+	
 }
 
 ClearEffect::~ClearEffect()
