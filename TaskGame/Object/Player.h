@@ -1,5 +1,6 @@
 #pragma once
 #include"../UI/Vec2.h"
+#include<stack>
 
 //　プロトタイプ宣言
 class Field;
@@ -7,6 +8,11 @@ class InputState;
 class Player
 {
 private:
+	std::stack<int>m_testposX;
+	std::stack<int>m_testposY;
+	std::stack<Vec2>m_testpos;
+	//std::stack<int>m_testpos;
+	
 	//fieldクラス
 	Field* m_pField;
 

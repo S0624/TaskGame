@@ -24,8 +24,7 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 1;
 				if (IsMoveNextPos(0, 1))
 				{
-					tempX = m_pos.x;
-					tempY = m_pos.y;
+					m_testpos.push(m_pos);
 					vel.y = +Field::kSize;		//下に動かす
 					m_stepCount++;
 				}
@@ -45,8 +44,7 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 2;
 				if (IsMoveNextPos(0, -1))
 				{
-					tempX = m_pos.x;
-					tempY = m_pos.y;
+					m_testpos.push(m_pos);
 					vel.y = -Field::kSize;		//上に動かす
 					m_stepCount++;
 				}
@@ -66,8 +64,7 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 3;
 				if (IsMoveNextPos(-1, 0))
 				{
-					tempX = m_pos.x;
-					tempY = m_pos.y;
+					m_testpos.push(m_pos);
 					vel.x = -Field::kSize;		//左に動かす
 					m_stepCount++;
 				}
@@ -87,15 +84,15 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 4;
 				if (IsMoveNextPos(1, 0))
 				{
-					tempX = m_pos.x;
-					tempY = m_pos.y;
+					m_testpos.push(m_pos);
 					vel.x = +Field::kSize;		//右に動く
 					m_stepCount++;
 				}
 			}
 		}
 	}
-	if(!animetionFlag)
+
+	if(!m_animeFlag && m_stepCount != 0)
 	{
 		if (input.IsTrigger(InputType::back))
 		{
@@ -103,7 +100,10 @@ void Player::UpdatePlayer(const InputState& input)
 			//m_pos.y = tempY;
 			//m_playerNextPos.x = tempX;
 			//m_playerNextPos.y = tempY;
-			//m_animeFlag = false;
+			m_pos = m_testpos.top();
+			m_playerNextPos = m_testpos.top();
+			m_testpos.pop();
+			m_stepCount--;
 		}
 	}
 
@@ -120,7 +120,6 @@ void Player::MoveFrame(Vec2 vel)
 	m_playerMoveSpeed = 3.0;
 	//次の場所に移動する分の数値を入れる
 	m_playerNextPos += vel;
-
 }
 
 //プレイヤーが動く処理
@@ -440,6 +439,4 @@ void Player::Draw()const
 		48, 48,							//幅、高さ
 		2.5f, 0.0f,						//拡大率、回転角度
 		m_handle, true);
-	//DrawFormatString(0, 0, 0xffffff, L"X:%f,Y:%f", m_pos.x, m_pos.y);
-	//DrawFormatString(0, 20, 0xffffff, L"NX:%f,NY:%f", m_playerNextPos.x, m_playerNextPos.y);
 }
