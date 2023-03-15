@@ -1,7 +1,6 @@
 #pragma once
 #include"../UI/Vec2.h"
-
-//#include"testField.h"
+#include<stack>
 
 class FieldInformation;
 
@@ -30,7 +29,7 @@ private:
 	Vec2 m_boxNextPos;	//次の箱の場所の位置
 	int m_boxType;				//箱のタイプ（普通の箱か、置かれているか）
 	bool m_moveBox = false;		//箱が移動中かどうか
-	int m_step;
+	int m_step = 0;
 	enum
 	{
 		empty,		//何も置かれていない
@@ -42,6 +41,7 @@ private:
 		nextPos,		//置かれた
 	};
 
+	std::stack<int>m_tempField[kFieldY][kFieldX];
 public:
 	Field();
 	~Field();
@@ -73,4 +73,8 @@ public:
 	//箱が移動中かどうか判定
 	bool MoveBox()const;
 
+	//テスト実装
+	void tempFieldInput();
+	//テスト実装
+	void tempFieldOut();
 };

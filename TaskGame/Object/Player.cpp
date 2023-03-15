@@ -24,7 +24,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 1;
 				if (IsMoveNextPos(0, 1))
 				{
-					m_testpos.push(m_pos);
+					//m_pField->test1();
+					m_tempPos.push(m_pos);
 					vel.y = +Field::kSize;		//‰º‚É“®‚©‚·
 					m_stepCount++;
 				}
@@ -44,7 +45,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 2;
 				if (IsMoveNextPos(0, -1))
 				{
-					m_testpos.push(m_pos);
+					//m_pField->test1();
+					m_tempPos.push(m_pos);
 					vel.y = -Field::kSize;		//ã‚É“®‚©‚·
 					m_stepCount++;
 				}
@@ -64,7 +66,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 3;
 				if (IsMoveNextPos(-1, 0))
 				{
-					m_testpos.push(m_pos);
+					//m_pField->test1();
+					m_tempPos.push(m_pos);
 					vel.x = -Field::kSize;		//¶‚É“®‚©‚·
 					m_stepCount++;
 				}
@@ -84,7 +87,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 4;
 				if (IsMoveNextPos(1, 0))
 				{
-					m_testpos.push(m_pos);
+					//m_pField->test1();
+					m_tempPos.push(m_pos);
 					vel.x = +Field::kSize;		//‰E‚É“®‚­
 					m_stepCount++;
 				}
@@ -92,17 +96,14 @@ void Player::UpdatePlayer(const InputState& input)
 		}
 	}
 
-	if(!m_animeFlag && m_stepCount != 0)
+	if(!m_animeFlag && !m_tempPos.empty())
 	{
 		if (input.IsTrigger(InputType::back))
 		{
-			//m_pos.x = tempX;
-			//m_pos.y = tempY;
-			//m_playerNextPos.x = tempX;
-			//m_playerNextPos.y = tempY;
-			m_pos = m_testpos.top();
-			m_playerNextPos = m_testpos.top();
-			m_testpos.pop();
+			m_pField->tempFieldOut();
+			m_pos = m_tempPos.top();
+			m_playerNextPos = m_tempPos.top();
+			m_tempPos.pop();
 			m_stepCount--;
 		}
 	}
@@ -379,7 +380,7 @@ void Player::TitleUpdate()
 	m_animeFlag = true;				//ƒtƒ‰ƒO‚ð•Ï‚¦‚é
 	if (m_playerMoveNum == 0)
 	{
-		m_pos.y += m_test;
+		m_pos.y += m_addition;
 		if (m_pos.y >= 500)
 		{
 			m_imgidx = 3;
@@ -390,10 +391,10 @@ void Player::TitleUpdate()
 	}
 	if (m_playerMoveNum == 1)
 	{
-		m_pos.x += m_test;
+		m_pos.x += m_addition;
 		if (m_pos.x >= 800)
 		{
-			m_test *= -1;
+			m_addition *= -1;
 			m_imgidx = 1;
 			m_pos.x = m_posX;
 			m_posX = 300;
@@ -402,7 +403,7 @@ void Player::TitleUpdate()
 	}
 	if (m_playerMoveNum == 2)
 	{
-		m_pos.y += m_test;
+		m_pos.y += m_addition;
 		if (m_pos.y <= 300)
 		{
 			m_imgidx = 2;
@@ -413,10 +414,10 @@ void Player::TitleUpdate()
 	}
 	if (m_playerMoveNum == 3)
 	{
-		m_pos.x += m_test;
+		m_pos.x += m_addition;
 		if (m_pos.x <= 300)
 		{
-			m_test *= -1;
+			m_addition *= -1;
 			m_imgidx = 0;
 			m_pos.x = m_posX;
 			m_posX = 800;

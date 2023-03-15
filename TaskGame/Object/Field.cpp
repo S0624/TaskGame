@@ -160,7 +160,6 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 {
 	assert((x >= 0) || (x <= kFieldX - 1));		//アサート
 	assert((y >= 0) || (y <= kFieldY - 1));		//範囲外だと処理を止める
-
 	if (m_field[posY][posX] == empty)	return true;		//何もないとその先に行けなくする
 	if (m_field[posY][posX] == wall)	return true;		//壁だとその先に行けなくする
 
@@ -169,6 +168,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 	{
 		if (m_field[posY + y][posX + x] == ground)	//箱を押してその先に何もない時の処理
 		{
+			tempFieldInput();
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//現在地に空白を入れる
 			//m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
@@ -179,6 +179,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		}
 		if (m_field[posY + y][posX + x] == storage)	//箱を押してその先が置き場所だった場合の処理
 		{
+			tempFieldInput();
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//現在地に空白を入れる
 			m_field[y + posY][x + posX] = nextPos;			//次に箱が来る場所の確保
@@ -192,6 +193,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 	{
 		if (m_field[posY + y][posX + x] == ground)
 		{
+			tempFieldInput();
 			m_drawFlag = true;
 			m_field[posY][posX] = storage;
 			m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
@@ -200,6 +202,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		}
 		if (m_field[posY + y][posX + x] == storage)
 		{
+			tempFieldInput();
 			m_drawFlag = true;
 			m_field[posY][posX] = storage;
 			m_field[y + posY][x + posX] = nextPos;			//次に箱が来る場所の確保
@@ -208,6 +211,7 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 		}
 		return true;
 	}
+	tempFieldInput();
 	return false;
 }
 
@@ -328,6 +332,7 @@ void Field::MoveFrame()
 				}
 				m_pos.x = m_boxNextPos.x;
 				m_drawFlag = false;
+
 			}
 		}
 		else
@@ -344,8 +349,10 @@ void Field::MoveFrame()
 				}
 				m_pos.x = m_boxNextPos.x;
 				m_drawFlag = false;
+
 			}
 		}
+
 	}
 	m_moveBox = false;
 }
@@ -354,4 +361,27 @@ bool Field::MoveBox() const
 {
 	if (m_moveBox == true)return true;
 	return false;
+}
+
+void Field::tempFieldInput()
+{
+	for (int i = 0; i < kFieldX; i++)		//fieldに数値を入れる
+	{
+		for (int j = 0; j < kFieldY; j++)
+		{
+			m_tempField[j][i].push(m_field[j][i]);
+		}
+	}
+}
+
+void Field::tempFieldOut()
+{
+	for (int i = 0; i < kFieldX; i++)		//fieldに数値を入れる
+	{
+		for (int j = 0; j < kFieldY; j++)
+		{
+			m_field[j][i] = m_tempField[j][i].top();
+			m_tempField[j][i].pop();
+		}
+	}
 }

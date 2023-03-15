@@ -8,11 +8,6 @@ class InputState;
 class Player
 {
 private:
-	std::stack<int>m_testposX;
-	std::stack<int>m_testposY;
-	std::stack<Vec2>m_testpos;
-	//std::stack<int>m_testpos;
-	
 	//fieldクラス
 	Field* m_pField;
 
@@ -44,12 +39,11 @@ private:
 
 	int m_playerMoveNum;		//プレイヤーがどの向きに動くか
 
-	int m_test = 1;
+	int m_addition = 1;
 	float m_posX = 800;
 	float m_posY = 500;
 
-	int tempX = 0;
-	int tempY = 0;
+	std::stack<Vec2>m_tempPos;
 private:
 	//プレイヤーが動くために必要な情報を持つ関数
 	void MoveFrame(Vec2 vel);
