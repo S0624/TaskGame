@@ -27,8 +27,8 @@ ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
 	m_pauseSESound = LoadSoundMem(L"../Sound/Pause2.mp3");
 
-	m_pauseFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 32, -1, -1);
-	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
+	m_pauseFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 30, -1, -1);
+	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 40, -1, -1);
 
 	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
 	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
@@ -55,10 +55,11 @@ void ScenePause::PauseInit()
 
 
 	//ポーズ中メッセージ
-	DrawStringToHandle(10, 20, L"Pause", 0x000000, m_pauseFont);
-	DrawStringToHandle(50, 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
-	DrawStringToHandle(50, 60 * 2, L"リトライ", 0x000000, m_guideFont);
-	DrawStringToHandle(50, 60 * 3, L"タイトル", 0x000000, m_guideFont);
+	DrawStringToHandle(15, 20, L"Pause", 0x000000, m_pauseFont);
+	DrawStringToHandle(45, 60 * 1, L"ゲームに戻る", 0x000000, m_guideFont);
+	DrawStringToHandle(45, 60 * 2, L"リトライ", 0x000000, m_guideFont);
+	DrawStringToHandle(45, 60 * 3, L"ステージセレクト", 0x000000, m_guideFont);
+	DrawStringToHandle(45, 60 * 4, L"タイトル", 0x000000, m_guideFont);
 
 	SetDrawScreen(DX_SCREEN_BACK);
 }
@@ -106,9 +107,9 @@ void ScenePause::Update(const InputState& input)
 
 	if (kPauseNum < 1)
 	{
-		kPauseNum = 3;
+		kPauseNum = 4;
 	}
-	if (kPauseNum > 3)
+	if (kPauseNum > 4)
 	{
 		kPauseNum = 1;
 	}
@@ -135,7 +136,7 @@ void ScenePause::Draw()
 
 	if (m_cursolFlag)
 	{
-		DrawStringToHandle(kWidthPos + 10, kHeightPos + 60 * kPauseNum, L"→", 0x00a000, m_guideFont);
+		DrawStringToHandle(kWidthPos + 10, kHeightPos + 60 * kPauseNum, L"▶", 0x00a000, m_guideFont);
 	}
 }
 

@@ -1,4 +1,4 @@
-#include "SceneMain.h"
+ï»¿#include "SceneMain.h"
 #include"../Object/Field.h"
 #include"../Object/Player.h"
 #include"../UI/game.h"
@@ -17,7 +17,7 @@ namespace {
 	int kNextStage = 0;
 }
 
-//ƒtƒF[ƒhˆ—
+//ãƒ•ã‚§ãƒ¼ãƒ‰å‡¦ç†
 void SceneMain::FadeInUpdate(const InputState& input)
 {
 	//SetVolumeMusic(static_cast<int>(255 - 255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
@@ -28,13 +28,13 @@ void SceneMain::FadeInUpdate(const InputState& input)
 	}
 }
 
-//ƒAƒbƒvƒf[ƒgˆ—
+//ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆå‡¦ç†
 void SceneMain::NormalUpdate(const InputState& input)
 {
-	m_pField->Update();		//ƒtƒB[ƒ‹ƒhƒNƒ‰ƒX‚ÌXVˆ—
-	m_pPlayer->Update(input);	//ƒvƒŒƒCƒ„[ƒNƒ‰ƒX‚ÌXVˆ—
+	m_pField->Update();		//ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚¯ãƒ©ã‚¹ã®æ›´æ–°å‡¦ç†
+	m_pPlayer->Update(input);	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹ã®æ›´æ–°å‡¦ç†
 
-	//Œ»İ‚ÌƒXƒeƒbƒv”
+	//ç¾åœ¨ã®ã‚¹ãƒ†ãƒƒãƒ—æ•°
 	if (m_stepNum != 0)
 	{
 		m_stepColor = 0xF0E68C;
@@ -56,13 +56,13 @@ void SceneMain::NormalUpdate(const InputState& input)
 			m_gameOverFlag = true;
 		}
 	}
-	//ƒNƒŠƒA‚µ‚ÄƒtƒF[ƒh‚ªŠ|‚©‚èØ‚Á‚½‚çƒZƒŒƒNƒg‚µ‚Ä‚à‚ç‚¤
+	//ã‚¯ãƒªã‚¢ã—ã¦ãƒ•ã‚§ãƒ¼ãƒ‰ãŒæ›ã‹ã‚Šåˆ‡ã£ãŸã‚‰ã‚»ãƒ¬ã‚¯ãƒˆã—ã¦ã‚‚ã‚‰ã†
 	if (m_fadeColor)
 	{
 		CursorUpdate(input);
 	}
-	//uƒ|[ƒYvƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çƒ|[ƒY‚ğ•\¦
-	//ƒQ[ƒ€ƒNƒŠƒA‚µ‚Ä‚¢‚½‚ç‰Ÿ‚¹‚È‚­‚·‚é
+	//ã€Œãƒãƒ¼ã‚ºã€ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ãƒãƒ¼ã‚ºã‚’è¡¨ç¤º
+	//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã—ã¦ã„ãŸã‚‰æŠ¼ã›ãªãã™ã‚‹
 	else if (input.IsTrigger(InputType::pause))
 	{
 		PlaySoundMem(m_pauseSESound, DX_PLAYTYPE_BACK);
@@ -70,19 +70,25 @@ void SceneMain::NormalUpdate(const InputState& input)
 	}
 
 	m_pauseNum = m_pPause->CursolUpdate();
-	if (m_pauseNum == 2 || m_pauseNum == 3)
+	if (m_pauseNum == 2 || m_pauseNum == 3 || m_pauseNum == 4)
 	{
 		m_selectNum = m_pauseNum;
 		m_updateFunc = &SceneMain::FadeOutUpdate;
 	}
 }
 
-//ƒtƒF[ƒhˆ—
+//ãƒ•ã‚§ãƒ¼ãƒ‰å‡¦ç†
 void SceneMain::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
-		if (m_numCount == 3 || m_selectNum == 3)
+		if (m_selectNum == 3)
+		{
+			kNextStage = 0;
+			m_manager.ChangeScene(new SceneSelect(m_manager));
+			return;
+		}
+		if (m_numCount == 3 || m_selectNum == 4)
 		{
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneTitle(m_manager));
@@ -106,25 +112,24 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 	}
 }
 
-//ƒ[ƒhŒn‚Ì‰Šú‰»
+//ãƒ­ãƒ¼ãƒ‰ç³»ã®åˆæœŸåŒ–
 void SceneMain::InitLoad()
 {
-	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//‰æ‘œ‚Ì“Ç‚İ‚İ
+	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//ç”»åƒã®èª­ã¿è¾¼ã¿
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
-	//m_clearHandle = my::MyLoadGraph(L"../Date/Clear.png");
-	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // “Ç‚İ‚ŞƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // “Ç‚İ‚ŞƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	my::MyFontPath(L"../Font/erizifont.otf"); // “Ç‚İ‚ŞƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	m_clearFont = CreateFontToHandle(L"851ƒ}ƒJƒ|ƒbƒv", 200, -1, -1);
-	m_guideFont = CreateFontToHandle(L"HGŠÛºŞ¼¯¸M-PRO", 42, -1, -1);
-	m_UIFont = CreateFontToHandle(L"HGŠÛºŞ¼¯¸M-PRO", 32, -1, -1);
-	m_scoreFont = CreateFontToHandle(L"‚¦‚èš", 64, -1, -1);
+	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // èª­ã¿è¾¼ã‚€ãƒ•ã‚©ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // èª­ã¿è¾¼ã‚€ãƒ•ã‚©ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	my::MyFontPath(L"../Font/erizifont.otf"); // èª­ã¿è¾¼ã‚€ãƒ•ã‚©ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	m_clearFont = CreateFontToHandle(L"851ãƒã‚«ãƒãƒƒãƒ—", 200, -1, -1);
+	m_guideFont = CreateFontToHandle(L"HGä¸¸ï½ºï¾ï½¼ï½¯ï½¸M-PRO", 42, -1, -1);
+	m_UIFont = CreateFontToHandle(L"HGä¸¸ï½ºï¾ï½¼ï½¯ï½¸M-PRO", 32, -1, -1);
+	m_scoreFont = CreateFontToHandle(L"ãˆã‚Šå­—", 64, -1, -1);
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_pMap->Load(L"../Date/room.fmf");
 }
 
-//ƒTƒEƒ“ƒhŒn‚Ì‰Šú‰»
+//ã‚µã‚¦ãƒ³ãƒ‰ç³»ã®åˆæœŸåŒ–
 void SceneMain::InitSound()
 {
 	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
@@ -137,16 +142,16 @@ void SceneMain::InitSound()
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 }
 
-//”wŒi•\¦‚Ìˆ—
+//èƒŒæ™¯è¡¨ç¤ºã®å‡¦ç†
 void SceneMain::DrawBackground()
 {
-	//”wŒi
+	//èƒŒæ™¯
 	int mW, mH;
 	m_pMap->GetMapSize(mW, mH);
 	const auto& mapData = m_pMap->GetMapData();
-	for (int chipY = 0; chipY < mH; ++chipY)	// c•ûŒü
+	for (int chipY = 0; chipY < mH; ++chipY)	// ç¸¦æ–¹å‘
 	{
-		for (int chipX = 0; chipX < mW; ++chipX)	// ‰¡•ûŒü
+		for (int chipX = 0; chipX < mW; ++chipX)	// æ¨ªæ–¹å‘
 		{
 			auto backChipId = mapData[0][chipY * mW + chipX];
 			my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
@@ -157,20 +162,20 @@ void SceneMain::DrawBackground()
 				m_backHandle, true);
 		}
 	}
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 50);		//•‚­‚·‚é
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 50);		//é»’ãã™ã‚‹
 	DrawBox(0, 0,
 		Game::kScreenWindth, Game::kScreenHeight,
 		0x000000, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//’Êí•`‰æ‚É–ß‚·
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//é€šå¸¸æç”»ã«æˆ»ã™
 }
 
-//ƒQ[ƒ€ƒNƒŠƒA‚Ìˆ—
+//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã®å‡¦ç†
 void SceneMain::DrawGameClear()
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, m_setBlend);		//•‚­‚·‚é
+	SetDrawBlendMode(DX_BLENDMODE_MULA, m_setBlend);		//é»’ãã™ã‚‹
 	DrawBox(0, 0,
 		Game::kScreenWindth, Game::kScreenHeight,
-		0x00000, true);		//ƒ|[ƒYƒEƒBƒ“ƒhƒEƒZƒƒtƒ@ƒ“
+		0x00000, true);		//ãƒãƒ¼ã‚ºã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚»ãƒ­ãƒ•ã‚¡ãƒ³
 	m_setBlend++;
 
 	if (m_setBlend < 100)
@@ -189,16 +194,16 @@ void SceneMain::DrawGameClear()
 
 	DeleteSoundMem(m_gamePlayBgSound);
 
-	//Œ³‚É–ß‚·
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//’Êí•`‰æ‚É–ß‚·
+	//å…ƒã«æˆ»ã™
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//é€šå¸¸æç”»ã«æˆ»ã™
 
 	m_pEffect->Draw();
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Clear", 11, m_clearFont)) / 2,
-		100, L"Game Clear", 0x7fffff, m_clearFont);								//ƒ^ƒCƒgƒ‹‚Ì•\¦
+		100, L"Game Clear", 0x7fffff, m_clearFont);								//ã‚¿ã‚¤ãƒˆãƒ«ã®è¡¨ç¤º
 
-	constexpr int width = 400;		//ƒ|[ƒY˜g‚Ì•
-	constexpr int height = 300;		//ƒ|[ƒY˜g‚Ì‚‚³
+	constexpr int width = 400;		//ãƒãƒ¼ã‚ºæ ã®å¹…
+	constexpr int height = 300;		//ãƒãƒ¼ã‚ºæ ã®é«˜ã•
 	constexpr int widthPos = (Game::kScreenWindth - width) / 2;
 	constexpr int heightPos = (Game::kScreenHeight - height) / 2;
 
@@ -208,15 +213,15 @@ void SceneMain::DrawGameClear()
 
 	if (m_stageNum != 10)
 	{
-		DrawStringToHandle(widthPos + 50, heightPos + m_index, L"Ÿ‚Ö‚·‚·‚Ş", 0x000000, m_guideFont);
+		DrawStringToHandle(widthPos + 50, heightPos + m_index, L"æ¬¡ã¸ã™ã™ã‚€", 0x000000, m_guideFont);
 	}
-	DrawStringToHandle(widthPos + 50, heightPos + m_index * 2, L"‚à‚¤ˆê“xƒvƒŒƒC", 0x000000, m_guideFont);
-	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"ƒ^ƒCƒgƒ‹‚Ö–ß‚é", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 50, heightPos + m_index * 2, L"ã‚‚ã†ä¸€åº¦ãƒ—ãƒ¬ã‚¤", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹", 0x000000, m_guideFont);
 
-	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"¨", 0x00a000, m_guideFont);
+	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"â–¶", 0x00a000, m_guideFont);
 }
 
-//ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
+//ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã®å‡¦ç†
 void SceneMain::DrawGameOver()
 {
 	m_overPosY += m_gravity;
@@ -230,10 +235,10 @@ void SceneMain::DrawGameOver()
 		m_minNum = 2;
 		m_numCount = m_minNum;
 	}
-	SetDrawBlendMode(DX_BLENDMODE_MULA, m_setBlend);		//•‚­‚·‚é
+	SetDrawBlendMode(DX_BLENDMODE_MULA, m_setBlend);		//é»’ãã™ã‚‹
 	DrawBox(0, 0,
 		Game::kScreenWindth, Game::kScreenHeight,
-		0x00000, true);		//ƒ|[ƒYƒEƒBƒ“ƒhƒEƒZƒƒtƒ@ƒ“
+		0x00000, true);		//ãƒãƒ¼ã‚ºã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚»ãƒ­ãƒ•ã‚¡ãƒ³
 	m_setBlend++;
 
 	if (m_setBlend == 140)
@@ -249,15 +254,15 @@ void SceneMain::DrawGameOver()
 
 	DeleteSoundMem(m_gamePlayBgSound);
 
-	//Œ³‚É–ß‚·
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//’Êí•`‰æ‚É–ß‚·
+	//å…ƒã«æˆ»ã™
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//é€šå¸¸æç”»ã«æˆ»ã™
 
 	DrawStringToHandle((Game::kScreenWindth -
 		GetDrawStringWidthToHandle(L"Game Over...", 11, m_clearFont)) / 2,
-		100 + m_overPosY, L"Game Over...", 0xf62e36, m_clearFont);								//ƒ^ƒCƒgƒ‹‚Ì•\¦
+		100 + m_overPosY, L"Game Over...", 0xf62e36, m_clearFont);								//ã‚¿ã‚¤ãƒˆãƒ«ã®è¡¨ç¤º
 
-	constexpr int width = 400;		//ƒ|[ƒY˜g‚Ì•
-	constexpr int height = 300;		//ƒ|[ƒY˜g‚Ì‚‚³
+	constexpr int width = 400;		//ãƒãƒ¼ã‚ºæ ã®å¹…
+	constexpr int height = 300;		//ãƒãƒ¼ã‚ºæ ã®é«˜ã•
 	constexpr int widthPos = (Game::kScreenWindth - width) / 2;
 	constexpr int heightPos = (Game::kScreenHeight - height) / 2;
 
@@ -265,30 +270,30 @@ void SceneMain::DrawGameOver()
 		widthPos + width, heightPos + height,
 		m_handle, true);
 
-	DrawStringToHandle(widthPos + 50, heightPos + m_index * 2, L"‚à‚¤ˆê“xƒvƒŒƒC", 0x000000, m_guideFont);
-	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"ƒ^ƒCƒgƒ‹‚Ö–ß‚é", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 50, heightPos + m_index * 2, L"ã‚‚ã†ä¸€åº¦ãƒ—ãƒ¬ã‚¤", 0x000000, m_guideFont);
+	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹", 0x000000, m_guideFont);
 
-	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"¨", 0x00a000, m_guideFont);
+	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"â†’", 0x00a000, m_guideFont);
 }
 
 void SceneMain::DrawUI()
 {
-	my::MyDrawRectRotaGraph(1200, 300,			//•\¦À•W
-		224, 576,			//Ø‚èæ‚è¶ã
-		16, 16,							//•A‚‚³
-		3.0f, 0.0f,						//Šg‘å—¦A‰ñ“]Šp“x
+	my::MyDrawRectRotaGraph(1200, 300,			//è¡¨ç¤ºåº§æ¨™
+		224, 576,			//åˆ‡ã‚Šå–ã‚Šå·¦ä¸Š
+		16, 16,							//å¹…ã€é«˜ã•
+		3.0f, 0.0f,						//æ‹¡å¤§ç‡ã€å›è»¢è§’åº¦
 		m_buttonHandle, true);
 	DrawStringToHandle(1200 + 25, 300 - 20, L"...Pause", 0x000000, m_UIFont);
 	DrawScore();
 }
 
-//‰Eã‚ÌƒXƒRƒA‚ğ•\¦‚³‚¹‚éˆ—
+//å³ä¸Šã®ã‚¹ã‚³ã‚¢ã‚’è¡¨ç¤ºã•ã›ã‚‹å‡¦ç†
 void SceneMain::DrawScore()
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 200);		//•‚­‚·‚é
-	//‰¼‚Ì”’l
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 200);		//é»’ãã™ã‚‹
+	//ä»®ã®æ•°å€¤
 	DrawBox(Game::kScreenWindth - 450, 100, Game::kScreenWindth - 100, 250, 0x000000, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//’Êí•`‰æ‚É–ß‚·
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//é€šå¸¸æç”»ã«æˆ»ã™
 
 	DrawFormatStringToHandle(Game::kScreenWindth - 450, 100,
 		0xffffff, m_scoreFont, L"STAGE:%d", m_stageNum);
@@ -298,7 +303,7 @@ void SceneMain::DrawScore()
 		0xffffff, m_scoreFont, L"LIMIT:%d", m_LimitNum);
 }
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 SceneMain::SceneMain(SceneManager& manager) :
 	SceneBase(manager), m_updateFunc(&SceneMain::FadeInUpdate)
 {
@@ -310,14 +315,14 @@ SceneMain::SceneMain(SceneManager& manager) :
 
 	m_stageNum = m_pSelect->SelectNum(kNextStage);
 	kNextStage = 0;
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	m_pPlayer->SetField(m_pField);
 	m_pInformation->StageNum(m_stageNum);
 	m_pInformation->Init();
 	m_pInformation->SetField(m_pField);
 	m_pInformation->SetPlayer(m_pPlayer);
 	m_pInformation->FieldInit();
-	//ƒXƒe[ƒW‚ÌƒŠƒ~ƒbƒg
+	//ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒªãƒŸãƒƒãƒˆ
 	m_LimitNum = m_pInformation->StepLimit();
 
 	if (m_stageNum == 10)
@@ -343,13 +348,13 @@ SceneMain::SceneMain(SceneManager& manager) :
 	InitSound();
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 SceneMain::~SceneMain()
 {
-	delete m_pField;		//ƒƒ‚ƒŠ‚Ìíœ
-	delete m_pPlayer;		//ƒƒ‚ƒŠ‚Ìíœ
-	delete m_pInformation;	//ƒƒ‚ƒŠ‚Ìíœ
-	delete m_pSelect;		//ƒƒ‚ƒŠ‚Ìíœ
+	delete m_pField;		//ãƒ¡ãƒ¢ãƒªã®å‰Šé™¤
+	delete m_pPlayer;		//ãƒ¡ãƒ¢ãƒªã®å‰Šé™¤
+	delete m_pInformation;	//ãƒ¡ãƒ¢ãƒªã®å‰Šé™¤
+	delete m_pSelect;		//ãƒ¡ãƒ¢ãƒªã®å‰Šé™¤
 	delete m_pMap;
 	//delete m_pPause;
 
@@ -364,14 +369,14 @@ SceneMain::~SceneMain()
 	DeleteFontToHandle(m_guideFont);
 }
 
-//ƒAƒbƒvƒf[ƒgˆ—
+//ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆå‡¦ç†
 void SceneMain::Update(const InputState& input)
 {
 	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);
 }
 
-//ƒQ[ƒ€ƒNƒŠƒA‚µ‚½‚Æ‚«‚ÌCursor‚ğ“®‚©‚·ˆ—
+//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã—ãŸã¨ãã®Cursorã‚’å‹•ã‹ã™å‡¦ç†
 void SceneMain::CursorUpdate(const InputState& input)
 {
 	int count = m_numCount;
@@ -394,7 +399,7 @@ void SceneMain::CursorUpdate(const InputState& input)
 	}
 
 
-	//uŸ‚Övƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çŸ‚Ö
+	//ã€Œæ¬¡ã¸ã€ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰æ¬¡ã¸
 	if (input.IsTrigger(InputType::next))
 	{
 		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
@@ -406,14 +411,14 @@ void SceneMain::CursorUpdate(const InputState& input)
 	}
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void SceneMain::Draw()
 {
-	//”wŒi
+	//èƒŒæ™¯
 	DrawBackground();
 	DrawUI();
-	m_pField->Draw();		//ƒtƒB[ƒ‹ƒhƒNƒ‰ƒX‚Ì•`‰æˆ—
-	m_pPlayer->Draw();		//ƒvƒŒƒCƒ„[ƒNƒ‰ƒX‚Ì•`‰æˆ—
+	m_pField->Draw();		//ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚¯ãƒ©ã‚¹ã®æç”»å‡¦ç†
+	m_pPlayer->Draw();		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹ã®æç”»å‡¦ç†
 	if (m_pField->GameClear())
 	{
 		DrawGameClear();
@@ -423,12 +428,12 @@ void SceneMain::Draw()
 		DrawGameOver();
 	}
 
-	//•’Ê‚Ì•`‰æ
-	//¡‚©‚ç‘‚­‰æ‘œ‚ÆA‚·‚Å‚É•`‰æ‚³‚ê‚Ä‚¢‚éƒXƒNƒŠ[ƒ“‚Æ‚Ì
-	//ƒuƒŒƒ“ƒh‚Ìd•û‚ğw’è
+	//æ™®é€šã®æç”»
+	//ä»Šã‹ã‚‰æ›¸ãç”»åƒã¨ã€ã™ã§ã«æç”»ã•ã‚Œã¦ã„ã‚‹ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã¨ã®
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã®ä»•æ–¹ã‚’æŒ‡å®š
 	SetDrawBlendMode(DX_BLENDMODE_MULA, static_cast<int> (m_fadeValue));
-	//‰æ–Ê‘S‘Ì‚ğ^‚Á•‚É“h‚è‚Â‚Ô‚·
-	//•ÏX‚µ‚½‚çŒ³‚É–ß‚·
+	//ç”»é¢å…¨ä½“ã‚’çœŸã£é»’ã«å¡—ã‚Šã¤ã¶ã™
+	//å¤‰æ›´ã—ãŸã‚‰å…ƒã«æˆ»ã™
 	DrawBox(0, 0, Game::kScreenWindth, Game::kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
