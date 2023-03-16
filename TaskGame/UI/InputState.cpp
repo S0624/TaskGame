@@ -9,7 +9,8 @@ InputState::InputState()
 										{InputCategory::pad,PAD_INPUT_1},
 										{InputCategory::pad,PAD_INPUT_2} };		//スタートボタン
 
-	m_defaultMapTable[InputType::back] = {{InputCategory::pad,PAD_INPUT_2},
+	m_defaultMapTable[InputType::back] = {{InputCategory::pad,PAD_INPUT_4},
+										{InputCategory::pad,PAD_INPUT_3},
 										{InputCategory::pad,PAD_INPUT_5},
 										{InputCategory::keybd,KEY_INPUT_Z} };		//スタートボタン
 
