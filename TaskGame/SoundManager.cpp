@@ -19,6 +19,7 @@ SoundManager::SoundManager()
 	m_pauseBackSE = LoadSoundFile(L"Pause2");
 	m_clearSE = LoadSoundFile(L"GameClear");
 	m_overSE = LoadSoundFile(L"GameOver");
+	m_overSE = LoadSoundFile(L"fireflower");
 	SetSEVolume(m_volumeSE);
 	SetBGMVolume(m_volumeBGM);
 }
@@ -30,12 +31,15 @@ SoundManager::~SoundManager()
 	DeleteSoundMem(m_pauseBackSE);
 	DeleteSoundMem(m_clearSE);
 	DeleteSoundMem(m_overSE);
-
+	DeleteSoundMem(m_fireSE);
 }
 
 void SoundManager::Play(const wchar_t* name)
 {
-	PlaySoundMem(m_nameAndHandleTable[name], DX_PLAYTYPE_BACK);
+	//if (CheckSoundMem(m_nameAndHandleTable[name]) == 0)
+	//{
+		PlaySoundMem(m_nameAndHandleTable[name], DX_PLAYTYPE_BACK);
+	//}
 }
 
 void SoundManager::PlayMusic(const wchar_t* path)
@@ -72,4 +76,5 @@ void SoundManager::StopBGMAndSE()
 {
 	StopSoundMem(m_overSE);
 	StopSoundMem(m_clearSE);
+	StopSoundMem(m_fireSE);
 }

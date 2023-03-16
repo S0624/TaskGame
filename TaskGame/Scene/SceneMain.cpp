@@ -149,7 +149,7 @@ void SceneMain::DrawBackground()
 	{
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
 		{
-			auto backChipId = mapData[0][chipY * mW + chipX];
+			auto backChipId = mapData[0][static_cast<__int64>(chipY) * mW + chipX];
 			my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
 				(backChipId % 10) * 16,
 				(backChipId / 8) * 16,

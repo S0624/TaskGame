@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include"../UI/game.h"
 #include"../GameManager.h"
+#include"../SoundManager.h"
 void CreateEffect::AnimationUpdate()
 {
 	m_testFrame++;
@@ -27,6 +28,10 @@ void CreateEffect::AnimationUpdate()
 				m_startPosX = 200;
 			}
 		}
+		if (m_animeNumX == 1 && m_animeNumY == 3)
+		{
+			SoundManager::GetInstance().Play(L"fireflower");
+		}
 		m_testFrame = 0;
 	}
 }
@@ -36,6 +41,7 @@ CreateEffect::CreateEffect()
 	{
 		clear = std::make_shared<ClearEffect>();
 	}
+
 	m_handle = my::MyLoadGraph(L"../Date/Clear.png");
 
 }
@@ -107,7 +113,6 @@ void CreateEffect::Draw()
 	AnimationUpdate();
 
 	my::MyDrawRectRotaGraph(m_startPosX, m_startPosY,			//表示座標
-	//my::MyDrawRectRotaGraph(200, 200,			//表示座標
 		480 * m_animeNumX, 480 * m_animeNumY,			//切り取り左上
 		480, 480,							//幅、高さ
 		0.5f, 0.0f,						//拡大率、回転角度

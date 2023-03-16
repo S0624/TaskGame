@@ -91,9 +91,9 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_selectFont = CreateFontToHandle(L"えり字", m_fontSize, -1, -1);
 	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
 
-	m_strTitle = strlen("ステージセレクト");
-	m_strEx = strlen("Aボタンを押してください");
-	m_strNum = strlen("%d");
+	m_strTitle = static_cast<int>(strlen("ステージセレクト"));
+	m_strEx = static_cast<int>(strlen("Aボタンを押してください"));
+	m_strNum = static_cast<int>(strlen("%d"));
 
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	m_pMap->Load(L"../Date/room.fmf");
@@ -172,7 +172,7 @@ void SceneSelect::DrawBackground()
 	{
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
 		{
-			auto backChipId = mapData[0][chipY * mW + chipX];
+			auto backChipId = mapData[0][static_cast<__int64>(chipY) * mW + chipX];
 			my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
 				(backChipId % 10) * 16,
 				(backChipId / 8) * 16,

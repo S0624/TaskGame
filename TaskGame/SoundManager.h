@@ -10,6 +10,7 @@ private:
 	int m_pauseBackSE = 0;
 	int m_clearSE = 0;
 	int m_overSE = 0;
+	int m_fireSE = 0;
 	int m_volumeSE = 180;
 	int m_volumeBGM = 200;
 

@@ -78,9 +78,9 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	m_titleHandle = my::MyLoadGraph(L"../Date/Title.png");
 	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
-	m_strTitle = strlen("片付け番");
-	m_strEx = strlen("Aボタンを押してください");
-	m_strNum = strlen("%d");
+	m_strTitle = static_cast<int>(strlen("片付け番"));
+	m_strEx = static_cast<int>(strlen("Aボタンを押してください"));
+	m_strNum = static_cast<int>(strlen("%d"));
 
 	m_pMap->Load(L"../Date/room.fmf");
 
@@ -149,7 +149,7 @@ void SceneTitle::DrawBackground()
 	{
 		for (int chipX = 0; chipX < mW; ++chipX)	// 横方向
 		{
-			auto backChipId = mapData[0][chipY * mW + chipX];
+			auto backChipId = mapData[0][static_cast<__int64>(chipY) * mW + chipX];
 			my::MyDrawRectRotaGraph(chipX * 32, chipY * 32,
 				(backChipId % 10) * 16,
 				(backChipId / 8) * 16,
@@ -157,7 +157,7 @@ void SceneTitle::DrawBackground()
 				2.0f, 0,
 				m_backHandle, true);
 
-			auto roomchipId = mapData[1][chipY * mW + chipX];
+			auto roomchipId = mapData[1][static_cast<__int64>(chipY) * mW + chipX];
 			if (roomchipId == 0 || roomchipId == 2)
 			{
 				my::MyDrawRectRotaGraph((chipX * 32) - 650, chipY * 32 - 125,
