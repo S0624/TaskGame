@@ -24,8 +24,6 @@ private:
 	//int m_test;
 	int m_handle;		//画像
 	int m_backHandle;
-	int m_enterSESound;
-	int m_moveSESound;
 	int m_BgSound;
 	int m_selectFont;	//フォント
 	int m_guideFont;	//説明文のフォント
@@ -37,7 +35,7 @@ private:
 	int m_freamStop = 0;	//アニメーションを止めているフレーム
 	int m_animeNum = 0;			//アニメーションの番号
 	int m_countNum = 0;
-	int m_displayCount;
+	int m_displayCount = 0;
 	int m_buttonHandle = 0;
 	int m_animation = 0;
 

@@ -5,6 +5,7 @@
 #include"../UI/InputState.h"
 #include"../UI/game.h"
 #include"../GameManager.h"
+#include"../SoundManager.h"
 #include"DxLib.h"
 
 namespace
@@ -23,16 +24,9 @@ ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
 	kPauseNum = 1;
 
-	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
-	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
-	m_pauseSESound = LoadSoundMem(L"../Sound/Pause2.mp3");
-
 	m_pauseFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 30, -1, -1);
 	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 40, -1, -1);
 
-	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
-	ChangeNextPlayVolumeSoundMem(160, m_moveSESound);
-	ChangeNextPlayVolumeSoundMem(150, m_pauseSESound);
 
 	PauseInit();
 }
@@ -66,7 +60,7 @@ void ScenePause::PauseInit()
 
 void ScenePause::Update(const InputState& input)
 {
-	m_magnification += m_Increase;
+	m_magnification += static_cast<float>(m_Increase);
 	m_cursolFlag = false;
 	if (m_magnification > 1.0f)
 	{
@@ -81,14 +75,14 @@ void ScenePause::Update(const InputState& input)
 
 	if (input.IsTrigger(InputType::pause))
 	{
-		PlaySoundMem(m_pauseSESound, DX_PLAYTYPE_BACK);
+		SoundManager::GetInstance().Play(L"Pause21");
 		kPauseNum = 1;
 		m_Increase *= -1;
 		return;
 	}
 	else if (input.IsTrigger(InputType::next))
 	{
-		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
+		SoundManager::GetInstance().Play(L"SE1");
 		m_Increase *= -1;
 		return;
 	}
@@ -115,7 +109,7 @@ void ScenePause::Update(const InputState& input)
 	}
 	if (kPauseNum != count)
 	{
-		PlaySoundMem(m_moveSESound, DX_PLAYTYPE_BACK);
+		SoundManager::GetInstance().Play(L"SE2");
 	}
 }
 

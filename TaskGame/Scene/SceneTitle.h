@@ -27,7 +27,6 @@ private:
 
 	int m_backHandle;
 	int m_roomHandle;
-	int m_enterSESound;
 	int m_BgSound;
 	int m_displayCount;
 	int m_TitleFont;

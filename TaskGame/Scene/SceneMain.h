@@ -32,11 +32,6 @@ private:
 	int m_handle = 0;
 	int m_backHandle;
 	int m_clearHandle = 0;
-	int m_enterSESound = 0;
-	int m_moveSESound = 0;
-	int m_pauseSESound = 0;
-	int m_clearSESound = 0;
-	int m_overSESound = 0;
 	int m_gamePlayBgSound = 0;
 	int m_clearFont = 0;
 	int m_guideFont = 0;

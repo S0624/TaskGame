@@ -6,6 +6,7 @@
 #include"../UI/InputState.h"
 #include"../GameManager.h"
 #include"../Object/MapChip.h"
+#include"../SoundManager.h"
 #include<DxLib.h>
 
 void SceneTitle::FadeInUpdate(const InputState& input)
@@ -36,7 +37,7 @@ void SceneTitle::NormalUpdate(const InputState& input)
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
-		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
+		SoundManager::GetInstance().Play(L"SE1");
 		m_updateFunc = &SceneTitle::FadeOutUpdate;
 	}
 }
@@ -58,7 +59,6 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	m_updateFunc(&SceneTitle::FadeInUpdate),
 	m_backHandle(0),
 	m_roomHandle(0),
-	m_enterSESound(0),
 	m_BgSound(0),
 	m_displayCount(0),
 	m_TitleFont(0),
@@ -71,14 +71,12 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
 	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
 
-	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
-	m_BgSound = LoadSoundMem(L"../Sound/TitleBg.mp3");
+	m_BgSound = LoadSoundMem(L"../Sound/BGM/TitleBg.mp3");
 
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_roomHandle = my::MyLoadGraph(L"../Date/texture.png");
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	m_titleHandle = my::MyLoadGraph(L"../Date/Title.png");
-	//m_TitleFont = CreateFontToHandle(L"851マカポップ", 162, -1, -1);
 	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
 	m_strTitle = strlen("片付け番");
 	m_strEx = strlen("Aボタンを押してください");
@@ -86,7 +84,7 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
-	ChangeNextPlayVolumeSoundMem(160, m_enterSESound);
+	//SoundManager::GetInstance().PlayMusic(L"../Sound/BGM/TitleBg.mp3");
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 }
 
@@ -96,7 +94,6 @@ SceneTitle::~SceneTitle()
 	delete m_pPlayer;
 	DeleteGraph(m_backHandle);
 	DeleteGraph(m_roomHandle);
-	DeleteSoundMem(m_enterSESound);
 	DeleteSoundMem(m_BgSound);
 	DeleteFontToHandle(m_TitleFont);
 	DeleteFontToHandle(m_guideFont);
@@ -119,13 +116,6 @@ void SceneTitle::Draw()
 	//背景
 	DrawBackground();
 	m_pPlayer->Draw();
-
-	//DrawStringToHandle((Game::kScreenWindth -
-	//	GetDrawStringWidthToHandle(L"片付け番", m_strTitle, m_TitleFont)) / 2 + 5,
-	//	200 + 3, L"片付け番", 0x000000, m_TitleFont);								//タイトルの表示
-	//DrawStringToHandle((Game::kScreenWindth -
-	//	GetDrawStringWidthToHandle(L"片付け番", m_strTitle, m_TitleFont)) / 2,
-	//	200, L"片付け番", 0xff0000, m_TitleFont);								//タイトルの表示
 	
 	DrawRotaGraph((Game::kScreenWindth  / 2), 300,
 		0.5f,0,

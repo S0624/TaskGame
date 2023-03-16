@@ -11,6 +11,7 @@
 #include"../Object/MapChip.h"
 #include"../GameManager.h"
 #include"../Object/CreateEffect.h"
+#include"../SoundManager.h"
 #include"DxLib.h"
 
 namespace {
@@ -65,7 +66,9 @@ void SceneMain::NormalUpdate(const InputState& input)
 	//ゲームクリアしていたら押せなくする
 	else if (input.IsTrigger(InputType::pause))
 	{
-		PlaySoundMem(m_pauseSESound, DX_PLAYTYPE_BACK);
+		
+		SoundManager::GetInstance().Play(L"Pause1");
+		StopSoundMem(m_gamePlayBgSound);
 		m_manager.PushScene(new ScenePause(m_manager));
 	}
 
@@ -132,14 +135,7 @@ void SceneMain::InitLoad()
 //サウンド系の初期化
 void SceneMain::InitSound()
 {
-	m_enterSESound = LoadSoundMem(L"../Sound/SE1.mp3");
-	m_moveSESound = LoadSoundMem(L"../Sound/SE2.mp3");
-	m_pauseSESound = LoadSoundMem(L"../Sound/Pause1.mp3");
-	m_clearSESound = LoadSoundMem(L"../Sound/GameClear.mp3");
-	m_overSESound = LoadSoundMem(L"../Sound/GameOver.mp3");
-	m_gamePlayBgSound = LoadSoundMem(L"../Sound/GamePlayBg.mp3");
-
-	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
+	m_gamePlayBgSound = LoadSoundMem(L"../Sound/BGM/GamePlayBg.mp3");
 }
 
 //背景表示の処理
@@ -182,7 +178,7 @@ void SceneMain::DrawGameClear()
 	{
 		if (m_setBlend == 90)
 		{
-			PlaySoundMem(m_clearSESound, DX_PLAYTYPE_BACK, true);
+			SoundManager::GetInstance().Play(L"GameClear");
 		}
 		return;
 	}
@@ -243,7 +239,7 @@ void SceneMain::DrawGameOver()
 
 	if (m_setBlend == 140)
 	{
-		PlaySoundMem(m_overSESound, DX_PLAYTYPE_BACK, true);
+		SoundManager::GetInstance().Play(L"GameOver");
 	}
 	if (m_setBlend < 150)
 	{
@@ -273,7 +269,7 @@ void SceneMain::DrawGameOver()
 	DrawStringToHandle(widthPos + 50, heightPos + m_index * 2, L"もう一度プレイ", 0x000000, m_guideFont);
 	DrawStringToHandle(widthPos + 50, heightPos + m_index * 3, L"タイトルへ戻る", 0x000000, m_guideFont);
 
-	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"→", 0x00a000, m_guideFont);
+	DrawStringToHandle(widthPos + 10, heightPos + m_index * m_numCount, L"▶", 0x00a000, m_guideFont);
 }
 
 void SceneMain::DrawUI()
@@ -359,19 +355,19 @@ SceneMain::~SceneMain()
 	//delete m_pPause;
 
 	DeleteGraph(m_handle);
+
 	DeleteGraph(m_backHandle);
-	DeleteSoundMem(m_enterSESound);
-	DeleteSoundMem(m_moveSESound);
-	DeleteSoundMem(m_pauseSESound);
-	DeleteSoundMem(m_clearSESound);
 	DeleteSoundMem(m_gamePlayBgSound);
 	DeleteFontToHandle(m_clearFont);
 	DeleteFontToHandle(m_guideFont);
+
+	SoundManager::GetInstance().StopBGMAndSE();
 }
 
 //アップデート処理
 void SceneMain::Update(const InputState& input)
 {
+	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);
 }
@@ -402,12 +398,12 @@ void SceneMain::CursorUpdate(const InputState& input)
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
-		PlaySoundMem(m_enterSESound, DX_PLAYTYPE_BACK);
+		SoundManager::GetInstance().Play(L"SE1");
 		m_updateFunc = &SceneMain::FadeOutUpdate;
 	}
 	if (m_numCount != count)
 	{
-		PlaySoundMem(m_moveSESound, DX_PLAYTYPE_BACK);
+		SoundManager::GetInstance().Play(L"SE2");
 	}
 }
 
