@@ -9,6 +9,7 @@
 #include"../SoundManager.h"
 #include<DxLib.h>
 
+//フェード処理
 void SceneTitle::FadeInUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
@@ -18,11 +19,12 @@ void SceneTitle::FadeInUpdate(const InputState& input)
 	}
 }
 
+//更新処理
 void SceneTitle::NormalUpdate(const InputState& input)
 {
 	m_pPlayer->TitleUpdate();
 
-	//ガイドの文字の点滅
+	//アニメーションの処理（ボタン）
 	m_animation++;
 	if (m_animation > 60)
 	{
@@ -37,15 +39,14 @@ void SceneTitle::NormalUpdate(const InputState& input)
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
-		SoundManager::GetInstance().Play(L"SE1");
 		m_updateFunc = &SceneTitle::FadeOutUpdate;
+		SoundManager::GetInstance().Play(L"SE1");
 	}
 }
 
+//フェード処理
 void SceneTitle::FadeOutUpdate(const InputState& input)
 {
-	SetVolumeMusic(255 - static_cast<int>(255.0f / 60.0f * static_cast<int>(60 - m_fadeTimer)));
-
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
 
@@ -54,6 +55,7 @@ void SceneTitle::FadeOutUpdate(const InputState& input)
 	}
 }
 
+//コンストラクタ
 SceneTitle::SceneTitle(SceneManager& manager) :
 	SceneBase(manager),
 	m_updateFunc(&SceneTitle::FadeInUpdate),
@@ -84,10 +86,10 @@ SceneTitle::SceneTitle(SceneManager& manager) :
 
 	m_pMap->Load(L"../Date/room.fmf");
 
-	//SoundManager::GetInstance().PlayMusic(L"../Sound/BGM/TitleBg.mp3");
-	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
+	SoundManager::GetInstance().PlayMusic(m_BgSound);
 }
 
+//デストラクタ
 SceneTitle::~SceneTitle()
 {
 	delete m_pMap;
@@ -99,12 +101,14 @@ SceneTitle::~SceneTitle()
 	DeleteFontToHandle(m_guideFont);
 }
 
+//更新処理
 void SceneTitle::Update(const InputState& input)
 {
 	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_BgSound);
 	(this->*m_updateFunc)(input);
 }
 
+//描画処理
 void SceneTitle::Draw()
 {
 	int posX = (Game::kScreenWindth -
@@ -117,12 +121,14 @@ void SceneTitle::Draw()
 	DrawBackground();
 	m_pPlayer->Draw();
 	
+	//タイトルの表示
 	DrawRotaGraph((Game::kScreenWindth  / 2), 300,
 		0.5f,0,
 		m_titleHandle, true);
 
 	//点滅処理
 
+	//ボタンの処理（アニメーションの追加）
 	my::MyDrawRectRotaGraph(posX - 5, posY + 25,			//表示座標
 		32 + (16 * animeNum), 16 + (16 * 2),			//切り取り左上
 		16, 16,							//幅、高さ
@@ -139,6 +145,7 @@ void SceneTitle::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+//背景描画
 void SceneTitle::DrawBackground()
 {
 	//背景

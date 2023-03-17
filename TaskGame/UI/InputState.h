@@ -8,8 +8,6 @@ enum class InputType {
 	next,	//次へ行くボタン
 	back,	//前に戻るボタン
 	pause,	//ポーズボタン
-	//keyconf,	//キーボタン
-	//change,	//チェンジボタン
 	up,			//上
 	down,		//下
 	right,		//右
@@ -26,7 +24,6 @@ enum class InputCategory
 {
 	keybd,	//キーボード
 	pad,	//ゲームパッド
-	//mouse	//マウス
 };
 
 struct InputInfo

@@ -1,6 +1,7 @@
 #include "SoundManager.h"
 #include"DxLib.h"
 
+//サウンドのロード
 int SoundManager::LoadSoundFile(const wchar_t* fileName)
 {
 	std::wstring path = L"../Sound/SE/";
@@ -11,6 +12,7 @@ int SoundManager::LoadSoundFile(const wchar_t* fileName)
 	return handle;
 }
 
+//コンストラクタ
 SoundManager::SoundManager()
 {
 	m_enterSE = LoadSoundFile(L"SE1");
@@ -23,6 +25,7 @@ SoundManager::SoundManager()
 	SetSEVolume(m_volumeSE);
 	SetBGMVolume(m_volumeBGM);
 }
+//デストラクタ
 SoundManager::~SoundManager()
 {
 	DeleteSoundMem(m_enterSE);
@@ -34,20 +37,21 @@ SoundManager::~SoundManager()
 	DeleteSoundMem(m_fireSE);
 }
 
+//SE
 void SoundManager::Play(const wchar_t* name)
 {
-	//if (CheckSoundMem(m_nameAndHandleTable[name]) == 0)
-	//{
-		PlaySoundMem(m_nameAndHandleTable[name], DX_PLAYTYPE_BACK);
-	//}
+	PlaySoundMem(m_nameAndHandleTable[name], DX_PLAYTYPE_BACK);
 }
 
-void SoundManager::PlayMusic(const wchar_t* path)
+//BGM
+void SoundManager::PlayMusic(const int  path)
+//void SoundManager::PlayMusic(const wchar_t* path)
 {
-	DxLib::PlayMusic(path, DX_PLAYTYPE_LOOP);
+	DxLib::PlaySoundMem(path, DX_PLAYTYPE_LOOP);
 	SetVolumeMusic(m_volumeBGM);
 }
 
+//SEの音量
 void SoundManager::SetSEVolume(int volume)
 {
 	for (auto& record : m_nameAndHandleTable) {
@@ -56,22 +60,26 @@ void SoundManager::SetSEVolume(int volume)
 	m_volumeSE = volume;
 }
 
+//SEの音量を返す
 int SoundManager::GetSEVolume() const
 {
 	return m_volumeSE;
 }
 
+//BGMの音量
 void SoundManager::SetBGMVolume(int volume)
 {
 	SetVolumeMusic(volume);
 	m_volumeBGM = volume;
 }
 
+//BGMの音量を返す
 int SoundManager::GetBGVolume() const
 {
 	return m_volumeBGM;
 }
 
+//SEとBGMの音を止める
 void SoundManager::StopBGMAndSE()
 {
 	StopSoundMem(m_overSE);

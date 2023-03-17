@@ -82,7 +82,7 @@ public:
 
 	//XVˆ—
 	void Update(const InputState& input);
-	
+	//Cursor‚ª“®‚­ˆ—
 	void CursorUpdate(const InputState& input);
 
 	//•`‰æˆ—

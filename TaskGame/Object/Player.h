@@ -83,6 +83,7 @@ public:
 	//•`‰æˆ—
 	void Draw()const;
 
+	//“®‚¢‚½è”‚ğ•Ô‚·
 	int MoveStep()const { return m_stepCount; }
 };
 

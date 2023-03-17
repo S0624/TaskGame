@@ -115,6 +115,7 @@ SceneSelect::~SceneSelect()
 //アップデート処理
 void SceneSelect::Update(const InputState& input)
 {
+	//ボリュームの設定
 	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_BgSound);
 	(this->*m_updateFunc)(input);
 }

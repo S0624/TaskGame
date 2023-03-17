@@ -352,7 +352,6 @@ SceneMain::~SceneMain()
 	delete m_pInformation;	//メモリの削除
 	delete m_pSelect;		//メモリの削除
 	delete m_pMap;
-	//delete m_pPause;
 
 	DeleteGraph(m_handle);
 
@@ -367,6 +366,7 @@ SceneMain::~SceneMain()
 //アップデート処理
 void SceneMain::Update(const InputState& input)
 {
+	//SoundManager::GetInstance().PlayMusic(m_gamePlayBgSound);
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);

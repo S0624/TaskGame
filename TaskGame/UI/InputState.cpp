@@ -18,16 +18,6 @@ InputState::InputState()
 	m_defaultMapTable[InputType::pause] = { {InputCategory::keybd,KEY_INPUT_P},
 									{InputCategory::pad,PAD_INPUT_8} };			//セレクト
 
-	////キーコンフィグ
-	//defaultMapTable_[InputType::keyconf] = { {InputCategory::keybd,KEY_INPUT_K},
-	//								{InputCategory::pad,PAD_INPUT_Y} };			//左ショルダー
-	//								//{InputCategory::pad,PAD_INPUT_4} };			//左ショルダー
-
-	////変更
-	//defaultMapTable_[InputType::change] = { {InputCategory::keybd,KEY_INPUT_C},
-	//								{InputCategory::pad,PAD_INPUT_Z} };			//右ショルダー
-	//							//{InputCategory::pad,PAD_INPUT_4} };			//右ショルダー
-
 	//上
 	m_defaultMapTable[InputType::up] = { {InputCategory::keybd,KEY_INPUT_UP},
 									{InputCategory::pad,PAD_INPUT_UP} };			//上ショルダー

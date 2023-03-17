@@ -96,6 +96,7 @@ void Player::UpdatePlayer(const InputState& input)
 		}
 	}
 
+	//一手戻るの処理
 	if(!m_animeFlag && !m_tempPos.empty())
 	{
 		if (input.IsTrigger(InputType::back))
@@ -374,6 +375,7 @@ bool Player::IsMoveNextPos(int x, int y) const
 	return true;
 }
 
+//タイトルで動き回っているプレイヤーの処理
 void Player::TitleUpdate()
 {
 	//下の移動

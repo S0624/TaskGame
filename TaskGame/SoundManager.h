@@ -1,6 +1,6 @@
 #pragma once
 #include<unordered_map>
-//#include<string>
+#include<string>
 class SoundManager
 {
 private:
@@ -38,7 +38,8 @@ public:
 	/// </summary>
 	/// <param name="name"></param>
 	void Play(const wchar_t* name);
-	void PlayMusic(const wchar_t* path);
+	void PlayMusic(const int path);
+	//void PlayMusic(const wchar_t* path);
 
 	void SetSEVolume(int volume);
 	int GetSEVolume() const;

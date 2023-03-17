@@ -10,7 +10,6 @@ class ScenePause :public SceneBase
 private:
     SceneMain* pMain = 0;
     void SetField(SceneMain* pMain) { pMain = pMain; }
-    //int kPauseNum = 1;
     int m_handle = 0;
     int m_pauseFont = 0;
     int m_guideFont = 0;
@@ -22,12 +21,18 @@ private:
     bool m_cursolFlag = false;
 
 public:
+    //コンストラクタ
     ScenePause(SceneManager& manager);
+    //デストラクタ
     ~ScenePause();
+    //初期化
     virtual void PauseInit();
 
+    //更新処理
     virtual void Update(const InputState& input);
+    //描画処理
     void Draw();
+    //カーソルの更新処理
     int CursolUpdate();
 };
 
