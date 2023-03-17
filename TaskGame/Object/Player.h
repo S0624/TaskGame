@@ -44,6 +44,7 @@ private:
 	float m_posY = 500;
 
 	std::stack<Vec2>m_tempPos;
+	std::stack<int>m_tempDirection;
 private:
 	//プレイヤーが動くために必要な情報を持つ関数
 	void MoveFrame(Vec2 vel);

@@ -279,7 +279,13 @@ void SceneMain::DrawUI()
 		16, 16,							//幅、高さ
 		3.0f, 0.0f,						//拡大率、回転角度
 		m_buttonHandle, true);
+	my::MyDrawRectRotaGraph(1200, 330,			//表示座標
+		224, 495,			//切り取り左上
+		16, 16,							//幅、高さ
+		3.0f, 0.0f,						//拡大率、回転角度
+		m_buttonHandle, true);
 	DrawStringToHandle(1200 + 25, 300 - 20, L"...Pause", 0x000000, m_UIFont);
+	DrawStringToHandle(1200 + 25, 330 - 20, L"...back", 0x000000, m_UIFont);
 	DrawScore();
 }
 

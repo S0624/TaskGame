@@ -26,6 +26,7 @@ void Player::UpdatePlayer(const InputState& input)
 				{
 					//m_pField->test1();
 					m_tempPos.push(m_pos);
+					m_tempDirection.push(m_animationNumber);
 					vel.y = +Field::kSize;		//‰º‚É“®‚©‚·
 					m_stepCount++;
 				}
@@ -47,6 +48,7 @@ void Player::UpdatePlayer(const InputState& input)
 				{
 					//m_pField->test1();
 					m_tempPos.push(m_pos);
+					m_tempDirection.push(m_imgidx);
 					vel.y = -Field::kSize;		//ã‚É“®‚©‚·
 					m_stepCount++;
 				}
@@ -68,6 +70,7 @@ void Player::UpdatePlayer(const InputState& input)
 				{
 					//m_pField->test1();
 					m_tempPos.push(m_pos);
+					m_tempDirection.push(m_imgidx);
 					vel.x = -Field::kSize;		//¶‚É“®‚©‚·
 					m_stepCount++;
 				}
@@ -89,6 +92,7 @@ void Player::UpdatePlayer(const InputState& input)
 				{
 					//m_pField->test1();
 					m_tempPos.push(m_pos);
+					m_tempDirection.push(m_imgidx);
 					vel.x = +Field::kSize;		//‰E‚É“®‚­
 					m_stepCount++;
 				}
@@ -103,8 +107,10 @@ void Player::UpdatePlayer(const InputState& input)
 		{
 			m_pField->tempFieldOut();
 			m_pos = m_tempPos.top();
+			m_imgidx = m_tempDirection.top();
 			m_playerNextPos = m_tempPos.top();
 			m_tempPos.pop();
+			m_tempDirection.pop();
 			m_stepCount--;
 		}
 	}
