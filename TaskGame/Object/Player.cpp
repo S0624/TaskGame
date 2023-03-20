@@ -4,6 +4,7 @@
 #include"../Scene/SceneMain.h"
 #include"../UI/InputState.h"
 #include"../GameManager.h"
+#include"../SoundManager.h"
 
 //プレイヤーの動きの処理
 void Player::UpdatePlayer(const InputState& input)
@@ -24,9 +25,8 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 1;
 				if (IsMoveNextPos(0, 1))
 				{
-					//m_pField->test1();
 					m_tempPos.push(m_pos);
-					m_tempDirection.push(m_animationNumber);
+					m_tempDirection.push(m_imgidx);
 					vel.y = +Field::kSize;		//下に動かす
 					m_stepCount++;
 				}
@@ -46,7 +46,6 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 2;
 				if (IsMoveNextPos(0, -1))
 				{
-					//m_pField->test1();
 					m_tempPos.push(m_pos);
 					m_tempDirection.push(m_imgidx);
 					vel.y = -Field::kSize;		//上に動かす
@@ -68,7 +67,6 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 3;
 				if (IsMoveNextPos(-1, 0))
 				{
-					//m_pField->test1();
 					m_tempPos.push(m_pos);
 					m_tempDirection.push(m_imgidx);
 					vel.x = -Field::kSize;		//左に動かす
@@ -90,7 +88,6 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 4;
 				if (IsMoveNextPos(1, 0))
 				{
-					//m_pField->test1();
 					m_tempPos.push(m_pos);
 					m_tempDirection.push(m_imgidx);
 					vel.x = +Field::kSize;		//右に動く
@@ -105,6 +102,7 @@ void Player::UpdatePlayer(const InputState& input)
 	{
 		if (input.IsTrigger(InputType::back))
 		{
+			SoundManager::GetInstance().Play(L"BackSE");
 			m_pField->tempFieldOut();
 			m_pos = m_tempPos.top();
 			m_imgidx = m_tempDirection.top();
@@ -378,6 +376,7 @@ bool Player::IsMoveNextPos(int x, int y) const
 	// 一つ下にブロックが置かれている場合
 	if (m_pField->IsMovablePos(indexPosX + posX, indexPosY + posY)) return false;
 
+	SoundManager::GetInstance().Play(L"StepSE");
 	return true;
 }
 

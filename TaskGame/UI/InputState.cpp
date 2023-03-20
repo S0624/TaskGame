@@ -12,11 +12,13 @@ InputState::InputState()
 	m_defaultMapTable[InputType::back] = {{InputCategory::pad,PAD_INPUT_4},
 										{InputCategory::pad,PAD_INPUT_3},
 										{InputCategory::pad,PAD_INPUT_5},
+										{InputCategory::keybd,KEY_INPUT_SPACE},
 										{InputCategory::keybd,KEY_INPUT_Z} };		//スタートボタン
 
 	//ポーズ
 	m_defaultMapTable[InputType::pause] = { {InputCategory::keybd,KEY_INPUT_P},
-									{InputCategory::pad,PAD_INPUT_8} };			//セレクト
+											{InputCategory::keybd,KEY_INPUT_X},
+											{InputCategory::pad,PAD_INPUT_8} };			//セレクト
 
 	//上
 	m_defaultMapTable[InputType::up] = { {InputCategory::keybd,KEY_INPUT_UP},

@@ -21,7 +21,9 @@ SoundManager::SoundManager()
 	m_pauseBackSE = LoadSoundFile(L"Pause2");
 	m_clearSE = LoadSoundFile(L"GameClear");
 	m_overSE = LoadSoundFile(L"GameOver");
-	m_overSE = LoadSoundFile(L"fireflower");
+	m_fireSE = LoadSoundFile(L"fireflower");
+	m_stepSE = LoadSoundFile(L"StepSE");
+	m_backSE = LoadSoundFile(L"BackSE");
 	SetSEVolume(m_volumeSE);
 	SetBGMVolume(m_volumeBGM);
 }
@@ -35,6 +37,8 @@ SoundManager::~SoundManager()
 	DeleteSoundMem(m_clearSE);
 	DeleteSoundMem(m_overSE);
 	DeleteSoundMem(m_fireSE);
+	DeleteSoundMem(m_stepSE);
+	DeleteSoundMem(m_backSE);
 }
 
 //SE

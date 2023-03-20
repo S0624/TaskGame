@@ -285,7 +285,7 @@ void SceneMain::DrawUI()
 		3.0f, 0.0f,						//拡大率、回転角度
 		m_buttonHandle, true);
 	DrawStringToHandle(1200 + 25, 300 - 20, L"...Pause", 0x000000, m_UIFont);
-	DrawStringToHandle(1200 + 25, 330 - 20, L"...back", 0x000000, m_UIFont);
+	DrawStringToHandle(1200 + 25, 330 - 20, L"...StepBack", 0x000000, m_UIFont);
 	DrawScore();
 }
 
@@ -374,7 +374,7 @@ void SceneMain::Update(const InputState& input)
 {
 	//SoundManager::GetInstance().PlayMusic(m_gamePlayBgSound);
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
-	ChangeVolumeSoundMem(255 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
+	ChangeVolumeSoundMem(210 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);
 }
 
