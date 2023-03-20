@@ -38,6 +38,7 @@ private:
 	int m_displayCount = 0;
 	int m_buttonHandle = 0;
 	int m_animation = 0;
+	int m_boxHandle = 0;
 
 public:
 	SceneSelect(SceneManager& manager);

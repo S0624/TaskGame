@@ -98,6 +98,8 @@ SceneSelect::SceneSelect(SceneManager& manager) :
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
 	m_pMap->Load(L"../Date/room.fmf");
 
+	m_boxHandle = my::MyLoadGraph(L"../Date/box.png");		//画像の読み込み
+
 	PlaySoundMem(m_BgSound, DX_PLAYTYPE_LOOP);
 }
 
@@ -187,7 +189,6 @@ void SceneSelect::DrawBackground()
 		Game::kScreenWindth, Game::kScreenHeight,
 		0x000000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
-
 }
 
 void SceneSelect::DrawSelectNum()
@@ -202,6 +203,7 @@ void SceneSelect::DrawSelectNum()
 	int posY = (Game::kScreenHeight / 2) - (index * 2);
 
 	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);		//黒くする
+	
 	DrawBox(posX - 5,
 		posY + index - 5,
 		index + posX + index * 4 - 5,
@@ -209,12 +211,19 @@ void SceneSelect::DrawSelectNum()
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
+	//my::MyDrawRectRotaGraph(posX - 5,
+	//	posY + index - 5,			//表示座標
+	//	0, 0,							//切り取り左上
+	//	16, 21,							//幅、高さ
+	//	2.0f, 0.0f,						//拡大率、回転角度
+	//	m_boxHandle, true);
+
+
 	for (int i = 0; i < kMaxStage; i++)
 	{
 
 		int indexUp = 0;
 		int color = 0xffffff;
-		//const char* letter = "%d";
 
 		X = i % 5;	//改行したときに文字がずれないように割った余りをXに代入する
 
@@ -241,9 +250,6 @@ void SceneSelect::DrawSelectNum()
 			DrawFormatStringToHandle(a,
 				10+(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
 		}
-
-		//DrawFormatStringToHandle(posX + index * X,
-		//		(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
 		
 		DrawBox(posX + index * X - 5,
 			posY + index * Y - 5,
@@ -294,7 +300,6 @@ void SceneSelect::MoveCursor(const InputState& input)
 		if (kSelectNum > kMaxStage)
 		{
 			kSelectNum -= 10;
-			//kSelectNum *= -1;
 		}
 	}
 
@@ -327,7 +332,6 @@ void SceneSelect::Animation()
 			m_freamAnime = 0;
 		}
 		if (m_animeNum > 3)
-			//if (m_num > 4)
 		{
 			m_animeNum = 0;
 			m_freamStop = 0;
