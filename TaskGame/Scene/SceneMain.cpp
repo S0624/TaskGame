@@ -221,7 +221,7 @@ void SceneMain::DrawGameClear()
 void SceneMain::DrawGameOver()
 {
 	m_overPosY += m_gravity;
-	if (m_overPosY > 20 || m_overPosY < -20)
+	if (m_overPosY > 20 || m_overPosY < -40)
 	{
 		m_gravity *= -1;
 	}

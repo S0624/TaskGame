@@ -29,6 +29,17 @@ void SceneSelect::FadeInUpdate(const InputState& input)
 //アップデート処理
 void SceneSelect::NormalUpdate(const InputState& input)
 {
+	frame++;
+	if (frame > 3)
+	{
+		m_selectNumIndex += moveindex;
+		frame = 0;
+
+		if (m_selectNumIndex < -10 || m_selectNumIndex > -1)
+		{
+			moveindex *= -1;
+		}
+	}
 	m_animation++;
 	if (m_animation > 60)
 	{
@@ -211,17 +222,8 @@ void SceneSelect::DrawSelectNum()
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 
-	//my::MyDrawRectRotaGraph(posX - 5,
-	//	posY + index - 5,			//表示座標
-	//	0, 0,							//切り取り左上
-	//	16, 21,							//幅、高さ
-	//	2.0f, 0.0f,						//拡大率、回転角度
-	//	m_boxHandle, true);
-
-
 	for (int i = 0; i < kMaxStage; i++)
 	{
-
 		int indexUp = 0;
 		int color = 0xffffff;
 
@@ -235,19 +237,19 @@ void SceneSelect::DrawSelectNum()
 
 		if (i + 1 == kSelectNum)
 		{
-			indexUp = -10;
+			indexUp = m_selectNumIndex;
 			color = 0xff0000;
 		}
-		int a = posX + index * X;
+		int posNumX = posX + index * X;
 		//仮実装で1～9に0を付けて表示する処理
 		if (i == kMaxStage - 1)
 		{
-			DrawFormatStringToHandle(a,
+			DrawFormatStringToHandle(posNumX,
 				10 + (posY + index * Y) + indexUp, color, m_selectFont, L"%d", i + 1);	//選択中のステージの表示
 		}
 		else
 		{
-			DrawFormatStringToHandle(a,
+			DrawFormatStringToHandle(posNumX,
 				10+(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
 		}
 		
