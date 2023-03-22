@@ -39,7 +39,7 @@ private:
 	int m_buttonHandle = 0;
 	int m_animation = 0;
 	int m_boxHandle = 0;
-	int m_selectNumIndex = -10;
+	int m_selectNumIndex = -1;
 	int moveindex = 1;
 	int frame = 0;
 
