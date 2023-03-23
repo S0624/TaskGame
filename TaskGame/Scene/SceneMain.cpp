@@ -374,7 +374,7 @@ void SceneMain::Update(const InputState& input)
 {
 	//SoundManager::GetInstance().PlayMusic(m_gamePlayBgSound);
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
-	ChangeVolumeSoundMem(210 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
+	ChangeVolumeSoundMem(160 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);
 }
 
