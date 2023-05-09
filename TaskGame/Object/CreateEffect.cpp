@@ -4,6 +4,11 @@
 #include"../UI/game.h"
 #include"../GameManager.h"
 #include"../SoundManager.h"
+
+namespace
+{
+	constexpr int kHandleIndex = 480;
+}
 void CreateEffect::AnimationUpdate()
 {
 	m_testFrame++;
@@ -18,7 +23,7 @@ void CreateEffect::AnimationUpdate()
 		if (m_animeNumY >= 6)
 		{
 			m_animeNumY = 0;
-			m_startPosY = GetRand(600) + 200;
+			m_startPosY = GetRand(600) + 200;	//位置をランダムに生成する
 			if (m_startPosX == 200)
 			{
 				m_startPosX = 1200;
@@ -30,6 +35,7 @@ void CreateEffect::AnimationUpdate()
 		}
 		if (m_animeNumX == 1 && m_animeNumY == 3)
 		{
+			// エフェクトの効果音を鳴らす
 			SoundManager::GetInstance().Play(L"fireflower");
 		}
 		m_testFrame = 0;
@@ -41,7 +47,7 @@ CreateEffect::CreateEffect()
 	{
 		clear = std::make_shared<ClearEffect>();
 	}
-
+	// 花火の画像
 	m_handle = my::MyLoadGraph(L"../Date/Clear.png");
 
 }
@@ -74,8 +80,6 @@ void CreateEffect::Update()
 			float randSpeed = static_cast<float>(GetRand(160)) / 10.0f + 1.0f;
 
 			Vec2 pos;
-			//pos.x = m_startPosX;
-			//pos.x = 256 + cosf(randSin) * 2.0f;
 			pos.x = m_startPosX + cosf(randSin) * 2.0f;
 			pos.y = m_startPosY + sinf(randSin) * 2.0f;
 
@@ -89,22 +93,8 @@ void CreateEffect::Update()
 			clear->SetColor(0xff2020);
 			clear->SetGravity(0.4f);
 
-			count++;
-			if (count >= 32)
-			{
-				break;
-			}
 		}
 		m_flowerFrame = m_flowerInterval;
-		//m_startPosY = GetRand(600) + 200;
-		//if (m_startPosX == 200)
-		//{
-		//	m_startPosX = 1200;
-		//}
-		//else
-		//{
-		//	m_startPosX = 200;
-		//}
 	}
 }
 
@@ -113,16 +103,8 @@ void CreateEffect::Draw()
 	AnimationUpdate();
 
 	my::MyDrawRectRotaGraph(m_startPosX, m_startPosY,			//表示座標
-		480 * m_animeNumX, 480 * m_animeNumY,			//切り取り左上
-		480, 480,							//幅、高さ
+		kHandleIndex * m_animeNumX, kHandleIndex * m_animeNumY,			//切り取り左上
+		kHandleIndex, kHandleIndex,							//幅、高さ
 		0.5f, 0.0f,						//拡大率、回転角度
 		m_handle, true);
-
-	int count = 0;
-	//for (auto& clear : m_pClear)
-	//{
-	//	if (!clear->IsExist())	continue;
-	//	clear->Draw();
-	//	count++;
-	//}
 }

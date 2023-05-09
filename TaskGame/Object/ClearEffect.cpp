@@ -1,16 +1,6 @@
 #include "ClearEffect.h"
 #include"DxLib.h"
 
-ClearEffect::ClearEffect()
-{
-	
-}
-
-ClearEffect::~ClearEffect()
-{
-
-}
-
 void ClearEffect::Init()
 {
 	m_pos = Vec2(0, 0);
@@ -26,6 +16,7 @@ void ClearEffect::Init()
 
 void ClearEffect::Update()
 {
+	// ‘¶İ‚µ‚Ä‚¢‚È‚©‚Á‚½‚çˆ—‚ğ‚µ‚È‚¢
 	if (!m_isExist)	return;
 	m_pos += m_vec;
 	m_vec.y += m_gravity;
@@ -45,8 +36,9 @@ void ClearEffect::Update()
 
 void ClearEffect::Draw()
 {
+	// ‘¶İ‚µ‚Ä‚¢‚È‚©‚Á‚½‚çˆ—‚ğ‚µ‚È‚¢
 	if (!m_isExist)	return;
-
+	// ƒuƒŒƒ“ƒh—¦
 	SetDrawBlendMode(DX_BLENDMODE_ADD, m_alpha);
 	DrawCircleAA(m_pos.x, m_pos.y, m_radius, 16, m_color, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);

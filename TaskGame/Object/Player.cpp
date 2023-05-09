@@ -25,15 +25,14 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 1;
 				if (IsMoveNextPos(0, 1))
 				{
-					m_tempPos.push(m_pos);
-					m_tempDirection.push(m_imgidx);
+					m_tempPos.push(m_pos);	// プレイヤーの位置を記憶させる
+					m_tempDirection.push(m_imgidx);	//プレイヤーの画像を記憶させる
 					vel.y = +Field::kSize;		//下に動かす
-					m_stepCount++;
+					m_stepCount++;				//歩いた歩数を数える
 				}
 			}
 		}
 	}
-
 	//上を押された時の処理
 	else if (input.IsPressed(InputType::up))
 	{
@@ -46,15 +45,14 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 2;
 				if (IsMoveNextPos(0, -1))
 				{
-					m_tempPos.push(m_pos);
-					m_tempDirection.push(m_imgidx);
+					m_tempPos.push(m_pos);	// プレイヤーの位置を記憶させる
+					m_tempDirection.push(m_imgidx);	//プレイヤーの画像を記憶させる
 					vel.y = -Field::kSize;		//上に動かす
-					m_stepCount++;
+					m_stepCount++;				//歩いた歩数を数える
 				}
 			}
 		}
-	}
-				
+	}	
 	//左を押された時の処理
 	else if (input.IsPressed(InputType::left))
 	{
@@ -67,15 +65,14 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 3;
 				if (IsMoveNextPos(-1, 0))
 				{
-					m_tempPos.push(m_pos);
-					m_tempDirection.push(m_imgidx);
+					m_tempPos.push(m_pos);	// プレイヤーの位置を記憶させる
+					m_tempDirection.push(m_imgidx);	//プレイヤーの画像を記憶させる
 					vel.x = -Field::kSize;		//左に動かす
-					m_stepCount++;
+					m_stepCount++;				//歩いた歩数を数える
 				}
 			}
 		}
 	}
-
 	//右を押された時の処理
 	else if (input.IsPressed(InputType::right))
 	{
@@ -88,15 +85,14 @@ void Player::UpdatePlayer(const InputState& input)
 				m_playerMoveNum = 4;
 				if (IsMoveNextPos(1, 0))
 				{
-					m_tempPos.push(m_pos);
-					m_tempDirection.push(m_imgidx);
+					m_tempPos.push(m_pos);	// プレイヤーの位置を記憶させる
+					m_tempDirection.push(m_imgidx);	//プレイヤーの画像を記憶させる
 					vel.x = +Field::kSize;		//右に動く
-					m_stepCount++;
+					m_stepCount++;				//歩いた歩数を数える
 				}
 			}
 		}
 	}
-
 	//一手戻るの処理
 	if(!m_animeFlag && !m_tempPos.empty())
 	{
@@ -112,7 +108,6 @@ void Player::UpdatePlayer(const InputState& input)
 			m_stepCount--;
 		}
 	}
-
 	//アニメーションを行う処理
 	AnimetionPlayer(m_animeFlag);
 	//動いた数を渡す
@@ -352,7 +347,6 @@ void Player::Update(const InputState& input)
 	MoveFrame();
 	//ゲームクリアではなかったらキー入力を受け付ける
 	if (!m_pField->GameClear() && m_stepCount < m_pField->StepLimit())
-	//if (!m_pField->GameClear() || !m_pMain->GameOver())
 	{
 		UpdatePlayer(input);				//プレイヤーの移動処理を呼び出す
 	}

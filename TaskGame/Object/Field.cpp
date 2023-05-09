@@ -37,6 +37,7 @@ Field::Field() :
 	m_boxHandle = my::MyLoadGraph(L"../Date/box.png");		//画像の読み込み
 }
 
+//フィールドクラスのデストラクタ
 Field::~Field()
 {
 	DeleteGraph(m_groundHandle);
@@ -171,7 +172,6 @@ bool Field::IsMovable(int posX, int posY, int x, int y)
 			tempFieldInput();
 			m_drawFlag = true;
 			m_field[posY][posX] = ground;					//現在地に空白を入れる
-			//m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
 			m_field[y + posY][x + posX] = ground;			//次に箱が来る場所の確保
 			MoveFrame(posX, posY, x, y, box);
 
@@ -258,14 +258,14 @@ int Field::StepLimit()
 //箱を移動させるための情報を持つ関数
 void Field::MoveFrame(int posX, int posY, int x, int y, int type)
 {
-	int vec = x + y;			//移動ベクトルがマイナスかプラスか調べる
-	m_drawFlag = true;			//フラグをtrueにする
-	m_pos.x = static_cast<float>(posX * kSize);	//箱の現在地を計算する
-	m_pos.y = static_cast<float>(posY * kSize);	//箱の現在地を計算する
-	m_boxMoveSpeed = static_cast <float>(3.0 * vec);	//移動スピードの設定
+	int vec = x + y;													//移動ベクトルがマイナスかプラスか調べる
+	m_drawFlag = true;													//フラグをtrueにする
+	m_pos.x = static_cast<float>(posX * kSize);							//箱の現在地を計算する
+	m_pos.y = static_cast<float>(posY * kSize);							//箱の現在地を計算する
+	m_boxMoveSpeed = static_cast <float>(3.0 * vec);					//移動スピードの設定
 	m_boxNextPos.x = static_cast<float>(posX * kSize) + (x * kSize);	//箱の次の場所の計算
 	m_boxNextPos.y = static_cast<float>(posY * kSize) + (y * kSize);	//箱の次の場所の計算
-	m_boxType = type;			//箱のタイプ
+	m_boxType = type;													//箱のタイプ
 }
 
 //箱を移動させる処理
@@ -363,6 +363,7 @@ bool Field::MoveBox() const
 	return false;
 }
 
+//フィールドの一つ戻す実装
 void Field::tempFieldInput()
 {
 	for (int i = 0; i < kFieldX; i++)		//fieldに数値を入れる
@@ -374,6 +375,7 @@ void Field::tempFieldInput()
 	}
 }
 
+//フィールドの一つ戻す実装
 void Field::tempFieldOut()
 {
 	for (int i = 0; i < kFieldX; i++)		//fieldに数値を入れる

@@ -26,7 +26,7 @@ private:
 
 	int m_testFrame = 0;
 private:
-	std::array<std::shared_ptr<ClearEffect>, 4096> m_pClear;
+	std::array<std::shared_ptr<ClearEffect>, 10> m_pClear;
 	void AnimationUpdate();
 public:
 	CreateEffect();

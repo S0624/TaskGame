@@ -22,8 +22,8 @@ private:
 	float m_radiusAcc = 0.0f;
 
 public:
-	ClearEffect();
-	~ClearEffect();
+	ClearEffect(){};
+	~ClearEffect(){};
 	void Init();
 	void Update();
 	void Draw();

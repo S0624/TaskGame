@@ -24,7 +24,6 @@ private:
 	std::shared_ptr<CreateEffect> m_pEffect;
 
 private:
-	//static constexpr int m_fadeInterval = 10;
 	 static constexpr int m_fadeInterval = 30;
 	int m_fadeTimer = m_fadeInterval; //フェードタイマー
 	float m_fadeValue = 255; //黒矩形とのブレンド具合

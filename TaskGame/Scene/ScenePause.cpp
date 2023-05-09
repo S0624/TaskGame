@@ -20,14 +20,11 @@ namespace
 //コンストラクタ
 ScenePause::ScenePause(SceneManager& manager) : SceneBase(manager)
 {
-	//m_handle = my::MyLoadGraph(L"../Date/pause.png");		//画像の読み込み
 	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
-	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/erizifont.otf");						// 読み込むフォントファイルのパス
 	kPauseNum = 1;
-
 	m_pauseFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 30, -1, -1);
 	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 40, -1, -1);
-
 	//初期化
 	PauseInit();
 }
@@ -79,7 +76,6 @@ void ScenePause::Update(const InputState& input)
 		m_magnification = 0.0f;
 		m_manager.PopScene();
 	}
-
 	if (input.IsTrigger(InputType::pause))
 	{
 		SoundManager::GetInstance().Play(L"Pause2");
@@ -93,9 +89,7 @@ void ScenePause::Update(const InputState& input)
 		m_Increase *= -1;
 		return;
 	}
-
 	int count = kPauseNum;
-
 	if (input.IsTrigger(InputType::down))
 	{
 		++kPauseNum;
@@ -104,7 +98,6 @@ void ScenePause::Update(const InputState& input)
 	{
 		--kPauseNum;
 	}
-
 	//ポーズの移動を制限する
 	if (kPauseNum < 1)
 	{
@@ -124,26 +117,21 @@ void ScenePause::Update(const InputState& input)
 //描画処理
 void ScenePause::Draw()
 {
-	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);		//黒くしたいときMALA
-													//ポーズウィンドウセロファン			//ポーズ中メッセージ
-	DrawBox(0, 0,
+	SetDrawBlendMode(DX_BLENDMODE_MULA, 150);			//ポーズウィンドウセロファン
+	DrawBox(0, 0,										//ポーズ中メッセージ
 		Game::kScreenWindth, Game::kScreenHeight,
 		0x00000, true);
-
-
 	//元に戻す
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			//通常描画に戻す
 	//ポーズの描画
 	DrawRotaGraph(kWidthPos + 200, kHeightPos + 150,
 		m_magnification, 0.0f, m_pausehandle, true);
-
 	if (m_cursolFlag)
 	{
 		//カーソルの表示
 		DrawStringToHandle(kWidthPos + 10, kHeightPos + 60 * kPauseNum, L"▶", 0x00a000, m_guideFont);
 	}
 }
-
 //カーソルの移動処理
 int ScenePause::CursolUpdate()
 {

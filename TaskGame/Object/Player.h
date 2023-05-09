@@ -80,6 +80,7 @@ public:
 	//次に動く場所が動けるかをチェックする処理
 	bool IsMoveNextPos(int x, int y)const;
 
+	//タイトルで表示するプレイヤーのUpdate
 	void TitleUpdate();
 	//描画処理
 	void Draw()const;

@@ -33,7 +33,7 @@ private:
 	int m_fontSize;
 	int m_freamAnime = 0;	//アニメーションを行うフレーム
 	int m_freamStop = 0;	//アニメーションを止めているフレーム
-	int m_animeNum = 0;			//アニメーションの番号
+	int m_animeNum = 0;		//アニメーションの番号
 	int m_countNum = 0;
 	int m_displayCount = 0;
 	int m_buttonHandle = 0;

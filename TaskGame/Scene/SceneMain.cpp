@@ -85,24 +85,28 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 {
 	m_fadeValue = 255 * (static_cast<float>(m_fadeTimer) / static_cast<float>(m_fadeInterval));
 	if (++m_fadeTimer == m_fadeInterval) {
+		// ステージに戻る
 		if (m_selectNum == 3)
 		{
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneSelect(m_manager));
 			return;
 		}
+		// タイトルに戻る
 		if (m_numCount == 3 || m_selectNum == 4)
 		{
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneTitle(m_manager));
 			return;
 		}
+		// 初期化（初めからを選択した場合の処理）
 		if (m_numCount == 2 || m_selectNum == 2)
 		{
 			kNextStage = 0;
 			m_manager.ChangeScene(new SceneMain(m_manager));
 			return;
 		}
+		// 次へを押された場合の処理
 		if (m_stageNum != 10)
 		{
 			if (m_numCount == 1)
@@ -118,16 +122,19 @@ void SceneMain::FadeOutUpdate(const InputState& input)
 //ロード系の初期化
 void SceneMain::InitLoad()
 {
-	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");		//画像の読み込み
+	//画像の読み込み
+	m_handle = my::MyLoadGraph(L"../Date/Setting menu.png");
 	m_buttonHandle = my::MyLoadGraph(L"../Date/button.png");
-	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); // 読み込むフォントファイルのパス
-	my::MyFontPath(L"../Font/komorebi-gothic.ttf"); // 読み込むフォントファイルのパス
-	my::MyFontPath(L"../Font/erizifont.otf"); // 読み込むフォントファイルのパス
+	// 読み込むフォントファイルのパス
+	my::MyFontPath(L"../Font/851MkPOP_101.ttf"); 
+	my::MyFontPath(L"../Font/komorebi-gothic.ttf");
+	my::MyFontPath(L"../Font/erizifont.otf");
+	// フォントの指定
 	m_clearFont = CreateFontToHandle(L"851マカポップ", 200, -1, -1);
 	m_guideFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 42, -1, -1);
 	m_UIFont = CreateFontToHandle(L"HG丸ｺﾞｼｯｸM-PRO", 32, -1, -1);
 	m_scoreFont = CreateFontToHandle(L"えり字", 64, -1, -1);
-
+	//マップの読み込み
 	m_backHandle = my::MyLoadGraph(L"../Date/Grass.png");
 	m_pMap->Load(L"../Date/room.fmf");
 }
@@ -357,22 +364,22 @@ SceneMain::~SceneMain()
 	delete m_pPlayer;		//メモリの削除
 	delete m_pInformation;	//メモリの削除
 	delete m_pSelect;		//メモリの削除
-	delete m_pMap;
+	delete m_pMap;			//メモリの削除
 
+	//画像の削除
 	DeleteGraph(m_handle);
-
 	DeleteGraph(m_backHandle);
-	DeleteSoundMem(m_gamePlayBgSound);
+	//フォントの削除
 	DeleteFontToHandle(m_clearFont);
 	DeleteFontToHandle(m_guideFont);
-
+	//サウンドの削除
+	DeleteSoundMem(m_gamePlayBgSound);
 	SoundManager::GetInstance().StopBGMAndSE();
 }
 
 //アップデート処理
 void SceneMain::Update(const InputState& input)
 {
-	//SoundManager::GetInstance().PlayMusic(m_gamePlayBgSound);
 	PlaySoundMem(m_gamePlayBgSound, DX_PLAYTYPE_LOOP, false);
 	ChangeVolumeSoundMem(160 - static_cast<int>(m_fadeValue), m_gamePlayBgSound);
 	(this->*m_updateFunc)(input);
@@ -382,7 +389,6 @@ void SceneMain::Update(const InputState& input)
 void SceneMain::CursorUpdate(const InputState& input)
 {
 	int count = m_numCount;
-	
 	if (input.IsTrigger(InputType::down))
 	{
 		++m_numCount;
@@ -399,8 +405,6 @@ void SceneMain::CursorUpdate(const InputState& input)
 	{
 		m_numCount = m_minNum;
 	}
-
-
 	//「次へ」ボタンが押されたら次へ
 	if (input.IsTrigger(InputType::next))
 	{
@@ -416,7 +420,7 @@ void SceneMain::CursorUpdate(const InputState& input)
 //描画処理
 void SceneMain::Draw()
 {
-	//背景
+	//背景とUIの表示
 	DrawBackground();
 	DrawUI();
 	m_pField->Draw();		//フィールドクラスの描画処理
@@ -429,7 +433,6 @@ void SceneMain::Draw()
 	{
 		DrawGameOver();
 	}
-
 	//普通の描画
 	//今から書く画像と、すでに描画されているスクリーンとの
 	//ブレンドの仕方を指定
