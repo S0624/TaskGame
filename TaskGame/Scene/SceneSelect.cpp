@@ -234,7 +234,6 @@ void SceneSelect::DrawSelectNum()
 		{
 			Y++;
 		}
-
 		if (i + 1 == kSelectNum)
 		{
 			indexUp = m_selectNumIndex;
@@ -252,7 +251,6 @@ void SceneSelect::DrawSelectNum()
 			DrawFormatStringToHandle(posNumX,
 				10+(posY + index * Y) + indexUp, color, m_selectFont, L"0%d", i + 1);	//選択中のステージの表示
 		}
-		
 		DrawBox(posX + index * X - 5,
 			posY + index * Y - 5,
 			index + posX + index * X - 5,

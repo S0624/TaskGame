@@ -17,10 +17,14 @@ public:
 private:
 	// 現在の盤面データ
 	int m_field[kFieldY][kFieldX];
+	int m_handle;
 	int m_groundHandle;			//空の時の画像
 	int m_boxHandle;			//箱の画像
 	int m_wallHandle;			//壁の画像
 	int m_pinHandle;			//置き場所の画像
+	int m_indexSize = 0;
+	float m_index = 0.0;
+	int m_shift = 0;
 
 	int m_storageNum;			//箱を置くべき場所の残り
 	bool m_drawFlag;			//移動中の箱を表示するかどうかのフラグ
@@ -50,6 +54,7 @@ public:
 	void Update();
 	//描画処理
 	void Draw();
+	void DrawField(int x,int y);
 
 	//プレイヤーが動かせるか配列のデータを見る関数
 	bool IsMovable(int posX, int posY, int x, int y);

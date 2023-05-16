@@ -51,7 +51,6 @@ public:
 	void Draw();
 	void DrawBackground();
 	void DrawSelectNum();
-
 	int SelectNum(int num);
 	//ƒJ[ƒ\ƒ‹‚ÌˆÚ“®ˆ—
 	void MoveCursor(const InputState& input);

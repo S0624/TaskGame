@@ -8,10 +8,12 @@
 namespace
 {
 	FieldInformation m_Information;
+	constexpr int kIndexSize = 25;
 }
 
 //フィールドクラスのコンストラクタ
 Field::Field() :
+	m_handle(0),
 	m_groundHandle(0),
 	m_boxHandle(0),
 	m_wallHandle(0),
@@ -73,65 +75,7 @@ void Field::Draw()
 	{
 		for (int x = 0; x < kFieldX; x++)
 		{
-			int posX = kSize * x;
-			int posY = kSize * y;
-
-			if (m_field[y][x] != empty)
-			{
-				my::MyDrawRectRotaGraph(posX + kWidth + (25),
-					posY + kHeight + (25),			//表示座標
-					0, 0,							//切り取り左上
-					16, 16,							//幅、高さ
-					3.0f, 0.0f,						//拡大率、回転角度
-					m_groundHandle, true);
-			}
-
-			if (m_field[y][x] == wall)
-			{
-
-				my::MyDrawRectRotaGraph(posX + kWidth + (25),
-					posY + kHeight + (25),			//表示座標
-					0, 0,							//切り取り左上
-					16, 16,							//幅、高さ
-					3.0f, 0.0f,						//拡大率、回転角度
-					m_wallHandle, true);
-			}
-			if (m_field[y][x] == storage)
-			{
-				my::MyDrawRectRotaGraph(posX + kWidth + (25),
-					posY + kHeight + (25),			//表示座標
-					0, 0,						//切り取り左上
-					16, 16,							//幅、高さ
-					2.5f, 0.0f,						//拡大率、回転角度
-					m_pinHandle, true);
-			}
-			if (m_field[y][x] == box)
-			{
-				my::MyDrawRectRotaGraph(posX + kWidth + (25),
-					posY + kHeight + (25),			//表示座標
-					0, 0,							//切り取り左上
-					16, 21,							//幅、高さ
-					2.5f, 0.0f,						//拡大率、回転角度
-					m_boxHandle, true);
-			}
-			if (m_field[y][x] == input)
-			{
-				my::MyDrawRectRotaGraph(posX + kWidth + (25),
-					posY + kHeight + (25),			//表示座標
-					16, 0,							//切り取り左上
-					16, 21,							//幅、高さ
-					2.5f, 0.0f,						//拡大率、回転角度
-					m_boxHandle, true);
-			}
-			if (m_field[y][x] == nextPos)
-			{
-				my::MyDrawRectRotaGraph(posX + kWidth + (25),
-					posY + kHeight + (25),			//表示座標
-					0, 0,						//切り取り左上
-					16, 16,							//幅、高さ
-					2.5f, 0.0f,						//拡大率、回転角度
-					m_pinHandle, true);
-			}
+			DrawField(x,y);
 		}
 	}
 
@@ -147,13 +91,70 @@ void Field::Draw()
 		{
 			index = 16;
 		}
-		my::MyDrawRectRotaGraph(static_cast<int>(m_pos.x) + kWidth + (25),
-			static_cast<int>(m_pos.y) + kHeight + (25),			//表示座標
+		my::MyDrawRectRotaGraph(static_cast<int>(m_pos.x) + kWidth + (kIndexSize),
+			static_cast<int>(m_pos.y) + kHeight + (kIndexSize),			//表示座標
 			index, 0,							//切り取り左上
 			16, 21,							//幅、高さ
 			2.5f, 0.0f,						//拡大率、回転角度
 			m_boxHandle, true);
 	}
+}
+
+void Field::DrawField(int x, int y)
+{
+	int posX = kSize * x;
+	int posY = kSize * y;
+	m_handle = 0;
+	if (m_field[y][x] != empty)
+	{
+		my::MyDrawRectRotaGraph(posX + kWidth + (kIndexSize),
+			posY + kHeight + (kIndexSize),			//表示座標
+			0, 0,						//切り取り左上
+			16, 16,							//幅、高さ
+			3.0f, 0.0f,						//拡大率、回転角度
+			m_groundHandle, true);
+	}
+	if (m_field[y][x] == wall)
+	{
+		m_indexSize = 16;
+		m_index = 3.0;
+		m_shift = 0;
+		m_handle = m_wallHandle;
+	}
+	if (m_field[y][x] == storage)
+	{
+		m_indexSize = 16;
+		m_index = 2.5;
+		m_shift = 0;
+		m_handle = m_pinHandle;
+	}
+	if (m_field[y][x] == box)
+	{
+		m_indexSize = 21;
+		m_index = 2.5;
+		m_shift = 0;
+		m_handle = m_boxHandle;
+	}
+	if (m_field[y][x] == input)
+	{
+		m_indexSize = 21;
+		m_index = 2.5;
+		m_shift = 16;
+		m_handle = m_boxHandle;
+	}
+	if (m_field[y][x] == nextPos)
+	{
+		m_indexSize = 16;
+		m_index = 2.5;
+		m_shift = 0;
+		m_handle = m_pinHandle;
+	}
+	my::MyDrawRectRotaGraph(posX + kWidth + (kIndexSize),
+		posY + kHeight + (kIndexSize),			//表示座標
+		m_shift, 0,						//切り取り左上
+		16, m_indexSize,							//幅、高さ
+		m_index, 0.0f,						//拡大率、回転角度
+		m_handle, true);
 }
 
 //フィールドの中身を見て動けるかを返す処理
